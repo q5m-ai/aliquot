@@ -1,4 +1,41 @@
-:root{color-scheme:light;--ink:#182126;--blue:#285cff;--amber:#bd7410;--muted:#84909a;--line:#e5e9ec}*{box-sizing:border-box}body{margin:0;background:#fff;color:var(--ink);font:14px ui-monospace,SFMono-Regular,Consolas,monospace}main{max-width:1100px;margin:auto;padding:26px 18px}.explorer-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:1px solid var(--line);padding-bottom:20px}h1{font:600 40px Georgia,serif;margin:0}.math{font:italic 19px Georgia,serif;color:#5c6770}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:20px 0}input,button,select{font:inherit;background:#fff;color:inherit;border:1px solid #d8dfe4;border-radius:5px;padding:10px 12px}button{cursor:pointer}button.primary{background:var(--ink);color:white;border-color:var(--ink)}input[type=text]{width:130px}input[type=range]{width:90px;padding:0;accent-color:var(--ink)}label{display:flex;align-items:center;gap:8px;color:var(--muted)}canvas{display:block;width:100%;height:clamp(280px,48vh,500px);border:1px solid var(--line);border-radius:6px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 16px}small{display:block;color:var(--muted);margin-bottom:8px}output{font-size:23px;overflow-wrap:anywhere}.note{min-height:36px;font-size:12px;line-height:1.5;color:#68747e}.note:before{content:''}.note.discovery:before{content:'● ';color:var(--amber)}.presets{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.presets button{font-size:12px;padding:6px 10px}@media(max-width:500px){h1{font-size:32px}.math{font-size:16px}output{font-size:18px}}
+:root{color-scheme:light;--ink:#182126;--blue:#285cff;--amber:#bd7410;--muted:#84909a;--line:#e5e9ec}*{box-sizing:border-box}body{margin:0;background:#fff;color:var(--ink);font:14px ui-monospace,SFMono-Regular,Consolas,monospace}main{max-width:1100px;margin:auto;padding:26px 18px}.explorer-heading{border-bottom:1px solid var(--line);padding-bottom:18px}h1{font:600 40px Georgia,serif;margin:0}.controls{display:flex;flex-direction:column;gap:12px;margin:20px 0}.seed-row{display:flex;flex-wrap:wrap;align-items:flex-start;gap:10px 18px}.seed-control,.playback-controls{display:flex;flex-wrap:wrap;align-items:center;gap:6px}.playback-controls{gap:9px}.seed-control{max-width:100%}.seed-control input{min-width:0}.seed-control button:disabled{cursor:default;opacity:.45}.speed-control output{font-size:12px;min-width:4ch;white-space:nowrap}input,button,select{font:inherit;background:#fff;color:inherit;border:1px solid #d8dfe4;border-radius:5px;padding:10px 12px}button{cursor:pointer}button.primary{background:var(--ink);color:white;border-color:var(--ink)}input[type=text]{width:130px}input[type=range]{width:220px;max-width:44vw;min-width:130px;padding:0;accent-color:var(--ink)}label{display:flex;align-items:center;gap:8px;color:var(--muted)}canvas{display:block;width:100%;height:clamp(280px,48vh,500px);border:1px solid var(--line);border-radius:6px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 16px}small{display:block;color:var(--muted);margin-bottom:8px}output{font-size:23px;overflow-wrap:anywhere}.note{min-height:36px;font-size:12px;line-height:1.5;color:#68747e}.note:before{content:''}.note.discovery:before{content:'● ';color:var(--amber)}.presets{display:flex;flex:1 1 420px;min-width:0;flex-wrap:wrap;gap:7px}.presets button{font-size:12px;padding:6px 10px}.presets button[aria-pressed=true]{border-color:var(--blue);background:#f2f5ff;color:#1c43bd}.preset-info{margin:0;color:#58646c;font-size:12px;line-height:1.5}.preset-info[hidden]{display:none}@media(max-width:500px){h1{font-size:32px}output{font-size:18px}}
+/* Self-hosted TeX → native MathML, with no external fonts or inline styles. */
+.formula-copy{margin:12px 0 0;color:#58646c;font:14px/1.5 ui-sans-serif,system-ui,sans-serif}
+.formula-group{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:flex-start;gap:12px 28px;margin-top:12px;font-size:18px;text-align:left}
+.formula{margin:0;line-height:normal}
+.formula-iteration{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin:0;font-size:inherit}
+.formula-separator{color:var(--muted)}
+.formula-example{max-width:76ch;margin:14px 0 0;color:#58646c;font:14px/1.6 ui-sans-serif,system-ui,sans-serif}
+.formula-example strong{font-weight:600;color:var(--ink)}
+.formula-history{margin:8px 0 0;color:#68747e;font:12px/1.5 ui-sans-serif,system-ui,sans-serif}
+.formula-history a{color:var(--blue)}
+#point-factorization{max-width:100%;overflow-x:auto;overflow-y:hidden}
+math{font-family:math,"Cambria Math","STIX Two Math",serif}
+/* Point cards are anchored in chart-local CSS pixels, never in page flow. */
+.chart{position:relative}
+.point-help{font-size:11px;line-height:1.6;color:#68747e;margin:9px 0}
+.point-details{position:absolute;z-index:2;left:8px;top:8px;width:320px;max-width:calc(100% - 16px);overflow:visible;border:1px solid #cbd6ff;border-radius:7px;background:#fff;box-shadow:0 4px 18px #18212620;padding:10px;font-size:12px;pointer-events:none}
+.point-details[hidden]{display:none}
+.point-details[data-pinned=true]{pointer-events:auto}
+.point-details-heading{display:flex;align-items:center;gap:8px}
+.point-details h2{font:600 15px Georgia,serif;margin:0}
+.point-details button{padding:3px 6px;font-size:11px;flex-shrink:0}
+.point-mode{margin-left:auto;font-size:10px;color:#68747e;white-space:nowrap}
+.point-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;margin:8px 0 0}
+.point-fields .point-value,.point-fields .point-wide{grid-column:1/-1}
+#point-divisors{overflow:visible}
+#point-compute{margin-top:8px}
+#point-compute[hidden]{display:none}
+#point-compute:disabled{cursor:default;opacity:.65}
+.point-fields dt{font-size:10px;color:#68747e;margin-bottom:2px}
+.point-fields dd{margin:0;overflow-wrap:anywhere;line-height:1.4}
+.point-value dd{font-size:15px;color:var(--blue)}
+.point-details:not([data-pinned=true]) .point-extra,.point-details:not([data-pinned=true]) #point-close,.point-details:not([data-pinned=true]) #point-compute{display:none}
+.point-details:not([data-pinned=true]){overflow:hidden}
+.point-details:not([data-pinned=true]) dd{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.point-details:not([data-pinned=true]) #point-divisors,.point-details:not([data-pinned=true]) #point-factorization{overflow:hidden}
+canvas:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+@media(max-width:500px){.point-details{font-size:11px}.point-value dd{font-size:14px}}
 /* Shared q5m research chrome: erdos-193 header and causal-sets footer. */
 .shell{max-width:1100px;margin-inline:auto;padding-inline:18px}
 header.site{display:flex;align-items:baseline;gap:10px;padding-top:26px;margin-bottom:8px;flex-wrap:wrap;font-family:Outfit,ui-sans-serif,system-ui,sans-serif}
@@ -7,4 +44,4 @@ nav.site{display:flex;gap:16px;align-items:baseline;margin-left:auto;font-size:1
 footer.sitefoot{margin-top:24px;padding-top:18px;padding-bottom:26px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;font:500 11px/1.65 Outfit,ui-sans-serif,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.08em;color:#68747e}footer.sitefoot a{color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:5px}footer.sitefoot a:hover{color:var(--ink)}footer.sitefoot .right{display:inline-flex;gap:16px}.footer-icon{display:inline-block;width:14px;height:14px}
 .research{border-top:1px solid var(--line);margin-top:30px;padding-top:18px;max-width:78ch;color:#58646c;line-height:1.7;font:15px/1.7 ui-sans-serif,system-ui,sans-serif}.research h2{color:var(--ink);font:500 27px Georgia,serif}.research a{color:var(--blue)}
 .skip{position:absolute;left:18px;top:-100px;background:white;color:var(--ink);padding:10px}.skip:focus{top:0}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
-@media(max-width:500px){.explorer-heading{flex-wrap:wrap}.stats{gap:6px}header.site{padding-top:18px}nav.site{gap:12px;font-size:13px}}
+@media(max-width:500px){.stats{gap:6px}header.site{padding-top:18px}nav.site{gap:12px;font-size:13px}}

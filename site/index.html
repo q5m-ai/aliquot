@@ -7,6 +7,9 @@
 <title>Aliquot — q5m research</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="stylesheet" href="/site.css">
+<script src="/vendor/katex/katex.min.js" defer></script>
+<script src="/latex.js" defer></script>
+<script src="/math.js" defer></script>
 <script src="/explorer.js" defer></script>
 </head>
 <body>
@@ -15,13 +18,72 @@
 <div class="brand"><a href="/">aliquot<span>.q5m.ai</span></a></div>
 <nav class="site" aria-label="Main navigation"><a href="#explorer" aria-current="page">Explore</a><a href="#research">Research</a></nav>
 </header>
-<main id="explorer"><div class="explorer-heading"><h1>Aliquot</h1><span class="math">s(n) = ∑<sub>d ∣ n, d &lt; n</sub> d</span></div>
-<form class="controls" id="form"><input id="seed" type="text" inputmode="numeric" value="12" aria-label="Starting number"><button>Set ↵</button><button type="button" id="play" class="primary">Ⅱ Pause</button><button type="button" id="step">Step →</button><label>speed <input type="range" id="speed" min="1" max="10" value="5"></label><select id="scale" aria-label="Vertical scale"><option value="log">log y</option><option value="linear">linear y</option></select></form>
-<canvas id="graph" aria-label="Animated aliquot sequence"></canvas><div class="stats"><div><small>INDEX k</small><output id="index">0</output></div><div><small>VALUE nₖ</small><output id="value">12</output></div><div><small>PEAK</small><output id="peak">12</output></div></div><div id="note" class="note" role="status">Blue: sequence. Amber: first discovery only.</div><div class="presets"><button data-n="12">12 · decay</button><button data-n="28">28 · perfect</button><button data-n="220">220 · period 2</button><button data-n="12496">12496 · period 5</button><button data-n="276">276 · growth</button></div><section id="research" class="research" aria-labelledby="research-title">
+<main id="explorer">
+<div class="explorer-heading">
+<h1>Aliquot</h1>
+<p class="formula-copy">The aliquot sum is the sum of a positive integer’s proper positive divisors.</p>
+<div class="formula-group">
+<div class="formula tex-math" data-tex="s(n)=\sum\limits_{\substack{d\mid n\\1\le d&lt;n}}d">s(n) = ∑<sub>d ∣ n, 1 ≤ d &lt; n</sub> d</div>
+<p class="formula-iteration"><span data-tex="n_{k+1}=s(n_k)">nₖ₊₁ = s(nₖ)</span><span class="formula-separator"> · </span><span data-tex="s(1)=0">s(1) = 0</span></p>
+</div>
+<p class="formula-example"><strong>Example:</strong> For 12, add 1 + 2 + 3 + 4 + 6 = 16 (excluding 12 itself). For 16, add 1 + 2 + 4 + 8 = 15. The sequence begins 12 → 16 → 15 → …</p>
+<p class="formula-history">Catalan’s 1888 conjecture, later extended by Dickson, remains open. <a href="https://en.wikipedia.org/wiki/Aliquot_sequence">Wikipedia ↗</a></p>
+</div>
+<form class="controls" id="form">
+<div class="seed-row">
+<div class="seed-control" role="group" aria-label="Starting number">
+<button type="button" id="seed-decrement" aria-label="Decrease starting number by 1">−</button>
+<input id="seed" type="text" inputmode="numeric" value="12" aria-label="Starting number">
+<button type="button" id="seed-increment" aria-label="Increase starting number by 1">+</button>
+<button type="submit">Set ↵</button>
+</div>
+<div class="presets" role="group" aria-label="Starting number shortcuts">
+<button type="button" data-n="12" data-kind="terminating" data-description="Terminating: reaches 1, then 0.">12 · terminates</button>
+<button type="button" data-n="30" data-kind="terminating" data-description="Rise then fall: peaks at 259, then terminates at 0.">30 · rise then fall</button>
+<button type="button" data-n="28" data-kind="perfect" data-description="Perfect: 28 → 28, a fixed point.">28 · perfect</button>
+<button type="button" data-n="95" data-kind="aspiring" data-description="Aspiring: 95 → 25 → 6 → 6. Reaches a perfect number.">95 · aspiring</button>
+<button type="button" data-n="790" data-kind="aspiring" data-description="Aspiring: 790 → 650 → 652 → 496 → 496. Reaches a perfect number.">790 · aspiring</button>
+<button type="button" data-n="220" data-kind="amicable" data-description="Amicable: 220 ↔ 284, a 2-cycle.">220 · amicable</button>
+<button type="button" data-n="1184" data-kind="amicable" data-description="Amicable: 1184 ↔ 1210, a 2-cycle.">1184 · amicable</button>
+<button type="button" data-n="1264460" data-kind="sociable" data-description="Sociable: a 4-cycle returning to 1264460.">1264460 · cycle 4</button>
+<button type="button" data-n="12496" data-kind="sociable" data-description="Sociable: a 5-cycle returning to 12496.">12496 · cycle 5</button>
+<button type="button" data-n="276" data-kind="unresolved" data-description="Unresolved: not known to terminate or cycle. Growth is not proof of divergence.">276 · unresolved</button>
+</div>
+</div>
+<p id="preset-info" class="preset-info" role="status"></p>
+<div class="playback-controls">
+<button type="button" id="play" class="primary" aria-describedby="autoplay-help">Pause</button>
+<button type="button" id="step">Step →</button>
+<label class="speed-control">Speed <input type="range" id="speed" min="1" max="20" value="8"><output id="speed-readout" for="speed" title="Target steps per second; factorization may be slower">1.3/s</output></label>
+<select id="scale" aria-label="Vertical scale"><option value="linear" selected>linear y</option><option value="log">log y</option></select>
+</div>
+</form>
+<p id="autoplay-help" class="point-help">Pauses every 100 steps. Resume to continue.</p>
+<div id="chart" class="chart">
+<canvas id="graph" tabindex="0" aria-label="Animated aliquot sequence; use arrow keys to inspect points" aria-describedby="point-help"></canvas>
+<section id="point-details" class="point-details" aria-labelledby="point-title" hidden>
+<div class="point-details-heading"><h2 id="point-title">Point details</h2><span id="point-mode" class="point-mode"></span><button type="button" id="point-close" aria-label="Close point details">×</button></div>
+<dl class="point-fields">
+<div class="point-value"><dt>Value</dt><dd id="point-value"></dd></div>
+<div><dt>Digits / parity</dt><dd id="point-size"></dd></div>
+<div><dt>Mod 12 / base 12</dt><dd id="point-residue"></dd></div>
+<div class="point-extra"><dt>Previous</dt><dd id="point-previous"></dd></div>
+<div class="point-extra"><dt>Change</dt><dd id="point-change"></dd></div>
+<div><dt>Next</dt><dd id="point-next"></dd></div>
+<div><dt>Status</dt><dd id="point-status"></dd></div>
+<div class="point-wide"><dt>Factorization</dt><dd id="point-factorization"></dd></div>
+<div class="point-wide"><dt title="Positive divisors smaller than this number">Proper divisors</dt><dd id="point-divisors"></dd></div>
+<div class="point-wide"><dt>Count / sum</dt><dd id="point-divisor-summary"></dd></div>
+</dl>
+<button type="button" id="point-compute" hidden>Compute divisors</button>
+</section>
+</div>
+<p id="point-help" class="point-help">Hover to inspect · click to pin · click again to close. Keys: ←/→, Enter, Esc.</p>
+<div class="stats"><div><small>INDEX k</small><output id="index">0</output></div><div><small>VALUE <span data-tex="n_k">nₖ</span></small><output id="value">12</output></div><div><small>PEAK</small><output id="peak">12</output></div></div><div id="note" class="note" role="status">Blue: sequence. Amber: first discovery only.</div><section id="research" class="research" aria-labelledby="research-title">
 <h2 id="research-title">An open research question</h2>
 <p>Start with a positive integer and repeatedly sum its proper positive divisors. Does every sequence eventually reach 1 and terminate, or settle into a cycle? This is the aliquot sequence conjecture.</p>
 <p>This q5m research project explores possible paths to a proof or disproof. The animation is an experiment, not a proof: a growing finite prefix is not evidence of divergence, and a calculation limit is not a mathematical conclusion.</p>
-<p>The explorer uses exact BigInt arithmetic up to 10¹⁵ and bounded trial division. It displays the latest 180 terms. We extend terminated sequences with 0 → 0 for visualization only; s(0) is not defined by the positive-divisor formula. Amber marks the first zero, perfect number, or repeated value encountered in this run—not a new mathematical discovery.</p>
+<p>The explorer uses exact BigInt arithmetic with no 10¹⁵ ceiling. Browser resource budgets are 1,000 decimal digits per term and 2,000,000 factorization work units per step; difficult factorizations can stop well below those sizes. A stopped calculation is unresolved, not divergent. Graph coordinates are approximate; the displayed integer values are exact. Local research and independent verification run in Python. It displays the latest 180 terms. We extend terminated sequences with 0 → 0 for visualization only; s(0) is not defined by the positive-divisor formula. Amber marks the first zero, perfect number, or repeated value encountered in this run—not a new mathematical discovery.</p>
 <p><a href="https://github.com/q5m-ai/aliquot">Research, reproducibility, and future proof attempts ↗</a></p>
 </section></main>
 <footer class="sitefoot shell"><span>Aliquot · A q5m research project</span><span class="right"><a href="https://www.q5m.ai" aria-label="q5m"><svg class="footer-icon" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"/><path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"/></g></svg><span>q5m</span></a><a href="https://github.com/q5m-ai/aliquot"><svg class="footer-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.7 7.7 0 0 1 8 3.84a7.7 7.7 0 0 1 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><span>GitHub</span></a></span></footer>
