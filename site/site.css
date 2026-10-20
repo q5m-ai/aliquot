@@ -8,7 +8,11 @@
 .point-details button{padding:6px 9px;font-size:12px;flex-shrink:0}
 .point-mode{font-size:11px;color:#58646c;line-height:1.6}
 .point-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 20px;margin:14px 0 0}
-.point-fields .point-value{grid-column:1/-1}
+.point-fields .point-value,.point-fields .point-wide{grid-column:1/-1}
+#point-divisors{max-height:12rem;overflow-y:auto}
+#point-compute{margin-top:14px}
+#point-compute[hidden]{display:none}
+#point-compute:disabled{cursor:default;opacity:.65}
 .point-fields dt{font-size:11px;color:#68747e;margin-bottom:5px}
 .point-fields dd{margin:0;overflow-wrap:anywhere;line-height:1.6}
 .point-value dd{font-size:17px;color:var(--blue)}

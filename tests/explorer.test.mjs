@@ -224,7 +224,7 @@ test('hit targets use CSS coordinates at high DPR and exclude unfinished endpoin
 
 test('details distinguish zero, terminal 1, perfect numbers, repeats, and C6', async () => {
   const {run,element}=browser();
-  assert.match(run('pointDetails(points[0]).residue'),/^0$/);
+  assert.match(run('pointDetails(points[0]).residue'),/^0 · n = 10 \(base 12/);
   element('seed').value='6';run('reset()');
   assert.match(run('pointDetails(points[0]).residue'),/driver-six/);
   await run('advance()');
@@ -310,6 +310,135 @@ test('pausing early does not move the checkpoint; paused interactions redraw on 
   for(let i=43;i<=100;i++)await run('animation=null; advance()');
   assert.equal(run('points[points.length-1].k'),100);
   assert.equal(run('playing'),false);
+});
+
+test('base-12 values accompany the remainder, using A and B for ten and eleven', () => {
+  const {run,element}=browser();
+  for(const [n,base12] of [[0,'0'],[10,'A'],[11,'B'],[12,'10'],[143,'BB'],[144,'100'],[1728,'1000']]){
+    element('seed').value=String(n);run('reset()');
+    const text=run('pointDetails(points[0]).residue');
+    assert.ok(text.startsWith(`${n%12} · n = ${base12} (base 12; A=10, B=11)`));
+  }
+});
+
+test('cards reuse proven factors to show complete proper divisors, count, and sum', async () => {
+  const {run,element}=browser();
+  await run('advance()');run('playing=false; animation=null; draw(performance.now())');
+  run('AliquotMath.sum=()=>{throw new Error("no refactoring on hover")};');
+  element('graph').onpointermove(pointEvent(run));
+  assert.equal(element('point-factorization').textContent,'2^2 × 3');
+  assert.equal(element('point-divisors').textContent,'1, 2, 3, 4, 6');
+  assert.equal(element('point-divisor-summary').textContent,'5 proper divisors · exact sum = 16. Complete list.');
+  assert.equal(element('point-compute').hidden,true);
+  element('graph').onpointermove(pointEvent(run,1));
+  assert.equal(element('point-compute').hidden,false);
+  assert.equal(element('point-compute').disabled,true,'preview must be pinned before requesting work');
+});
+
+test('explicit divisor computation pauses autoplay but does not advance the sequence', async () => {
+  const {run,element}=browser();
+  run('playing=false; draw(performance.now())');
+  element('graph').onclick(pointEvent(run));
+  assert.equal(element('point-compute').disabled,false);
+  const computation=element('point-compute').onclick();
+  assert.equal(run('busy'),true);
+  assert.equal(element('point-compute').disabled,true);
+  await computation;
+  assert.equal(run('busy'),false);
+  assert.equal(run('playing'),false);
+  assert.equal(run('points.length'),1);
+  assert.equal(element('point-next').textContent,'16');
+  assert.equal(element('point-divisors').textContent,'1, 2, 3, 4, 6');
+  assert.equal(element('point-compute').hidden,true);
+  await run('advance()');
+  assert.equal(run('points[1].n'),16n,'a later manual step reuses the exact sum');
+});
+
+test('zero, one, primes and squares have correctly labelled divisor lists', async () => {
+  const {run,element}=browser();
+  for(const [n,divisors,summary] of [
+    ['1','None (1 has no proper positive divisors)','0 proper divisors · exact sum = 0. Complete list.'],
+    ['13','1','1 proper divisor · exact sum = 1. Complete list.'],
+    ['36','1, 2, 3, 4, 6, 9, 12, 18','8 proper divisors · exact sum = 55. Complete list.'],
+  ]){
+    element('seed').value=n;run('reset(); playing=false; draw(performance.now())');
+    element('graph').onclick(pointEvent(run));
+    if(n!=='1')await element('point-compute').onclick();
+    assert.equal(element('point-divisors').textContent,divisors);
+    assert.equal(element('point-divisor-summary').textContent,summary);
+  }
+  element('seed').value='0';run('reset(); playing=false; draw(performance.now())');
+  element('graph').onclick(pointEvent(run));
+  assert.match(element('point-divisors').textContent,/infinitely many/);
+  assert.match(element('point-divisor-summary').textContent,/s\(0\) is undefined/);
+  assert.equal(element('point-compute').hidden,true);
+});
+
+test('large divisor counts and long lists are explicitly bounded samples', async () => {
+  const {run,element}=browser();
+  element('seed').value=String(2n**2000n);run('reset(); playing=false; draw(performance.now())');
+  element('graph').onclick(pointEvent(run));
+  await element('point-compute').onclick();
+  assert.match(element('point-divisor-summary').textContent,/2,000 proper divisors/);
+  assert.match(element('point-divisor-summary').textContent,/sample, not necessarily the smallest/);
+  const entries=element('point-divisors').textContent.split(', ').length;
+  assert.ok(entries>0&&entries<=200);
+  assert.ok(element('point-divisors').textContent.length<=8000);
+  // A power of the known Mersenne prime 2^127-1 has only 26 proper divisors,
+  // but their decimal strings exceed the independent character budget.
+  const text=run('const mersenne=2n**127n-1n; const largePoint={n:mersenne**26n,factors:[{prime:mersenne,exponent:26}]}; divisorDetails(largePoint)["divisor-summary"]');
+  assert.match(text,/26 proper divisors.*sample/);
+  assert.ok(run('largePoint.divisorCard.divisors.length')<=8000);
+});
+
+test('divisor failures and cancellation never cache incomplete factors or advance', async () => {
+  const {run,element}=browser();
+  element('seed').value='999983';run('reset(); playing=false; draw(performance.now())');
+  element('graph').onclick(pointEvent(run));
+  run('const original=AliquotMath.sum; AliquotMath.sum=(n,options)=>original(n,{...options,maxWork:10});');
+  await element('point-compute').onclick();
+  assert.match(element('point-divisor-summary').textContent,/Unresolved:.*work limit/);
+  assert.equal(run('cache.has("999983")||factorCache.has("999983")'),false);
+  assert.equal(run('points.length'),1);
+  assert.equal(run('busy'),false);
+  run('AliquotMath.sum=original');
+  element('seed').value='999999999999989';run('reset(); playing=false; draw(performance.now())');
+  element('graph').onclick(pointEvent(run));
+  const calculation=element('point-compute').onclick();
+  element('point-close').onclick();
+  await calculation;
+  assert.equal(element('point-details').hidden,true);
+  assert.equal(run('busy'),false);
+  assert.equal(run('cache.has("999999999999989")||factorCache.has("999999999999989")'),false);
+  // Reset also cancels inspector work without overwriting the new run's state.
+  run('draw(performance.now())');element('graph').onclick(pointEvent(run));
+  const stale=element('point-compute').onclick();
+  element('seed').value='12';run('reset()');
+  await stale;
+  assert.equal(run('points[0].n'),12n);
+  assert.equal(run('busy'),false);
+  assert.equal(element('point-details').hidden,true);
+});
+
+test('factor publication is complete-only and divisor sampling has exact large counts', async () => {
+  const {run}=browser();
+  run('let published=false');
+  await assert.rejects(run('AliquotMath.sum(999983n,{maxWork:10,onFactors:()=>{published=true}})'),/work limit/);
+  assert.equal(run('published'),false);
+  const sample=await run(`(async()=>{
+    const n=2n**8n*3n**5n*5n**3n;let factors;
+    await AliquotMath.sum(n,{onFactors:value=>{factors=value}});
+    return AliquotMath.properDivisorsFromFactors(n,factors);
+  })()`);
+  assert.equal(sample.values.length,200);
+  assert.equal(sample.count,215n);
+  assert.equal(sample.truncated,true);
+  const count=run(`const fs=[2n,3n,5n,7n,11n,13n,17n,19n,23n,29n,31n,37n,41n,43n,47n,53n,59n,61n,67n,71n].map(prime=>({prime,exponent:10}));
+    AliquotMath.properDivisorsFromFactors(fs.reduce((n,f)=>n*f.prime**10n,1n),fs).count`);
+  assert.equal(count,11n**20n-1n);
+  assert.ok(count>BigInt(Number.MAX_SAFE_INTEGER));
+  assert.throws(()=>run('AliquotMath.properDivisorsFromFactors(12n,[{prime:2n,exponent:2}])'),/reconstruct/);
+  assert.throws(()=>run('AliquotMath.properDivisorsFromFactors(0n,[])'),/positive/);
 });
 
 test('site has q5m research chrome, accessible controls, and matching icons', () => {
