@@ -34,6 +34,8 @@ class LatexTests(unittest.TestCase):
         parser = FormulaParser()
         parser.feed(html)
         self.assertEqual(len(parser.formulas), 4)
+        self.assertTrue(all(not formula["display"] for formula in parser.formulas),
+                        "heading formulas must stay inline, not centered display blocks")
         expected = [r"s(n)=\sum_{\substack{d\mid n\\1\le d<n}}d", r"n_{k+1}=s(n_k)", "s(1)=0", "n_k"]
         self.assertEqual([f["tex"] for f in parser.formulas], expected)
         for formula, rendered in zip(parser.formulas, self.render(parser.formulas)):
@@ -42,6 +44,7 @@ class LatexTests(unittest.TestCase):
             root = ET.fromstring(rendered["markup"])
             math = root.find(MATHML + "math")
             self.assertIsNotNone(math)
+            self.assertNotEqual(math.get("display"), "block")
             annotation = math.find(".//" + MATHML + "annotation")
             self.assertEqual(annotation.text, formula["tex"])
             for element in root.iter():
@@ -51,6 +54,15 @@ class LatexTests(unittest.TestCase):
         self.assertLess(html.index("<h1>Aliquot</h1>"), html.index('class="formula tex-math"'))
         self.assertLess(html.index('class="formula tex-math"'), html.index('<form class="controls"'))
         self.assertNotIn('class="math"', html)  # The old upper-right formula is gone.
+        self.assertNotIn("Sum the proper divisors. Repeat.", html)
+        self.assertIn("proper positive divisors", html)
+        css = (ROOT / "site/site.css").read_text()
+        formula_rule = css.split(".formula{", 1)[1].split("}", 1)[0]
+        group_rule = css.split(".formula-group{", 1)[1].split("}", 1)[0]
+        self.assertNotIn("overflow", formula_rule)
+        self.assertIn("flex-wrap:wrap", group_rule)
+        self.assertIn("justify-content:flex-start", group_rule)
+        self.assertNotIn(".tex-math,#point-factorization", css)
 
     def test_factorization_has_real_superscripts(self):
         result = self.render([{"tex": r"2^{20} \times 3"}])[0]

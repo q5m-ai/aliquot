@@ -21,9 +21,11 @@
 <main id="explorer">
 <div class="explorer-heading">
 <h1>Aliquot</h1>
-<p class="formula-copy">Sum the proper divisors. Repeat.</p>
-<div class="formula tex-math" data-tex="s(n)=\sum_{\substack{d\mid n\\1\le d&lt;n}}d" data-display="true">s(n) = ∑<sub>d ∣ n, 1 ≤ d &lt; n</sub> d</div>
+<p class="formula-copy">The aliquot sum is the sum of a positive integer’s proper positive divisors.</p>
+<div class="formula-group">
+<div class="formula tex-math" data-tex="s(n)=\sum_{\substack{d\mid n\\1\le d&lt;n}}d">s(n) = ∑<sub>d ∣ n, 1 ≤ d &lt; n</sub> d</div>
 <p class="formula-iteration"><span data-tex="n_{k+1}=s(n_k)">nₖ₊₁ = s(nₖ)</span><span class="formula-separator"> · </span><span data-tex="s(1)=0">s(1) = 0</span></p>
+</div>
 </div>
 <form class="controls" id="form"><input id="seed" type="text" inputmode="numeric" value="12" aria-label="Starting number"><button>Set ↵</button><button type="button" id="play" class="primary" aria-describedby="autoplay-help">Ⅱ Pause</button><button type="button" id="step">Step →</button><label>speed <input type="range" id="speed" min="1" max="10" value="5"></label><select id="scale" aria-label="Vertical scale"><option value="log">log y</option><option value="linear">linear y</option></select></form>
 <p id="autoplay-help" class="point-help">Pauses every 100 steps. Resume to continue.</p>
