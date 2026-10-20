@@ -1,11 +1,11 @@
 {
   "name": "aliquot",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "python3 -m http.server --directory site",
-    "research:driver-six": "node research/driver-six.mjs",
-    "test": "node --test tests/*.test.mjs"
+    "research:driver-six": "python3 -m aliquot scan-six",
+    "test": "python3 -m unittest discover -s tests -v"
   }
 }

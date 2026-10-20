@@ -9,23 +9,53 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 1. **PR #1 — interactive research site:** adapt the supplied Aliquot HTML explorer, add the standard q5m research header/footer, and establish testing/hosting at the requested `aliquot.q5m.ai` hostname. This is a development milestone, not a production release.
 2. **Research notebook 01 — growth and driver loss:** [precise statement, elementary proofs, initial literature map, and next proof obligation](research/README.md). An exact one-step census checks the exit criterion for the class n ≡ 6 (mod 12), independently recomputing divisor sums through a second algorithm. This is foundational work, not a proof/disproof or a novelty claim.
 
-Run the bounded experiment with `npm run research:driver-six -- --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
+Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
 No proof or disproof is claimed. Repository creation and project registration do not establish hosting acceptance.
 
-## Development
+## Python math and local verification
 
-Node.js 22+ runs the dependency-free tests: `npm test`.
-For a local-only server: `npm run dev -- --bind 127.0.0.1 8000`.
+Python **3.11+** is the authoritative research implementation. No runtime or test dependencies are needed. Run commands from the repository root; installation is optional (`python3 -m pip install .` provides the `aliquot` command).
+
+```sh
+# Exact one-step arithmetic, including above the former website ceiling:
+python3 -m aliquot sum 10000000000000000
+python3 -m aliquot sum 999983 --max-work 10000
+
+# Bounded census with algorithmically independent verification:
+python3 -m aliquot scan-six --bound 100000
+
+# Full verification, including browser-JS parity and UI checks (needs Node.js 22+):
+python3 -m unittest discover -s tests -v
+# npm test is a convenience alias for the same Python runner.
+
+# Python-only arithmetic/research checks (no Node or npm):
+python3 -m unittest discover -s tests -p test_arithmetic.py -v
+python3 -m unittest discover -s tests -p test_research.py -v
+```
+
+`aliquot/` uses arbitrary-precision Python `int`, exact division, and exhaustive trial factorization. The default per-call work budget is 2,000,000 candidate tests/successful divisions. A budget failure raises `ComputationLimit`; the CLI exits nonzero with no partial JSON. This is **unresolved**, not a probable-prime result or evidence of divergence. The census retains its separate inclusive source-bound cap of 1,000,000. Large integer values in JSON use decimal strings. Python's default decimal text-conversion safety limit remains enabled; the integer API is not restricted by that text limit.
+
+## Browser architecture and larger values
+
+The static website keeps JavaScript for controls/canvas and an isolated `site/math.js` adapter using exact `BigInt`. Python tests compare the **actual served adapter** against the Python core, including hundreds-digit inputs. The browser no longer stops at 10¹⁵; tests cover stepping across that boundary. It has explicit resource budgets of 1,000 decimal digits per term and 2,000,000 factorization work units per step. Large smooth integers may be easy; a much smaller prime or semiprime may exhaust the budget. Trial division is not a scalable large-integer factorization engine.
+
+Graph coordinates are approximate, never used in sequence arithmetic, and stay finite beyond floating-point range using logarithms or normalized linear coordinates. Displayed integer values remain exact. There is no claim that a finite run establishes divergence.
+
+Browser Python is **not included in this change**: Pyodide would add a sizeable runtime, assets, startup cost, and CSP/worker requirements without itself making factorization faster. The isolated adapter leaves room for a future self-hosted Python/WASM worker. A stronger proven factorization/certificate pipeline, rather than a language change alone, is the next step for difficult large terms.
+
+## Local website development
+
+For a local-only server: `python3 -m http.server --directory site --bind 127.0.0.1 8000`.
 For managed LAN testing, let the platform allocate the port:
 
 ```sh
 q5m-lab serve --directory ./site --json
 ```
 
-Only `site/` is served. All sequence computation happens in the browser; no backend, account, external script, or build step is required. The supplied explorer is preserved as `site/explorer.js`, with its presentation in `site/index.html` and `site/site.css`. The header follows Erdős 193's brand/navigation pattern; the footer uses Causal Sets' q5m/GitHub markup. Shared chrome uses a system-font fallback without requiring Google Fonts.
+Only `site/` is served. Website sequence computation happens in the browser; no backend, account, external script, or build step is required. Local Python code and research reports are never served. The explorer UI is `site/explorer.js`, with its presentation in `site/index.html` and `site/site.css`. The header follows Erdős 193's brand/navigation pattern; the footer uses Causal Sets' q5m/GitHub markup. Shared chrome uses a system-font fallback without requiring Google Fonts.
 
-Tests cover exact proper-divisor sums, first-cycle marking, zero/perfect states, invalid inputs, cancellation, step control, a mocked canvas smoke check, and branding/icon consistency. These are not a real-browser visual or phone test.
+Python's `unittest` runner covers exact sums, independent sieve/divisor-pair verification, census reproduction, CLI failures, hosting boundaries, and Python/browser parity. It also invokes Node's UI harness for cycle marking, zero/perfect states, invalid inputs, cancellation, step control, budget exhaustion, and finite canvas coordinates for hundreds-digit values. These are mocked canvas checks, not a real-browser visual or phone test.
 
 ## Canonical static hosting
 

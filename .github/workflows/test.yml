@@ -7,11 +7,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm test
+      - run: python3 -m unittest discover -s tests -v
       - run: node --check site/explorer.js
+      - run: node --check site/math.js
   container:
     runs-on: ubuntu-latest
     steps:
@@ -30,11 +34,11 @@ jobs:
           done
           grep -q 'Aliquot' /tmp/aliquot-page
           test "$(curl -fsS http://127.0.0.1:18080/.q5m-release)" = "$GITHUB_SHA"
-          for asset in explorer.js site.css favicon.svg; do
+          for asset in math.js explorer.js site.css favicon.svg; do
             curl -fsS "http://127.0.0.1:18080/$asset" -o "/tmp/$asset"
             cmp "site/$asset" "/tmp/$asset"
           done
-          for private in /.git/config /q5m/app.env /README.md /package.json /research/README.md /research/driver-six.mjs /research/results/driver-six-100000.json; do
+          for private in /.git/config /q5m/app.env /README.md /package.json /pyproject.toml /aliquot/__init__.py /aliquot/research.py /research/README.md /research/driver-six.mjs /research/results/driver-six-100000.json; do
             status=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:18080$private")
             test "$status" = 403 || test "$status" = 404
           done

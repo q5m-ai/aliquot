@@ -4,8 +4,8 @@
   "sourceClass": "positive n ≡ 6 (mod 12)",
   "scope": "one step for every source in the class up to the inclusive bound",
   "arithmetic": {
-    "primary": "BigInt trial factorization and multiplicative divisor sum",
-    "independentCheck": "BigInt additive proper-divisor sieve"
+    "primary": "Python int trial factorization and multiplicative divisor sum",
+    "independentCheck": "Python int additive proper-divisor sieve"
   },
   "candidates": 8333,
   "counts": {

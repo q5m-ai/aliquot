@@ -4,10 +4,15 @@ import vm from 'node:vm';
 import { readFileSync } from 'node:fs';
 
 const root = new URL('../', import.meta.url);
-const source = readFileSync(new URL('site/explorer.js', root), 'utf8');
+const source = readFileSync(new URL('site/math.js', root), 'utf8') + '\n' +
+  readFileSync(new URL('site/explorer.js', root), 'utf8');
 function browser() {
   const elements = new Map();
-  const context2d = new Proxy({}, { get: () => () => {}, set: () => true });
+  const labels = [];
+  const context2d = new Proxy({}, { get: (_, name) => (...args) => {
+    for (const arg of args) if (typeof arg === 'number') assert.ok(Number.isFinite(arg), `non-finite canvas argument in ${String(name)}`);
+    if (name === 'fillText') labels.push(args[0]);
+  }, set: () => true });
   const element = id => {
     if (!elements.has(id)) elements.set(id, {
       value: id === 'seed' ? '12' : id === 'scale' ? 'log' : '5',
@@ -23,7 +28,7 @@ function browser() {
     requestAnimationFrame() {}, performance, setTimeout,
   });
   vm.runInContext(source, context);
-  return { element, run: code => vm.runInContext(code, context) };
+  return { element, labels, run: code => vm.runInContext(code, context) };
 }
 
 test('exact proper-divisor sums, including visualization zero extension', async () => {
@@ -51,8 +56,10 @@ test('zero, perfect numbers, input validation and step control', async () => {
     element('seed').value = invalid; run('reset()');
     assert.equal(element('note').textContent, 'Enter a non-negative integer.');
   }
+  element('seed').value = '1'.repeat(1001); run('reset()');
+  assert.match(element('note').textContent, /1,000-digit/);
   element('seed').value = '1000000000000001'; run('reset()');
-  assert.equal(element('note').textContent, 'Start at 10¹⁵ or below.');
+  assert.equal(run('points[0].n'), 1000000000000001n);
   element('seed').value = '12'; run('reset()');
   element('step').onclick();
   await new Promise(resolve => setTimeout(resolve, 0));
@@ -66,6 +73,54 @@ test('reset cancels stale work and drawing remains callable', async () => {
   element('seed').value = '12'; run('reset()');
   await assert.rejects(calculation, /cancelled/);
   run('draw(performance.now())');
+});
+
+test('steps cross the former ceiling and retain exact displayed integers', async () => {
+  const { run, element } = browser();
+  element('seed').value = '1000000000000000'; run('reset()');
+  await run('advance()');
+  assert.ok(run('points[1].n > 1000000000000000n'));
+  assert.equal(element('value').textContent, run('fmt(points[1].n)'));
+  run('playing=false; draw(performance.now())');
+});
+
+test('hundreds of digits plot finite coordinates in both scales', async () => {
+  const { run, element, labels } = browser();
+  element('seed').value = String(2n ** 2000n); run('reset()');
+  await run('advance()');
+  assert.equal(run('points[1].n'), 2n ** 2000n - 1n);
+  run('playing=false; animation=null; draw(performance.now())');
+  element('scale').value = 'linear'; run('draw(performance.now())');
+  assert.ok(labels.some(label => /e\d+/.test(label)));
+  assert.ok(labels.every(label => !/Infinity|NaN/.test(label)));
+  element('scale').value = 'log'; run('draw(performance.now())');
+});
+
+test('budget failures and resource limits never advance or cache partial sums', async () => {
+  const { run, element } = browser();
+  await assert.rejects(run('AliquotMath.sum(999983n,{maxWork:10})'), /unresolved/);
+  await assert.rejects(run('AliquotMath.sum(2n**100n,{maxWork:10})'), /unresolved/);
+  await assert.rejects(run('AliquotMath.sum(0n)'), /positive/);
+  element('seed').value = '999983'; run('reset()');
+  run('const originalSum=AliquotMath.sum; AliquotMath.sum=(n,options)=>originalSum(n,{...options,maxWork:10})');
+  await run('advance()');
+  assert.equal(run('points.length'), 1);
+  assert.equal(run('playing'), false);
+  assert.equal(run('cache.has("999983")'), false);
+  assert.match(element('note').textContent, /unresolved/);
+  run('AliquotMath.sum=originalSum');
+  // A successor can exceed the digit budget even when its source fits.
+  element('seed').value = '1'+'0'.repeat(999); run('reset()');
+  run('AliquotMath.sum=async()=>10n**1000n');
+  await run('advance()');
+  assert.equal(run('points.length'), 1);
+  assert.match(element('note').textContent, /resource budget/);
+});
+
+test('repeated-factor work yields and can be cancelled', async () => {
+  const { run } = browser();
+  assert.equal(await run('AliquotMath.sum(2n**1000n,{yieldUI:async()=>{}})'), 2n ** 1000n - 1n);
+  await assert.rejects(run('let cancelled=false; AliquotMath.sum(2n**1000n,{cancelled:()=>cancelled,yieldUI:async()=>{cancelled=true}})'), /cancelled/);
 });
 
 test('site has q5m research chrome, accessible controls, and matching icons', () => {

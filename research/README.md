@@ -175,19 +175,27 @@ for the full conjecture merely because this simple disproof strategy fails.
 
 ## 4. Reproducible finite check, separate from the proofs
 
-From the repository root, with Node.js 22+ and no dependencies:
+From the repository root, with Python 3.11+ and no Python dependencies:
 
 ```sh
-node research/driver-six.mjs --bound 100000
-# Equivalent convenience command:
-npm run research:driver-six -- --bound 100000
+python3 -m aliquot scan-six --bound 100000
 
 # Byte-for-byte reproduction of the committed JSON:
-node research/driver-six.mjs --bound 100000 > /tmp/driver-six-100000.json
+python3 -m aliquot scan-six --bound 100000 > /tmp/driver-six-100000.json
 cmp /tmp/driver-six-100000.json research/results/driver-six-100000.json
-npm test
+# Pure Python arithmetic and census checks:
+python3 -m unittest discover -s tests -p test_arithmetic.py -v
+python3 -m unittest discover -s tests -p test_research.py -v
+# Full suite also checks the served JavaScript using Node.js 22+:
+python3 -m unittest discover -s tests -v
 node --check site/explorer.js
+node --check site/math.js
 ```
+
+The authoritative implementation is now `aliquot/`; the earlier research-only
+JavaScript implementation has been removed. The report's mathematical inputs,
+counts, examples, and checks are unchanged; only arithmetic implementation
+metadata now identifies Python instead of JavaScript BigInt.
 
 The [committed report](results/driver-six-100000.json) exhausts all **8,333**
 sources n ∈ C6 with **n ≤ 100,000**, taking exactly **one step per source**:
@@ -203,8 +211,8 @@ the odd-exit sources are 18t² for odd t ≤ 74, giving exactly 37 sources.
 
 The experiment:
 
-- computes exact sums using BigInt trial factorization and the product formula;
-- independently recomputes every sum using a BigInt additive proper-divisor
+- computes exact sums using Python integer trial factorization and the product formula;
+- independently recomputes every sum using a Python integer additive proper-divisor
   sieve, which uses neither factorization nor the exit criterion;
 - checks the predicted exit type, divisibility by 3, and strict growth above 6;
 - rejects mismatches instead of publishing a partially verified report;
@@ -212,17 +220,21 @@ The experiment:
   orbit or labels a bound as divergence. Successors may exceed the source bound
   and are still computed exactly; they are not iterated by this experiment.
 
-Number arithmetic is used only for bounded indices, exponents, and counts;
-all divisor sums, prime powers, and sequence values use BigInt. Trial division
-proves the factors prime; there are no probable-prime assumptions. s(0) is not
-evaluated. The small bound is intentional: this is a theorem-regression check,
-not a serious attempt to extend unresolved large sequences.
+All arithmetic uses Python's arbitrary-precision integers, with no floating-point
+conversion. Trial division proves the factors prime; there are no probable-prime
+assumptions. s(0) is not evaluated. The small source bound is intentional: this
+is a theorem-regression check, not a serious attempt to extend unresolved large
+sequences. The reusable arithmetic API has no fixed value ceiling but an explicit
+per-call work budget (2,000,000 units by default); incomplete factorization raises
+an exception rather than producing a partial sum.
 
-The two arithmetic algorithms share a Node runtime and runner: this is
+The two arithmetic algorithms share a Python runtime and runner: this is
 **algorithmically independent checking**, not independent researchers' review
 or a proof-assistant formalization. Tests also compare direct divisor
 enumeration on 1…300, compare both algorithms on every input 1…10,000, exercise
-boundary/invalid cases and exponent traps, and reproduce the full report.
+boundary/invalid cases and exponent traps, reproduce the full report, and audit
+its counts using a third divisor-pair algorithm. Additional tests cover exact
+large integers, work-budget exhaustion, and parity with the served browser math.
 
 The fraction of retained sources in this finite interval is **not** a survival
 probability along an orbit. Orbit values are neither uniformly sampled nor
