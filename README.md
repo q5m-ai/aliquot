@@ -7,7 +7,9 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 ## Milestones
 
 1. **PR #1 — interactive research site:** adapt the supplied Aliquot HTML explorer, add the standard q5m research header/footer, and establish testing/hosting at the requested `aliquot.q5m.ai` hostname. This is a development milestone, not a production release.
-2. Subsequent work: precise conjecture statement, literature and known results, reproducible experiments, and independently checked proof/disproof attempts.
+2. **Research notebook 01 — growth and driver loss:** [precise statement, elementary proofs, initial literature map, and next proof obligation](research/README.md). An exact one-step census checks the exit criterion for the class n ≡ 6 (mod 12), independently recomputing divisor sums through a second algorithm. This is foundational work, not a proof/disproof or a novelty claim.
+
+Run the bounded experiment with `npm run research:driver-six -- --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
 No proof or disproof is claimed. Repository creation and project registration do not establish hosting acceptance.
 

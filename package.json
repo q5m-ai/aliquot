@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "python3 -m http.server --directory site",
+    "research:driver-six": "node research/driver-six.mjs",
     "test": "node --test tests/*.test.mjs"
   }
 }
