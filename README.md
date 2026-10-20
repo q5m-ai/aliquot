@@ -42,6 +42,8 @@ The static website keeps JavaScript for controls/canvas and an isolated `site/ma
 
 Graph coordinates are approximate, never used in sequence arithmetic, and stay finite beyond floating-point range using logarithms or normalized linear coordinates. Displayed integer values remain exact. There is no claim that a finite run establishes divergence.
 
+Autoplay pauses at step 100, 200, 300, and every subsequent 100-step checkpoint. Click **Resume** to authorize the next block. Manual Step stays paused, and an early pause/resume does not move the next checkpoint. Reset starts a fresh run at step 0. Once the current transition finishes, a paused chart stops its animation-frame loop; hover, selection, resize, and scale changes redraw on demand.
+
 Hover a completed point to inspect its exact value, index, digit count/parity, remainder modulo 12, previous value/change, known next value, and status. Click/tap to pin; click the same point again, empty chart space, or Close to dismiss. Pins retain the selected point even when the rolling 180-point chart advances. Focus the chart and use arrow keys (or Home/End), Enter to pin, and Escape to dismiss. Inspection only reads computed data; it never launches a factorization or guesses primality.
 
 Browser Python is **not included in this change**: Pyodide would add a sizeable runtime, assets, startup cost, and CSP/worker requirements without itself making factorization faster. The isolated adapter leaves room for a future self-hosted Python/WASM worker. A stronger proven factorization/certificate pipeline, rather than a language change alone, is the next step for difficult large terms.

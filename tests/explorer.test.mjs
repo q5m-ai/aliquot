@@ -8,7 +8,7 @@ const source = readFileSync(new URL('site/math.js', root), 'utf8') + '\n' +
   readFileSync(new URL('site/explorer.js', root), 'utf8');
 function browser({dpr=1}={}) {
   const elements = new Map();
-  const labels = [];
+  const labels = [], frames = [];
   const context2d = new Proxy({}, { get: (_, name) => (...args) => {
     for (const arg of args) if (typeof arg === 'number') assert.ok(Number.isFinite(arg), `non-finite canvas argument in ${String(name)}`);
     if (name === 'fillText') labels.push(args[0]);
@@ -26,10 +26,12 @@ function browser({dpr=1}={}) {
   const context = vm.createContext({
     document: { getElementById: element, querySelectorAll: () => [] },
     window: { devicePixelRatio: dpr, addEventListener() {} },
-    requestAnimationFrame() {}, performance, setTimeout,
+    requestAnimationFrame(callback) { frames.push(callback); return frames.length; }, performance, setTimeout,
   });
   vm.runInContext(source, context);
-  return { element, labels, run: code => vm.runInContext(code, context) };
+  return { element, labels, run: code => vm.runInContext(code, context),
+    frame: (now=performance.now()) => { const callback=frames.shift(); if(callback)callback(now); },
+    pendingFrames: () => frames.length };
 }
 
 test('exact proper-divisor sums, including visualization zero extension', async () => {
@@ -248,6 +250,66 @@ test('hundreds-digit point details preserve the exact integer without factoring'
   assert.equal(element('point-value').textContent,(2n**2000n).toLocaleString('en-CA'));
   assert.match(element('point-size').textContent,/603 decimal digits/);
   assert.match(element('point-previous').textContent,/Starting value/);
+});
+
+test('autoplay pauses at each 100-step boundary and requires explicit resume', async () => {
+  const {run,element,frame,pendingFrames}=browser();
+  for(let checkpoint=100;checkpoint<=300;checkpoint+=100){
+    for(let k=checkpoint-99;k<=checkpoint;k++)await run('animation=null; advance()');
+    assert.equal(run('points[points.length-1].k'),checkpoint);
+    assert.equal(run('playing'),false);
+    assert.equal(element('play').textContent,'▶ Resume');
+    assert.match(element('note').textContent,new RegExp(`paused at step ${checkpoint}`));
+    frame(1e9*checkpoint);
+    assert.equal(pendingFrames(),0,'paused chart must not keep scheduling idle animation frames');
+    assert.equal(run('points[points.length-1].k'),checkpoint,'finishing animation must not compute another term');
+    element('play').onclick();
+    assert.equal(run('playing'),true);
+    assert.equal(element('play').textContent,'Ⅱ Pause');
+    assert.match(element('note').textContent,new RegExp(`next automatic pause at step ${checkpoint+100}`));
+    assert.equal(pendingFrames(),1,'resume restarts rendering');
+  }
+});
+
+test('manual stepping past a checkpoint stays paused and reset restores the first block', async () => {
+  const {run,element,frame,pendingFrames}=browser();
+  for(let i=0;i<100;i++)await run('animation=null; advance()');
+  frame(1e9);
+  element('step').onclick();
+  await new Promise(resolve=>setTimeout(resolve,0));
+  assert.equal(run('points[points.length-1].k'),101);
+  assert.equal(run('playing'),false);
+  assert.equal(element('play').textContent,'▶ Play');
+  frame(2e9);
+  assert.equal(pendingFrames(),0);
+  element('play').onclick();
+  for(let i=102;i<=200;i++)await run('animation=null; advance()');
+  assert.equal(run('playing'),false);
+  assert.match(element('note').textContent,/paused at step 200/);
+  run('reset()');
+  assert.equal(run('playing'),true);
+  assert.equal(run('checkpointPaused'),false);
+  assert.equal(run('points[0].k'),0);
+});
+
+test('pausing early does not move the checkpoint; paused interactions redraw on demand', async () => {
+  const {run,element,frame,pendingFrames}=browser();
+  for(let i=0;i<42;i++)await run('animation=null; advance()');
+  element('play').onclick();
+  assert.equal(run('playing'),false);
+  frame(1e9);
+  assert.equal(pendingFrames(),0);
+  element('graph').onpointermove(pointEvent(run));
+  assert.equal(pendingFrames(),1,'hover requests a frame even when idle');
+  frame(1e9+1);
+  assert.equal(pendingFrames(),0);
+  element('scale').value='linear';element('scale').onchange();
+  assert.equal(pendingFrames(),1,'scale changes redraw a paused chart');
+  frame(1e9+2);
+  element('play').onclick();
+  for(let i=43;i<=100;i++)await run('animation=null; advance()');
+  assert.equal(run('points[points.length-1].k'),100);
+  assert.equal(run('playing'),false);
 });
 
 test('site has q5m research chrome, accessible controls, and matching icons', () => {

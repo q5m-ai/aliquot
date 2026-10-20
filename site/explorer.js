@@ -1,6 +1,8 @@
 'use strict';
 const $=id=>document.getElementById(id),canvas=$('graph'),ctx=canvas.getContext('2d');
-const BLUE='#285cff',AMBER='#bd7410';
+const BLUE='#285cff',AMBER='#bd7410',AUTOPLAY_BLOCK=100;
+let checkpointPaused=false,framePending=false;
+function requestDraw(){if(framePending)return;framePending=true;requestAnimationFrame(now=>{framePending=false;draw(now);});}
 let points=[],seen=new Map(),cache=new Map(),playing=true,busy=false,token=0,peak=0n,animation=null,nextAt=0,width=0,height=0,discovered=false,lastFrame=0;
 let view={lo:0,hi:2,xhi:12};
 const duration=()=>1100-Number($('speed').value)*90;
@@ -41,12 +43,12 @@ function showPointDetails(){
 function clearPointDetails(){
   suppressedPoint=pinnedPoint||hoveredPoint;
   pinnedPoint=null;hoveredPoint=null;pointer=null;
-  showPointDetails();
+  showPointDetails();requestDraw();
 }
 function hoverPoint(p){
   if(p===suppressedPoint)p=null;
   else suppressedPoint=null;
-  if(hoveredPoint!==p){hoveredPoint=p;showPointDetails();}
+  if(hoveredPoint!==p){hoveredPoint=p;showPointDetails();requestDraw();}
 }
 function hitPoint(event){
   const box=canvas.getBoundingClientRect();
@@ -59,11 +61,11 @@ function hitPoint(event){
   return closest;
 }
 canvas.onpointermove=event=>{pointer={clientX:event.clientX,clientY:event.clientY,pointerType:event.pointerType};hoverPoint(hitPoint(pointer));};
-canvas.onpointerleave=()=>{pointer=null;hoveredPoint=null;suppressedPoint=null;showPointDetails();};
+canvas.onpointerleave=()=>{pointer=null;hoveredPoint=null;suppressedPoint=null;showPointDetails();requestDraw();};
 canvas.onclick=event=>{
   const p=hitPoint(event);
   if(!p||p===pinnedPoint){clearPointDetails();return;}
-  pinnedPoint=p;hoveredPoint=null;suppressedPoint=null;showPointDetails();
+  pinnedPoint=p;hoveredPoint=null;suppressedPoint=null;showPointDetails();requestDraw();
 };
 canvas.onkeydown=event=>{
   if(event.key==='Escape'){event.preventDefault();clearPointDetails();return;}
@@ -73,30 +75,35 @@ canvas.onkeydown=event=>{
   if(event.key==='Enter'||event.key===' '){
     event.preventDefault();
     if(pinnedPoint){clearPointDetails();return;}
-    pinnedPoint=current||visible[visible.length-1];showPointDetails();return;
+    pinnedPoint=current||visible[visible.length-1];showPointDetails();requestDraw();return;
   }
   if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
   event.preventDefault();pointer=null;suppressedPoint=null;
   const index=visible.indexOf(current);
   const next=event.key==='Home'?0:event.key==='End'?visible.length-1:index<0?(event.key==='ArrowLeft'?visible.length-1:0):Math.max(0,Math.min(visible.length-1,index+(event.key==='ArrowLeft'?-1:1)));
   if(pinnedPoint)pinnedPoint=visible[next];else hoveredPoint=visible[next];
-  showPointDetails();
+  showPointDetails();requestDraw();
 };
 $('point-close').onclick=()=>{clearPointDetails();canvas.focus();};
-function playLabel(){$('play').textContent=playing?'Ⅱ Pause':'▶ Play';}
+function playLabel(){$('play').textContent=playing?'Ⅱ Pause':checkpointPaused?'▶ Resume':'▶ Play';}
+function pauseAtCheckpoint(k,message='',mark=false){if(k%AUTOPLAY_BLOCK!==0)return;playing=false;checkpointPaused=true;playLabel();note((message?message+' ':'')+`Autoplay paused at step ${fmt(k)} to save CPU. Click Resume to continue to step ${fmt(k+AUTOPLAY_BLOCK)}.`,mark);}
 function note(text,discovery=false){$('note').textContent=text;$('note').className='note'+(discovery?' discovery':'');}
 function stats(){const p=points[points.length-1];$('index').textContent=fmt(p.k);$('value').textContent=fmt(p.n);$('peak').textContent=fmt(peak);showPointDetails();}
-function reset(){const raw=$('seed').value.trim();if(!/^\d+$/.test(raw)){note('Enter a non-negative integer.');return;}if(raw.length>AliquotMath.MAX_DIGITS){note('Input exceeds the 1,000-digit browser resource budget.');return;}const n=BigInt(raw);clearPointDetails();screenPoints=[];suppressedPoint=null;cyclePeriod=null;token++;busy=false;animation=null;peak=n;seen=new Map([[n.toString(),0]]);discovered=n===0n;points=[{n,k:0,mark:n===0n,label:n===0n?'Zero':''}];playing=true;nextAt=0;playLabel();stats();syncChart();view={lo:0,hi:Math.max(2,transform(n)*1.2),xhi:12};note(n===0n?'Zero · continuing with 0 → 0.':'Blue: sequence. Amber: first discovery only.',n===0n);}
+function reset(){const raw=$('seed').value.trim();if(!/^\d+$/.test(raw)){note('Enter a non-negative integer.');return;}if(raw.length>AliquotMath.MAX_DIGITS){note('Input exceeds the 1,000-digit browser resource budget.');return;}const n=BigInt(raw);clearPointDetails();screenPoints=[];suppressedPoint=null;cyclePeriod=null;checkpointPaused=false;token++;busy=false;animation=null;peak=n;seen=new Map([[n.toString(),0]]);discovered=n===0n;points=[{n,k:0,mark:n===0n,label:n===0n?'Zero':''}];playing=true;nextAt=0;playLabel();stats();syncChart();view={lo:0,hi:Math.max(2,transform(n)*1.2),xhi:12};note(n===0n?'Zero · continuing with 0 → 0.':'Blue: sequence. Amber: first discovery only.',n===0n);}
 async function aliquot(n,t){if(n<2n)return 0n;const key=n.toString();if(cache.has(key))return cache.get(key);const answer=await AliquotMath.sum(n,{cancelled:()=>t!==token});if(t!==token)throw new Error('cancelled');if(cache.size>=1000)cache.delete(cache.keys().next().value);cache.set(key,answer);return answer;}
-async function advance(){if(busy||animation)return;busy=true;const t=token,prev=points[points.length-1];try{const n=await aliquot(prev.n,t);if(t!==token)return;if(n.toString().length>AliquotMath.MAX_DIGITS)throw new Error('Next term exceeds the 1,000-digit browser resource budget. No divergence conclusion.');prev.next=n;delete prev.issue;const k=prev.k+1,key=n.toString(),firstSeen=seen.get(key)??null;if(cyclePeriod===null&&n>0n&&firstSeen!==null)cyclePeriod=k-firstSeen;let label='',message='',mark=false;if(!discovered){if(n===0n){label='Zero';message='Reached zero · continuing with 0 → 0.';mark=true;}else if(n===prev.n){label='Perfect';message='Perfect number: '+fmt(n)+' · s(n) = n.';mark=true;}else if(seen.has(key)){const period=k-seen.get(key);label='Period '+period;message='Cycle detected · period '+period+'.';mark=true;}if(mark){discovered=true;note(message,true);}}if(!seen.has(key))seen.set(key,k);if(n>peak)peak=n;points.push({n,k,mark,label,previous:prev.n,firstSeen,period:cyclePeriod});if(points.length>180)points.shift();animation={start:performance.now(),length:duration(),fraction:0};stats();}catch(e){if(t!==token)return;prev.issue=e.message;showPointDetails();playing=false;playLabel();note(e.message);}finally{if(t===token)busy=false;}}
+async function advance(){if(busy||animation)return;busy=true;const t=token,prev=points[points.length-1];try{const n=await aliquot(prev.n,t);if(t!==token)return;if(n.toString().length>AliquotMath.MAX_DIGITS)throw new Error('Next term exceeds the 1,000-digit browser resource budget. No divergence conclusion.');prev.next=n;delete prev.issue;const k=prev.k+1,key=n.toString(),firstSeen=seen.get(key)??null;if(cyclePeriod===null&&n>0n&&firstSeen!==null)cyclePeriod=k-firstSeen;let label='',message='',mark=false;if(!discovered){if(n===0n){label='Zero';message='Reached zero · continuing with 0 → 0.';mark=true;}else if(n===prev.n){label='Perfect';message='Perfect number: '+fmt(n)+' · s(n) = n.';mark=true;}else if(seen.has(key)){const period=k-seen.get(key);label='Period '+period;message='Cycle detected · period '+period+'.';mark=true;}if(mark){discovered=true;note(message,true);}}if(!seen.has(key))seen.set(key,k);if(n>peak)peak=n;points.push({n,k,mark,label,previous:prev.n,firstSeen,period:cyclePeriod});if(points.length>180)points.shift();animation={start:performance.now(),length:duration(),fraction:0};pauseAtCheckpoint(k,message,mark);stats();requestDraw();}catch(e){if(t!==token)return;prev.issue=e.message;showPointDetails();playing=false;playLabel();note(e.message);}finally{if(t===token)busy=false;}}
 function resize(){const box=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1;width=box.width;height=box.height;canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);}
-window.addEventListener('resize',()=>{screenPoints=[];resize();});
-function draw(now){const ease=1-Math.exp(-Math.min(80,now-(lastFrame||now-16))/110);lastFrame=now;if(animation){const t=Math.min(1,(now-animation.start)/animation.length);animation.fraction=t*t*(3-2*t);if(t>=1){animation=null;nextAt=now+80;}}syncChart();const first=points[0],last=points[points.length-1];if(!first){requestAnimationFrame(draw);return;}const ys=points.map(p=>transform(p.n));const ymin=Math.min(...ys),ymax=Math.max(...ys),span=Math.max($('scale').value==='log'?.5:1,ymax-ymin);const target={lo:Math.max(0,ymin-span*.22),hi:ymax+span*.32,xhi:Math.max(12,last.k+1)};for(const key of ['lo','hi','xhi'])view[key]+=(target[key]-view[key])*ease;const left=58,right=20,top=30,bottom=38,W=width-left-right,H=height-top-bottom,xlo=first.k;const x=k=>left+(k-xlo)/Math.max(1,view.xhi-xlo)*W;const y=v=>top+H-(v-view.lo)/Math.max(1e-9,view.hi-view.lo)*H;ctx.clearRect(0,0,width,height);ctx.font='11px monospace';ctx.lineWidth=1;for(let i=0;i<=4;i++){const v=view.lo+(view.hi-view.lo)*i/4,Y=y(v);ctx.strokeStyle='#edf0f2';ctx.beginPath();ctx.moveTo(left,Y);ctx.lineTo(width-right,Y);ctx.stroke();ctx.fillStyle='#87919a';ctx.textAlign='right';ctx.fillText(AliquotMath.axisLabel(v,$('scale').value,chartExponent),left-9,Y+4);}ctx.fillStyle='#87919a';ctx.textAlign='center';for(let i=0;i<=4;i++){const k=Math.round(xlo+(view.xhi-xlo)*i/4);ctx.fillText(k,x(k),height-13);}ctx.save();ctx.beginPath();ctx.rect(left-9,top-25,W+18,H+34);ctx.clip();let tip=null;screenPoints=[];for(let i=0;i<points.length;i++){const p=points[i],X=x(p.k),Y=y(ys[i]);const partial=i===points.length-1&&animation&&i>0;if(i>0){const q=points[i-1],a=partial?animation.fraction:1;const end={x:x(q.k)+(X-x(q.k))*a,y:y(ys[i-1])+(Y-y(ys[i-1]))*a};ctx.strokeStyle=BLUE;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x(q.k),y(ys[i-1]));ctx.lineTo(end.x,end.y);ctx.stroke();tip=end;}else tip={x:X,y:Y};if(!partial){if(X>=left-9&&X<=width-right+9&&Y>=top-25&&Y<=height-bottom+9)screenPoints.push({point:p,x:X,y:Y});ctx.fillStyle=BLUE;ctx.beginPath();ctx.arc(X,Y,2.5,0,Math.PI*2);ctx.fill();}}
+window.addEventListener('resize',()=>{screenPoints=[];resize();requestDraw();});
+function draw(now){const ease=1-Math.exp(-Math.min(80,now-(lastFrame||now-16))/110);lastFrame=now;if(animation){const t=Math.min(1,(now-animation.start)/animation.length);animation.fraction=t*t*(3-2*t);if(t>=1){animation=null;nextAt=now+80;}}syncChart();const first=points[0],last=points[points.length-1];if(!first)return;const ys=points.map(p=>transform(p.n));const ymin=Math.min(...ys),ymax=Math.max(...ys),span=Math.max($('scale').value==='log'?.5:1,ymax-ymin);const target={lo:Math.max(0,ymin-span*.22),hi:ymax+span*.32,xhi:Math.max(12,last.k+1)};for(const key of ['lo','hi','xhi'])view[key]+=(target[key]-view[key])*ease;const left=58,right=20,top=30,bottom=38,W=width-left-right,H=height-top-bottom,xlo=first.k;const x=k=>left+(k-xlo)/Math.max(1,view.xhi-xlo)*W;const y=v=>top+H-(v-view.lo)/Math.max(1e-9,view.hi-view.lo)*H;ctx.clearRect(0,0,width,height);ctx.font='11px monospace';ctx.lineWidth=1;for(let i=0;i<=4;i++){const v=view.lo+(view.hi-view.lo)*i/4,Y=y(v);ctx.strokeStyle='#edf0f2';ctx.beginPath();ctx.moveTo(left,Y);ctx.lineTo(width-right,Y);ctx.stroke();ctx.fillStyle='#87919a';ctx.textAlign='right';ctx.fillText(AliquotMath.axisLabel(v,$('scale').value,chartExponent),left-9,Y+4);}ctx.fillStyle='#87919a';ctx.textAlign='center';for(let i=0;i<=4;i++){const k=Math.round(xlo+(view.xhi-xlo)*i/4);ctx.fillText(k,x(k),height-13);}ctx.save();ctx.beginPath();ctx.rect(left-9,top-25,W+18,H+34);ctx.clip();let tip=null;screenPoints=[];for(let i=0;i<points.length;i++){const p=points[i],X=x(p.k),Y=y(ys[i]);const partial=i===points.length-1&&animation&&i>0;if(i>0){const q=points[i-1],a=partial?animation.fraction:1;const end={x:x(q.k)+(X-x(q.k))*a,y:y(ys[i-1])+(Y-y(ys[i-1]))*a};ctx.strokeStyle=BLUE;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x(q.k),y(ys[i-1]));ctx.lineTo(end.x,end.y);ctx.stroke();tip=end;}else tip={x:X,y:Y};if(!partial){if(X>=left-9&&X<=width-right+9&&Y>=top-25&&Y<=height-bottom+9)screenPoints.push({point:p,x:X,y:Y});ctx.fillStyle=BLUE;ctx.beginPath();ctx.arc(X,Y,2.5,0,Math.PI*2);ctx.fill();}}
 if(pointer)hoverPoint(hitPoint(pointer));
 canvas.style.cursor=hoveredPoint||pinnedPoint?'pointer':'default';
 const selected=pinnedPoint||hoveredPoint;
 for(const target of screenPoints){if(target.point!==selected)continue;ctx.strokeStyle=BLUE;ctx.lineWidth=2;ctx.beginPath();ctx.arc(target.x,target.y,7,0,Math.PI*2);ctx.stroke();}
 // Draw discovery markers last: one marker, never an amber segment or repeated state.
 for(let i=0;i<points.length;i++){const p=points[i];if(!p.mark||(i===points.length-1&&animation))continue;const X=x(p.k),Y=y(ys[i]);ctx.fillStyle='white';ctx.beginPath();ctx.arc(X,Y,6,0,Math.PI*2);ctx.fill();ctx.fillStyle=AMBER;ctx.beginPath();ctx.arc(X,Y,4,0,Math.PI*2);ctx.fill();ctx.font='11px monospace';ctx.textAlign=X>width-120?'right':'left';ctx.fillText(p.label,X+(X>width-120?-9:9),Y-12);}
-if(tip){ctx.strokeStyle=BLUE;ctx.fillStyle=BLUE;ctx.globalAlpha=.25;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(tip.x,tip.y,8+2*Math.sin(now/220),0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;const tail=points[points.length-1];if(animation||!tail.mark){ctx.beginPath();ctx.arc(tip.x,tip.y,3.5,0,Math.PI*2);ctx.fill();}}ctx.restore();if(playing&&!busy&&!animation&&now>=nextAt)advance();requestAnimationFrame(draw);}
-$('form').onsubmit=e=>{e.preventDefault();reset();};$('play').onclick=()=>{playing=!playing;playLabel();};$('step').onclick=()=>{playing=false;playLabel();advance();};document.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{$('seed').value=b.dataset.n;reset();});resize();reset();requestAnimationFrame(draw);
+if(tip){ctx.strokeStyle=BLUE;ctx.fillStyle=BLUE;ctx.globalAlpha=.25;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(tip.x,tip.y,8+2*Math.sin(now/220),0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;const tail=points[points.length-1];if(animation||!tail.mark){ctx.beginPath();ctx.arc(tip.x,tip.y,3.5,0,Math.PI*2);ctx.fill();}}ctx.restore();if(playing&&!busy&&!animation&&now>=nextAt)advance();if(playing||busy||animation)requestDraw();}
+$('form').onsubmit=e=>{e.preventDefault();reset();};
+$('play').onclick=()=>{playing=!playing;if(playing&&checkpointPaused){checkpointPaused=false;note(`Continuing · next automatic pause at step ${fmt((Math.floor(points[points.length-1].k/AUTOPLAY_BLOCK)+1)*AUTOPLAY_BLOCK)}.`);}playLabel();requestDraw();};
+$('step').onclick=()=>{playing=false;if(checkpointPaused)note('Manual step · autoplay is paused.');checkpointPaused=false;playLabel();advance();requestDraw();};
+$('scale').onchange=requestDraw;
+document.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{$('seed').value=b.dataset.n;reset();});resize();reset();requestDraw();
