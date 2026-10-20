@@ -29,17 +29,16 @@
 </div>
 <form class="controls" id="form"><input id="seed" type="text" inputmode="numeric" value="12" aria-label="Starting number"><button>Set ↵</button><button type="button" id="play" class="primary" aria-describedby="autoplay-help">Ⅱ Pause</button><button type="button" id="step">Step →</button><label>speed <input type="range" id="speed" min="1" max="10" value="5"></label><select id="scale" aria-label="Vertical scale"><option value="log">log y</option><option value="linear">linear y</option></select></form>
 <p id="autoplay-help" class="point-help">Pauses every 100 steps. Resume to continue.</p>
+<div id="chart" class="chart">
 <canvas id="graph" tabindex="0" aria-label="Animated aliquot sequence; use arrow keys to inspect points" aria-describedby="point-help"></canvas>
-<p id="point-help" class="point-help">Hover to inspect · click to pin · click again to close. Keys: ←/→, Enter, Esc.</p>
 <section id="point-details" class="point-details" aria-labelledby="point-title" hidden>
-<div class="point-details-heading"><h2 id="point-title">Point details</h2><button type="button" id="point-close" aria-label="Close point details">Close ×</button></div>
-<p id="point-mode" class="point-mode"></p>
+<div class="point-details-heading"><h2 id="point-title">Point details</h2><span id="point-mode" class="point-mode"></span><button type="button" id="point-close" aria-label="Close point details">×</button></div>
 <dl class="point-fields">
 <div class="point-value"><dt>Value</dt><dd id="point-value"></dd></div>
 <div><dt>Digits / parity</dt><dd id="point-size"></dd></div>
 <div><dt>Mod 12 / base 12</dt><dd id="point-residue"></dd></div>
-<div><dt>Previous</dt><dd id="point-previous"></dd></div>
-<div><dt>Change</dt><dd id="point-change"></dd></div>
+<div class="point-extra"><dt>Previous</dt><dd id="point-previous"></dd></div>
+<div class="point-extra"><dt>Change</dt><dd id="point-change"></dd></div>
 <div><dt>Next</dt><dd id="point-next"></dd></div>
 <div><dt>Status</dt><dd id="point-status"></dd></div>
 <div class="point-wide"><dt>Factorization</dt><dd id="point-factorization"></dd></div>
@@ -48,6 +47,8 @@
 </dl>
 <button type="button" id="point-compute" hidden>Compute divisors</button>
 </section>
+</div>
+<p id="point-help" class="point-help">Hover to inspect · click to pin · click again to close. Keys: ←/→, Enter, Esc.</p>
 <div class="stats"><div><small>INDEX k</small><output id="index">0</output></div><div><small>VALUE <span data-tex="n_k">nₖ</span></small><output id="value">12</output></div><div><small>PEAK</small><output id="peak">12</output></div></div><div id="note" class="note" role="status">Blue: sequence. Amber: first discovery only.</div><div class="presets"><button data-n="12">12 · decay</button><button data-n="28">28 · perfect</button><button data-n="220">220 · period 2</button><button data-n="12496">12496 · period 5</button><button data-n="276">276 · growth</button></div><section id="research" class="research" aria-labelledby="research-title">
 <h2 id="research-title">An open research question</h2>
 <p>Start with a positive integer and repeatedly sum its proper positive divisors. Does every sequence eventually reach 1 and terminate, or settle into a cycle? This is the aliquot sequence conjecture.</p>

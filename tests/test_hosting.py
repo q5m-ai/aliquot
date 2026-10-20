@@ -33,6 +33,17 @@ class HostingTests(unittest.TestCase):
                          'location ~ /\\. { deny all; }', 'try_files $uri $uri/ =404']:
             self.assertIn(expected, read("q5m/nginx.conf"))
 
+    def test_point_card_is_an_overlay_inside_the_chart(self):
+        self.assertRegex(read("site/index.html"),
+                         r'<div id="chart" class="chart">\s*<canvas[^>]+></canvas>\s*<section id="point-details"')
+        css = read("site/site.css")
+        self.assertIn(".chart{position:relative}", css)
+        overlay = css.split(".point-details{", 1)[1].split("}", 1)[0]
+        for expected in ["position:absolute", "max-width:calc(100% - 16px)",
+                         "max-height:min(340px,calc(100% - 16px))", "pointer-events:none"]:
+            self.assertIn(expected, overlay)
+        self.assertIn(".point-details[data-pinned=true]{pointer-events:auto}", css)
+
     def test_site_dependencies_are_self_hosted_and_ordered(self):
         html = read("site/index.html")
         scripts = re.findall(r'<script src="([^"]+)" defer></script>', html)

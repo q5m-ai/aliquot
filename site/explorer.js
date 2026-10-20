@@ -11,7 +11,22 @@ let chartExponent=0,chartMode='log';
 const transform=n=>AliquotMath.coordinate(n,$('scale').value,chartExponent);
 function syncChart(){const mode=$('scale').value,exponent=mode==='linear'?Math.max(0,peak.toString().length-6):0;if(mode!==chartMode||exponent!==chartExponent){chartMode=mode;chartExponent=exponent;view={lo:0,hi:Math.max(2,...points.map(p=>transform(p.n)))*1.2,xhi:Math.max(12,points[points.length-1]?.k+1||12)};}}
 // Inspect only computed data: moving over a point must never trigger factoring.
-let screenPoints=[],hoveredPoint=null,pinnedPoint=null,suppressedPoint=null,pointer=null,cyclePeriod=null,inspectionJob=null;
+let screenPoints=[],hoveredPoint=null,pinnedPoint=null,suppressedPoint=null,pointer=null,cyclePeriod=null,inspectionJob=null,pointAnchor=null;
+function positionPointDetails(){
+  const p=pinnedPoint||hoveredPoint,card=$('point-details');
+  if(!p||card.hidden)return;
+  const target=screenPoints.find(target=>target.point===p);
+  if(target)pointAnchor={point:p,x:target.x,y:target.y};
+  if(!pointAnchor||pointAnchor.point!==p)pointAnchor={point:p,x:width/2,y:height/2};
+  const box=card.getBoundingClientRect(),inset=8,gap=14;
+  let left=pointAnchor.x+gap,top=pointAnchor.y+gap;
+  if(left+box.width>width-inset)left=pointAnchor.x-box.width-gap;
+  if(top+box.height>height-inset)top=pointAnchor.y-box.height-gap;
+  left=Math.max(inset,Math.min(left,Math.max(inset,width-box.width-inset)));
+  top=Math.max(inset,Math.min(top,Math.max(inset,height-box.height-inset)));
+  // Setting individual CSSOM properties is compatible with the strict style CSP.
+  card.style.left=`${left}px`;card.style.top=`${top}px`;
+}
 function divisorDetails(p){
   if(p.n===0n)return {factorization:'Undefined',divisors:'Undefined','divisor-summary':'Undefined',canCompute:false};
   if(p.divisorCard)return p.divisorCard;
@@ -58,6 +73,7 @@ function showPointDetails(){
   const p=pinnedPoint||hoveredPoint;
   $('point-details').hidden=!p;
   if(!p)return;
+  $('point-details').dataset.pinned=String(!!pinnedPoint);
   const details=pointDetails(p);
   for(const field of ['title','value','size','residue','previous','change','next','status','divisors','divisor-summary'])$('point-'+field).textContent=details[field];
   PageLatex.render($('point-factorization'),details.factorizationTex,{fallback:details.factorization});
@@ -65,11 +81,12 @@ function showPointDetails(){
   $('point-compute').disabled=!pinnedPoint||busy;
   $('point-compute').textContent=inspectionJob?.point===p?'Computing…':!pinnedPoint?'Pin to compute divisors':busy?'Computing…':'Compute divisors';
   $('point-mode').textContent=pinnedPoint?'Pinned':'Click to pin';
+  positionPointDetails();
 }
 function clearPointDetails(){
   if(inspectionJob){inspectionJob=null;busy=false;}
   suppressedPoint=pinnedPoint||hoveredPoint;
-  pinnedPoint=null;hoveredPoint=null;pointer=null;
+  pinnedPoint=null;hoveredPoint=null;pointer=null;pointAnchor=null;
   showPointDetails();requestDraw();
 }
 function hoverPoint(p){
@@ -136,6 +153,7 @@ function resize(){const box=canvas.getBoundingClientRect(),dpr=window.devicePixe
 window.addEventListener('resize',()=>{screenPoints=[];resize();requestDraw();});
 function draw(now){const ease=1-Math.exp(-Math.min(80,now-(lastFrame||now-16))/110);lastFrame=now;if(animation){const t=Math.min(1,(now-animation.start)/animation.length);animation.fraction=t*t*(3-2*t);if(t>=1){animation=null;nextAt=now+80;}}syncChart();const first=points[0],last=points[points.length-1];if(!first)return;const ys=points.map(p=>transform(p.n));const ymin=Math.min(...ys),ymax=Math.max(...ys),span=Math.max($('scale').value==='log'?.5:1,ymax-ymin);const target={lo:Math.max(0,ymin-span*.22),hi:ymax+span*.32,xhi:Math.max(12,last.k+1)};for(const key of ['lo','hi','xhi'])view[key]+=(target[key]-view[key])*ease;const left=58,right=20,top=30,bottom=38,W=width-left-right,H=height-top-bottom,xlo=first.k;const x=k=>left+(k-xlo)/Math.max(1,view.xhi-xlo)*W;const y=v=>top+H-(v-view.lo)/Math.max(1e-9,view.hi-view.lo)*H;ctx.clearRect(0,0,width,height);ctx.font='11px monospace';ctx.lineWidth=1;for(let i=0;i<=4;i++){const v=view.lo+(view.hi-view.lo)*i/4,Y=y(v);ctx.strokeStyle='#edf0f2';ctx.beginPath();ctx.moveTo(left,Y);ctx.lineTo(width-right,Y);ctx.stroke();ctx.fillStyle='#87919a';ctx.textAlign='right';ctx.fillText(AliquotMath.axisLabel(v,$('scale').value,chartExponent),left-9,Y+4);}ctx.fillStyle='#87919a';ctx.textAlign='center';for(let i=0;i<=4;i++){const k=Math.round(xlo+(view.xhi-xlo)*i/4);ctx.fillText(k,x(k),height-13);}ctx.save();ctx.beginPath();ctx.rect(left-9,top-25,W+18,H+34);ctx.clip();let tip=null;screenPoints=[];for(let i=0;i<points.length;i++){const p=points[i],X=x(p.k),Y=y(ys[i]);const partial=i===points.length-1&&animation&&i>0;if(i>0){const q=points[i-1],a=partial?animation.fraction:1;const end={x:x(q.k)+(X-x(q.k))*a,y:y(ys[i-1])+(Y-y(ys[i-1]))*a};ctx.strokeStyle=BLUE;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x(q.k),y(ys[i-1]));ctx.lineTo(end.x,end.y);ctx.stroke();tip=end;}else tip={x:X,y:Y};if(!partial){if(X>=left-9&&X<=width-right+9&&Y>=top-25&&Y<=height-bottom+9)screenPoints.push({point:p,x:X,y:Y});ctx.fillStyle=BLUE;ctx.beginPath();ctx.arc(X,Y,2.5,0,Math.PI*2);ctx.fill();}}
 if(pointer)hoverPoint(hitPoint(pointer));
+positionPointDetails();
 canvas.style.cursor=hoveredPoint||pinnedPoint?'pointer':'default';
 const selected=pinnedPoint||hoveredPoint;
 for(const target of screenPoints){if(target.point!==selected)continue;ctx.strokeStyle=BLUE;ctx.lineWidth=2;ctx.beginPath();ctx.arc(target.x,target.y,7,0,Math.PI*2);ctx.stroke();}

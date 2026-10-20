@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs';
 const root = new URL('../', import.meta.url);
 const source = ['site/vendor/katex/katex.min.js','site/latex.js','site/math.js','site/explorer.js']
   .map(path=>readFileSync(new URL(path,root),'utf8')).join('\n');
-function browser({dpr=1}={}) {
+function browser({dpr=1,chartWidth=900,chartHeight=400}={}) {
   const elements = new Map();
   const labels = [], frames = [];
   const context2d = new Proxy({}, { get: (_, name) => (...args) => {
@@ -19,7 +19,9 @@ function browser({dpr=1}={}) {
       textContent: '', innerHTML:'', dataset:{}, className: '', width: 0, height: 0, hidden:false, style:{},
       focus() { this.focused=true; },
       getContext: () => context2d,
-      getBoundingClientRect: () => ({ left:40, top:60, width: 900, height: 400 }),
+      getBoundingClientRect: () => ({ left:40, top:60,
+        width:id==='point-details'?Math.min(320,chartWidth-16):chartWidth,
+        height:id==='point-details'?Math.min(300,chartHeight-16):chartHeight }),
     });
     return elements.get(id);
   };
@@ -445,6 +447,46 @@ test('factor publication is complete-only and divisor sampling has exact large c
   assert.ok(count>BigInt(Number.MAX_SAFE_INTEGER));
   assert.throws(()=>run('AliquotMath.properDivisorsFromFactors(12n,[{prime:2n,exponent:2}])'),/reconstruct/);
   assert.throws(()=>run('AliquotMath.properDivisorsFromFactors(0n,[])'),/positive/);
+});
+
+test('overlay anchors beside points and flips/clamps at every chart edge', () => {
+  for(const [chartWidth,chartHeight,dpr] of [[900,400,1],[340,280,2]]){
+    const {run,element}=browser({chartWidth,chartHeight,dpr});
+    run('playing=false; draw(performance.now())');
+    const card=element('point-details'),box=card.getBoundingClientRect();
+    for(const [x,y] of [[60,40],[chartWidth-12,40],[60,chartHeight-12],[chartWidth-12,chartHeight-12]]){
+      run(`screenPoints=[{point:points[0],x:${x},y:${y}}]`);
+      element('graph').onpointermove(pointEvent(run));run('positionPointDetails()');
+      const left=parseFloat(card.style.left),top=parseFloat(card.style.top);
+      assert.equal(card.dataset.pinned,'false');
+      assert.ok(left>=8&&left+box.width<=chartWidth-8);
+      assert.ok(top>=8&&top+box.height<=chartHeight-8);
+      if(chartWidth===900&&x===60)assert.equal(left,x+14,'prefer beside the point');
+      if(chartWidth===900&&x===chartWidth-12)assert.equal(left,x-box.width-14,'flip to the left at the right edge');
+    }
+    element('graph').onclick(pointEvent(run));
+    assert.equal(card.dataset.pinned,'true');
+    element('graph').onpointerleave();
+    assert.equal(card.hidden,false,'pinned overlay survives leaving the canvas for card controls');
+  }
+});
+
+test('pinned overlays track rendered points and stay bounded after resize or eviction', async () => {
+  const {run,element}=browser();
+  run('playing=false; draw(performance.now())');
+  element('graph').onclick(pointEvent(run));
+  const card=element('point-details');
+  run('screenPoints[0].x=400; screenPoints[0].y=50; positionPointDetails()');
+  assert.equal(card.style.left,'414px');
+  run('screenPoints=[]; positionPointDetails()');
+  assert.equal(card.style.left,'414px','retain a pin even when its point leaves the rolling window');
+  element('graph').getBoundingClientRect=()=>({left:40,top:60,width:340,height:320});
+  run('resize(); positionPointDetails()');
+  assert.ok(parseFloat(card.style.left)+320<=332);
+  assert.ok(parseFloat(card.style.top)+300<=312);
+  run('reset()');
+  assert.equal(card.hidden,true);
+  assert.equal(run('pointAnchor'),null);
 });
 
 test('site has q5m research chrome, accessible controls, and matching icons', () => {
