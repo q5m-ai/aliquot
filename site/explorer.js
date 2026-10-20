@@ -149,7 +149,7 @@ $('point-compute').onclick=async()=>{
   }catch(e){if(!cancelled())p.divisorIssue=e.message;}
   finally{if(!cancelled()){inspectionJob=null;busy=false;showPointDetails();requestDraw();}}
 };
-function playLabel(){$('play').dataset.playing=String(playing);$('play').textContent=playing?'Pause':checkpointPaused?'▶ Resume':'▶ Play';}
+function playLabel(){$('play').textContent=playing?'Pause':checkpointPaused?'Resume':'Play';}
 function pauseAtCheckpoint(k,message='',mark=false){if(k%AUTOPLAY_BLOCK!==0)return;playing=false;checkpointPaused=true;playLabel();note((message?message+' ':'')+`Autoplay paused at step ${fmt(k)} to save CPU. Click Resume to continue to step ${fmt(k+AUTOPLAY_BLOCK)}.`,mark);}
 function note(text,discovery=false){$('note').textContent=text;$('note').className='note'+(discovery?' discovery':'');}
 function stats(){const p=points[points.length-1];$('index').textContent=fmt(p.k);$('value').textContent=fmt(p.n);$('peak').textContent=fmt(peak);showPointDetails();}

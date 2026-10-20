@@ -262,8 +262,7 @@ test('autoplay pauses at each 100-step boundary and requires explicit resume', a
     for(let k=checkpoint-99;k<=checkpoint;k++)await run('animation=null; advance()');
     assert.equal(run('points[points.length-1].k'),checkpoint);
     assert.equal(run('playing'),false);
-    assert.equal(element('play').textContent,'▶ Resume');
-    assert.equal(element('play').dataset.playing,'false');
+    assert.equal(element('play').textContent,'Resume');
     assert.match(element('note').textContent,new RegExp(`paused at step ${checkpoint}`));
     frame(1e9*checkpoint);
     assert.equal(pendingFrames(),0,'paused chart must not keep scheduling idle animation frames');
@@ -271,7 +270,6 @@ test('autoplay pauses at each 100-step boundary and requires explicit resume', a
     element('play').onclick();
     assert.equal(run('playing'),true);
     assert.equal(element('play').textContent,'Pause');
-    assert.equal(element('play').dataset.playing,'true');
     assert.match(element('note').textContent,new RegExp(`next automatic pause at step ${checkpoint+100}`));
     assert.equal(pendingFrames(),1,'resume restarts rendering');
   }
@@ -285,7 +283,7 @@ test('manual stepping past a checkpoint stays paused and reset restores the firs
   await new Promise(resolve=>setTimeout(resolve,0));
   assert.equal(run('points[points.length-1].k'),101);
   assert.equal(run('playing'),false);
-  assert.equal(element('play').textContent,'▶ Play');
+  assert.equal(element('play').textContent,'Play');
   frame(2e9);
   assert.equal(pendingFrames(),0);
   element('play').onclick();
@@ -620,20 +618,18 @@ test('educational preset descriptions and selection follow the starting seed', a
   assert.equal(aspiring.attributes['aria-pressed'],'true','manual Set uses the same preset metadata');
 });
 
-test('pause uses a two-bar CSS icon with a plain accessible label', () => {
+test('playback button uses plain text without decorative icons', () => {
   const {element}=browser();
   assert.equal(element('play').textContent,'Pause');
-  assert.equal(element('play').dataset.playing,'true');
   element('play').onclick();
-  assert.equal(element('play').textContent,'▶ Play');
-  assert.equal(element('play').dataset.playing,'false');
+  assert.equal(element('play').textContent,'Play');
   element('play').onclick();
   assert.equal(element('play').textContent,'Pause');
-  assert.equal(element('play').dataset.playing,'true');
   const html=readFileSync(new URL('site/index.html',root),'utf8');
   assert.ok(!html.includes('Ⅱ'));
+  assert.ok(!html.includes('data-playing'));
   const css=readFileSync(new URL('site/site.css',root),'utf8');
-  assert.match(css,/#play\[data-playing=true\]::before\{[^}]*border-left:3px solid currentColor;[^}]*border-right:3px solid currentColor/);
+  assert.ok(!/#play[^}]*::before/.test(css));
 });
 
 test('site has q5m research chrome, accessible controls, and matching icons', () => {
