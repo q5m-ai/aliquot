@@ -9,13 +9,14 @@ const source = ['site/vendor/katex/katex.min.js','site/latex.js','site/math.js',
 function browser({dpr=1,chartWidth=900,chartHeight=400}={}) {
   const elements = new Map();
   const labels = [], frames = [];
+  const presets=[12,28,220,12496,276].map(n=>({dataset:{n:String(n)}}));
   const context2d = new Proxy({}, { get: (_, name) => (...args) => {
     for (const arg of args) if (typeof arg === 'number') assert.ok(Number.isFinite(arg), `non-finite canvas argument in ${String(name)}`);
     if (name === 'fillText') labels.push(args[0]);
   }, set: () => true });
   const element = id => {
     if (!elements.has(id)) elements.set(id, {
-      value: id === 'seed' ? '12' : id === 'scale' ? 'log' : '5',
+      value: id === 'seed' ? '12' : id === 'scale' ? 'log' : id === 'speed' ? '8' : '5',
       textContent: '', innerHTML:'', dataset:{}, className: '', width: 0, height: 0, hidden:false, style:{},
       focus() { this.focused=true; },
       getContext: () => context2d,
@@ -26,12 +27,12 @@ function browser({dpr=1,chartWidth=900,chartHeight=400}={}) {
     return elements.get(id);
   };
   const context = vm.createContext({
-    document: { getElementById: element, querySelectorAll: () => [] },
+    document: { getElementById: element, querySelectorAll: selector => selector==='[data-n]'?presets:[] },
     window: { devicePixelRatio: dpr, addEventListener() {} },
     requestAnimationFrame(callback) { frames.push(callback); return frames.length; }, performance, setTimeout,
   });
   vm.runInContext(source, context);
-  return { element, labels, run: code => vm.runInContext(code, context),
+  return { element, labels, presets, run: code => vm.runInContext(code, context),
     frame: (now=performance.now()) => { const callback=frames.shift(); if(callback)callback(now); },
     pendingFrames: () => frames.length };
 }
@@ -487,6 +488,95 @@ test('pinned overlays track rendered points and stay bounded after resize or evi
   run('reset()');
   assert.equal(card.hidden,true);
   assert.equal(run('pointAnchor'),null);
+});
+
+test('seed buttons adjust by exactly one and restart at step zero', async () => {
+  const {run,element}=browser();
+  await run('advance()');
+  element('seed-increment').onclick();
+  assert.equal(element('seed').value,'13');
+  assert.equal(run('points[0].n'),13n);
+  assert.equal(run('points.length'),1);
+  assert.equal(run('playing'),true);
+  element('seed-decrement').onclick();
+  assert.equal(run('points[0].n'),12n);
+  element('seed').value='9007199254740993';
+  element('seed-increment').onclick();
+  assert.equal(element('seed').value,'9007199254740994');
+  assert.equal(run('points[0].n'),9007199254740994n);
+  element('seed-decrement').onclick();
+  assert.equal(run('points[0].n'),9007199254740993n);
+  const stale=run('aliquot(999999999999989n,token)');
+  element('seed-increment').onclick();
+  await assert.rejects(stale,/cancelled/);
+});
+
+test('seed adjustments respect zero, invalid input, and the digit budget', () => {
+  const {run,element}=browser();
+  element('seed').value='0';run('reset()');
+  assert.equal(element('seed-decrement').disabled,true);
+  const token=run('token');
+  element('seed-decrement').onclick();
+  assert.equal(run('token'),token,'decrementing zero does not reset or create a negative seed');
+  element('seed-increment').onclick();
+  assert.equal(run('points[0].n'),1n);
+  assert.equal(element('seed-decrement').disabled,false);
+  element('seed').value='9'.repeat(1000);element('seed').oninput();
+  assert.equal(element('seed-increment').disabled,true);
+  element('seed-increment').onclick();
+  assert.equal(run('points[0].n'),1n);
+  assert.match(element('note').textContent,/resource budget/);
+  for(const invalid of ['-1','1.5','bad','1'.repeat(1001)]){
+    element('seed').value=invalid;element('seed').oninput();
+    assert.equal(element('seed-increment').disabled,true);
+    assert.equal(element('seed-decrement').disabled,true);
+    element('seed-increment').onclick();
+    assert.equal(run('points[0].n'),1n);
+  }
+  element('seed').value='0002';element('seed').oninput();
+  assert.equal(element('seed-decrement').disabled,false);
+  element('seed-decrement').onclick();
+  assert.equal(element('seed').value,'1');
+});
+
+test('top shortcuts select their seed and preserve the 100-step autoplay checkpoints', async () => {
+  const {run,element,presets}=browser();
+  for(const preset of presets){
+    preset.onclick();
+    assert.equal(element('seed').value,preset.dataset.n);
+    assert.equal(run('points[0].n'),BigInt(preset.dataset.n));
+    assert.equal(run('points[0].k'),0);
+  }
+  presets[1].onclick();
+  element('speed').value='20';element('speed').oninput();
+  for(let i=0;i<100;i++)await run('animation=null; advance()');
+  assert.equal(run('points[points.length-1].k'),100);
+  assert.equal(run('playing'),false);
+});
+
+test('expanded speed range is monotonic with a twice-as-fast target maximum', async () => {
+  const {run,element}=browser();
+  let previous=Infinity;
+  for(let speed=1;speed<=20;speed++){
+    element('speed').value=String(speed);element('speed').oninput();
+    const interval=run('stepInterval()');
+    assert.ok(interval<previous);
+    assert.ok(run('duration()')>0);
+    previous=interval;
+  }
+  assert.equal(run('duration()+STEP_GAP'),(200+80)/2);
+  assert.equal(element('speed-readout').textContent,'7.1/s');
+  await run('advance()');
+  assert.equal(run('animation.length'),100);
+  run('playing=false; draw(animation.start+animation.length+1)');
+  assert.ok(Math.abs(run('nextAt-lastFrame')-40)<1e-6);
+  element('speed').value='1';element('speed').oninput();
+  assert.equal(run('stepInterval()'),2040);
+  assert.equal(element('speed-readout').textContent,'0.5/s');
+  for(const raw of ['bad','0','21']){
+    element('speed').value=raw;
+    assert.ok(Number.isFinite(run('duration()'))&&run('duration()')>0);
+  }
 });
 
 test('site has q5m research chrome, accessible controls, and matching icons', () => {

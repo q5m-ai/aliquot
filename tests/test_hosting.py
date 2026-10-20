@@ -44,6 +44,18 @@ class HostingTests(unittest.TestCase):
             self.assertIn(expected, overlay)
         self.assertIn(".point-details[data-pinned=true]{pointer-events:auto}", css)
 
+    def test_seed_shortcuts_and_adjustment_controls_are_above_the_chart(self):
+        html = read("site/index.html")
+        form = re.search(r'<form class="controls" id="form">(.*?)</form>', html, re.S).group(1)
+        self.assertEqual(re.findall(r'<button type="button" data-n="(\d+)">', form),
+                         ["12", "28", "220", "12496", "276"])
+        self.assertEqual(html.count('class="presets"'), 1)
+        self.assertLess(html.index('class="presets"'), html.index('id="graph"'))
+        self.assertIn('id="seed-decrement" aria-label="Decrease starting number by 1"', form)
+        self.assertIn('id="seed-increment" aria-label="Increase starting number by 1"', form)
+        self.assertIn('id="speed" min="1" max="20" value="8"', form)
+        self.assertIn('id="speed-readout"', form)
+
     def test_site_dependencies_are_self_hosted_and_ordered(self):
         html = read("site/index.html")
         scripts = re.findall(r'<script src="([^"]+)" defer></script>', html)
