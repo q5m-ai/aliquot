@@ -262,13 +262,15 @@ test('autoplay pauses at each 100-step boundary and requires explicit resume', a
     assert.equal(run('points[points.length-1].k'),checkpoint);
     assert.equal(run('playing'),false);
     assert.equal(element('play').textContent,'▶ Resume');
+    assert.equal(element('play').dataset.playing,'false');
     assert.match(element('note').textContent,new RegExp(`paused at step ${checkpoint}`));
     frame(1e9*checkpoint);
     assert.equal(pendingFrames(),0,'paused chart must not keep scheduling idle animation frames');
     assert.equal(run('points[points.length-1].k'),checkpoint,'finishing animation must not compute another term');
     element('play').onclick();
     assert.equal(run('playing'),true);
-    assert.equal(element('play').textContent,'Ⅱ Pause');
+    assert.equal(element('play').textContent,'Pause');
+    assert.equal(element('play').dataset.playing,'true');
     assert.match(element('note').textContent,new RegExp(`next automatic pause at step ${checkpoint+100}`));
     assert.equal(pendingFrames(),1,'resume restarts rendering');
   }
@@ -577,6 +579,22 @@ test('expanded speed range is monotonic with a twice-as-fast target maximum', as
     element('speed').value=raw;
     assert.ok(Number.isFinite(run('duration()'))&&run('duration()')>0);
   }
+});
+
+test('pause uses a two-bar CSS icon with a plain accessible label', () => {
+  const {element}=browser();
+  assert.equal(element('play').textContent,'Pause');
+  assert.equal(element('play').dataset.playing,'true');
+  element('play').onclick();
+  assert.equal(element('play').textContent,'▶ Play');
+  assert.equal(element('play').dataset.playing,'false');
+  element('play').onclick();
+  assert.equal(element('play').textContent,'Pause');
+  assert.equal(element('play').dataset.playing,'true');
+  const html=readFileSync(new URL('site/index.html',root),'utf8');
+  assert.ok(!html.includes('Ⅱ'));
+  const css=readFileSync(new URL('site/site.css',root),'utf8');
+  assert.match(css,/#play\[data-playing=true\]::before\{[^}]*border-left:3px solid currentColor;[^}]*border-right:3px solid currentColor/);
 });
 
 test('site has q5m research chrome, accessible controls, and matching icons', () => {
