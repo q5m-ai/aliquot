@@ -13,21 +13,21 @@ function syncChart(){const mode=$('scale').value,exponent=mode==='linear'?Math.m
 // Inspect only computed data: moving over a point must never trigger factoring.
 let screenPoints=[],hoveredPoint=null,pinnedPoint=null,suppressedPoint=null,pointer=null,cyclePeriod=null,inspectionJob=null;
 function divisorDetails(p){
-  if(p.n===0n)return {factorization:'Not defined for 0',divisors:'Not defined: 0 has infinitely many positive divisors.', 'divisor-summary':'s(0) is undefined; the plotted zero loop is visualization only.',canCompute:false};
+  if(p.n===0n)return {factorization:'Undefined',divisors:'Undefined','divisor-summary':'Undefined',canCompute:false};
   if(p.divisorCard)return p.divisorCard;
   const factors=p.n===1n?[]:(p.factors??factorCache.get(p.n.toString()));
   if(!factors)return {
-    factorization:'Not computed yet',divisors:'Compute once to list the proper divisors.',
-    'divisor-summary':p.divisorIssue?`Unresolved: ${p.divisorIssue}`:inspectionJob?.point===p?'Computing within the factorization work budget…':'No extra factorization runs on hover. Pin this point and choose Compute divisors.',canCompute:true,
+    factorization:'Not computed',divisors:'Not computed',
+    'divisor-summary':p.divisorIssue?`Unresolved: ${p.divisorIssue}`:inspectionJob?.point===p?'Computing…':'—',canCompute:true,
   };
   const info=AliquotMath.properDivisorsFromFactors(p.n,factors);
   const shown=[];let characters=0;
   for(const d of info.values){const text=fmt(d);if(characters+text.length+2>8000)break;shown.push(text);characters+=text.length+2;}
   const truncated=BigInt(shown.length)<info.count;
   p.divisorCard={
-    factorization:factors.length?factors.map(({prime,exponent})=>fmt(prime)+(exponent>1?`^${exponent}`:'')).join(' × '):'1 (no prime factors)',
-    divisors:shown.length?shown.join(', '):'None (1 has no proper positive divisors)',
-    'divisor-summary':`${fmt(info.count)} proper divisor${info.count===1n?'':'s'} · exact sum = ${fmt(info.sum)}${truncated?`. Showing ${shown.length} as a sample, not necessarily the smallest (display limit: 200 entries / 8,000 characters).`:'. Complete list.'}`,
+    factorization:factors.length?factors.map(({prime,exponent})=>fmt(prime)+(exponent>1?`^${exponent}`:'')).join(' × '):'—',
+    divisors:shown.length?shown.join(', '):'None',
+    'divisor-summary':`${fmt(info.count)} divisor${info.count===1n?'':'s'} · sum ${fmt(info.sum)}${truncated?` · ${shown.length} shown (sample)`:''}`,
     canCompute:false,
   };
   return p.divisorCard;
@@ -35,20 +35,20 @@ function divisorDetails(p){
 function pointDetails(p){
   const next=p.n===0n?null:(p.next??(p.n===1n?0n:cache.get(p.n.toString())));
   const delta=p.previous===undefined?null:p.n-p.previous;
-  let status='Next term not computed yet; no abundance or primality claim.';
-  if(p.n===0n)status='Terminated at 0; s(0) is undefined. Further zeros are visualization only.';
-  else if(p.n===1n)status='Terminal positive term: 1 → 0.';
-  else if(next!==undefined)status=next===p.n?'Perfect number: s(n) = n.':next>p.n?'Abundant: s(n) > n.':'Deficient: s(n) < n.';
+  let status='Next term not computed';
+  if(p.n===0n)status='Terminated · s(0) is undefined';
+  else if(p.n===1n)status='Terminal · 1 → 0';
+  else if(next!==undefined)status=next===p.n?'Perfect':next>p.n?'Abundant':'Deficient';
   if(p.issue)status+=` Calculation stopped: ${p.issue}`;
-  if(p.n>0n&&p.firstSeen!==undefined&&p.firstSeen!==null)status+=` Repeats step ${fmt(p.firstSeen)}; cycle period ${fmt(p.period)}.`;
+  if(p.n>0n&&p.firstSeen!==undefined&&p.firstSeen!==null)status+=` · period ${fmt(p.period)} · first seen at ${fmt(p.firstSeen)}`;
   return {
     title:`Point · step ${fmt(p.k)}`,
     value:fmt(p.n),
-    size:`${fmt(p.n.toString().length)} decimal digit${p.n.toString().length===1?'':'s'} · ${p.n%2n===0n?'even':'odd'}`,
-    residue:`${p.n%12n} · n = ${p.n.toString(12).toUpperCase()} (base 12; A=10, B=11)${p.n%12n===6n?' · driver-six class (6 mod 12)':''}`,
-    previous:p.previous===undefined?'Starting value (no previous term)':fmt(p.previous),
-    change:delta===null?'Not applicable':`${delta>0n?'+':''}${fmt(delta)}${delta===0n?' · unchanged':delta>0n?' · increased':' · decreased'}`,
-    next:p.n===0n?'0 → 0 is a visual extension, not s(0)':next===undefined?'Not computed yet':fmt(next),
+    size:`${fmt(p.n.toString().length)} digit${p.n.toString().length===1?'':'s'} · ${p.n%2n===0n?'even':'odd'}`,
+    residue:`${p.n%12n} · ${p.n.toString(12).toUpperCase()}₁₂`,
+    previous:p.previous===undefined?'—':fmt(p.previous),
+    change:delta===null?'—':`${delta>0n?'+':''}${fmt(delta)}`,
+    next:p.n===0n?'Undefined':next===undefined?'Not computed':fmt(next),
     status,
     ...divisorDetails(p),
   };
@@ -61,8 +61,8 @@ function showPointDetails(){
   for(const field of ['title','value','size','residue','previous','change','next','status','factorization','divisors','divisor-summary'])$('point-'+field).textContent=details[field];
   $('point-compute').hidden=!details.canCompute;
   $('point-compute').disabled=!pinnedPoint||busy;
-  $('point-compute').textContent=inspectionJob?.point===p?'Computing…':!pinnedPoint?'Pin point to compute divisors':busy?'Calculation in progress…':'Compute divisors (bounded)';
-  $('point-mode').textContent=pinnedPoint?'Pinned · click this point again, click empty chart space, or Close to dismiss.':'Preview · click or tap this point to pin its details.';
+  $('point-compute').textContent=inspectionJob?.point===p?'Computing…':!pinnedPoint?'Pin to compute divisors':busy?'Computing…':'Compute divisors';
+  $('point-mode').textContent=pinnedPoint?'Pinned':'Click to pin';
 }
 function clearPointDetails(){
   if(inspectionJob){inspectionJob=null;busy=false;}

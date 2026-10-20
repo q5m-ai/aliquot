@@ -142,10 +142,10 @@ test('hover shows exact point data and leaves without computing anything', async
   assert.equal(element('point-title').textContent,'Point · step 1');
   assert.equal(element('point-value').textContent,'16');
   assert.equal(element('point-previous').textContent,'12');
-  assert.match(element('point-change').textContent,/\+4 · increased/);
-  assert.equal(element('point-next').textContent,'Not computed yet');
+  assert.equal(element('point-change').textContent,'+4');
+  assert.equal(element('point-next').textContent,'Not computed');
   assert.match(element('point-status').textContent,/not computed/);
-  assert.match(element('point-size').textContent,/2 decimal digits · even/);
+  assert.match(element('point-size').textContent,/2 digits · even/);
   element('graph').onpointerleave();
   assert.equal(element('point-details').hidden,true);
   assert.equal(run('points.length'),2);
@@ -224,23 +224,23 @@ test('hit targets use CSS coordinates at high DPR and exclude unfinished endpoin
 
 test('details distinguish zero, terminal 1, perfect numbers, repeats, and C6', async () => {
   const {run,element}=browser();
-  assert.match(run('pointDetails(points[0]).residue'),/^0 · n = 10 \(base 12/);
+  assert.equal(run('pointDetails(points[0]).residue'),'0 · 10₁₂');
   element('seed').value='6';run('reset()');
-  assert.match(run('pointDetails(points[0]).residue'),/driver-six/);
+  assert.equal(run('pointDetails(points[0]).residue'),'6 · 6₁₂');
   await run('advance()');
   assert.match(run('pointDetails(points[0]).status'),/Perfect/);
   assert.match(run('pointDetails(points[1]).status'),/period 1/);
   element('seed').value='220';run('reset()');
   for(let i=0;i<2;i++)await run('animation=null; advance()');
-  assert.match(run('pointDetails(points[2]).status'),/Repeats step 0; cycle period 2/);
+  assert.match(run('pointDetails(points[2]).status'),/period 2 · first seen at 0/);
   for(let i=0;i<2;i++)await run('animation=null; advance()');
-  assert.match(run('pointDetails(points[4]).status'),/Repeats step 0; cycle period 2/);
+  assert.match(run('pointDetails(points[4]).status'),/period 2 · first seen at 0/);
   element('seed').value='1';run('reset()');
   assert.equal(run('pointDetails(points[0]).next'),'0');
   assert.match(run('pointDetails(points[0]).status'),/Terminal/);
   await run('advance()');
   assert.match(run('pointDetails(points[1]).status'),/s\(0\) is undefined/);
-  assert.match(run('pointDetails(points[1]).next'),/not s\(0\)/);
+  assert.equal(run('pointDetails(points[1]).next'),'Undefined');
 });
 
 test('hundreds-digit point details preserve the exact integer without factoring', () => {
@@ -248,8 +248,8 @@ test('hundreds-digit point details preserve the exact integer without factoring'
   element('seed').value=String(2n**2000n);run('reset(); playing=false; draw(performance.now())');
   element('graph').onpointermove(pointEvent(run));
   assert.equal(element('point-value').textContent,(2n**2000n).toLocaleString('en-CA'));
-  assert.match(element('point-size').textContent,/603 decimal digits/);
-  assert.match(element('point-previous').textContent,/Starting value/);
+  assert.match(element('point-size').textContent,/603 digits/);
+  assert.equal(element('point-previous').textContent,'—');
 });
 
 test('autoplay pauses at each 100-step boundary and requires explicit resume', async () => {
@@ -312,12 +312,12 @@ test('pausing early does not move the checkpoint; paused interactions redraw on 
   assert.equal(run('playing'),false);
 });
 
-test('base-12 values accompany the remainder, using A and B for ten and eleven', () => {
+test('base-12 values use compact subscript notation beside the remainder', () => {
   const {run,element}=browser();
   for(const [n,base12] of [[0,'0'],[10,'A'],[11,'B'],[12,'10'],[143,'BB'],[144,'100'],[1728,'1000']]){
     element('seed').value=String(n);run('reset()');
     const text=run('pointDetails(points[0]).residue');
-    assert.ok(text.startsWith(`${n%12} · n = ${base12} (base 12; A=10, B=11)`));
+    assert.equal(text,`${n%12} · ${base12}₁₂`);
   }
 });
 
@@ -328,7 +328,10 @@ test('cards reuse proven factors to show complete proper divisors, count, and su
   element('graph').onpointermove(pointEvent(run));
   assert.equal(element('point-factorization').textContent,'2^2 × 3');
   assert.equal(element('point-divisors').textContent,'1, 2, 3, 4, 6');
-  assert.equal(element('point-divisor-summary').textContent,'5 proper divisors · exact sum = 16. Complete list.');
+  assert.equal(element('point-divisor-summary').textContent,'5 divisors · sum 16');
+  assert.equal(element('point-mode').textContent,'Click to pin');
+  assert.equal(element('point-residue').textContent,'0 · 10₁₂');
+  assert.equal(element('point-status').textContent,'Abundant');
   assert.equal(element('point-compute').hidden,true);
   element('graph').onpointermove(pointEvent(run,1));
   assert.equal(element('point-compute').hidden,false);
@@ -357,9 +360,9 @@ test('explicit divisor computation pauses autoplay but does not advance the sequ
 test('zero, one, primes and squares have correctly labelled divisor lists', async () => {
   const {run,element}=browser();
   for(const [n,divisors,summary] of [
-    ['1','None (1 has no proper positive divisors)','0 proper divisors · exact sum = 0. Complete list.'],
-    ['13','1','1 proper divisor · exact sum = 1. Complete list.'],
-    ['36','1, 2, 3, 4, 6, 9, 12, 18','8 proper divisors · exact sum = 55. Complete list.'],
+    ['1','None','0 divisors · sum 0'],
+    ['13','1','1 divisor · sum 1'],
+    ['36','1, 2, 3, 4, 6, 9, 12, 18','8 divisors · sum 55'],
   ]){
     element('seed').value=n;run('reset(); playing=false; draw(performance.now())');
     element('graph').onclick(pointEvent(run));
@@ -369,8 +372,9 @@ test('zero, one, primes and squares have correctly labelled divisor lists', asyn
   }
   element('seed').value='0';run('reset(); playing=false; draw(performance.now())');
   element('graph').onclick(pointEvent(run));
-  assert.match(element('point-divisors').textContent,/infinitely many/);
-  assert.match(element('point-divisor-summary').textContent,/s\(0\) is undefined/);
+  assert.equal(element('point-divisors').textContent,'Undefined');
+  assert.equal(element('point-divisor-summary').textContent,'Undefined');
+  assert.match(element('point-status').textContent,/s\(0\) is undefined/);
   assert.equal(element('point-compute').hidden,true);
 });
 
@@ -379,15 +383,15 @@ test('large divisor counts and long lists are explicitly bounded samples', async
   element('seed').value=String(2n**2000n);run('reset(); playing=false; draw(performance.now())');
   element('graph').onclick(pointEvent(run));
   await element('point-compute').onclick();
-  assert.match(element('point-divisor-summary').textContent,/2,000 proper divisors/);
-  assert.match(element('point-divisor-summary').textContent,/sample, not necessarily the smallest/);
+  assert.match(element('point-divisor-summary').textContent,/2,000 divisors/);
+  assert.match(element('point-divisor-summary').textContent,/shown \(sample\)/);
   const entries=element('point-divisors').textContent.split(', ').length;
   assert.ok(entries>0&&entries<=200);
   assert.ok(element('point-divisors').textContent.length<=8000);
   // A power of the known Mersenne prime 2^127-1 has only 26 proper divisors,
   // but their decimal strings exceed the independent character budget.
   const text=run('const mersenne=2n**127n-1n; const largePoint={n:mersenne**26n,factors:[{prime:mersenne,exponent:26}]}; divisorDetails(largePoint)["divisor-summary"]');
-  assert.match(text,/26 proper divisors.*sample/);
+  assert.match(text,/26 divisors.*shown \(sample\)/);
   assert.ok(run('largePoint.divisorCard.divisors.length')<=8000);
 });
 
