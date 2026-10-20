@@ -40,8 +40,13 @@ class HostingTests(unittest.TestCase):
         self.assertIn(".chart{position:relative}", css)
         overlay = css.split(".point-details{", 1)[1].split("}", 1)[0]
         for expected in ["position:absolute", "max-width:calc(100% - 16px)",
-                         "max-height:min(340px,calc(100% - 16px))", "pointer-events:none"]:
+                         "overflow:visible", "pointer-events:none"]:
             self.assertIn(expected, overlay)
+        self.assertNotIn("max-height", overlay)
+        self.assertNotIn("overflow:auto", overlay)
+        divisors = css.split("#point-divisors{", 1)[1].split("}", 1)[0]
+        self.assertEqual(divisors, "overflow:visible")
+        self.assertNotIn("overflow-y:auto", css)
         self.assertIn(".point-details[data-pinned=true]{pointer-events:auto}", css)
 
     def test_seed_shortcuts_and_adjustment_controls_are_above_the_chart(self):

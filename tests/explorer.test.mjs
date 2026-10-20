@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs';
 const root = new URL('../', import.meta.url);
 const source = ['site/vendor/katex/katex.min.js','site/latex.js','site/math.js','site/explorer.js']
   .map(path=>readFileSync(new URL(path,root),'utf8')).join('\n');
-function browser({dpr=1,chartWidth=900,chartHeight=400}={}) {
+function browser({dpr=1,chartWidth=900,chartHeight=400,cardHeight=Math.min(300,chartHeight-16)}={}) {
   const elements = new Map();
   const labels = [], frames = [];
   const presets=[...readFileSync(new URL('site/index.html',root),'utf8').matchAll(/<button type="button" data-n="(\d+)" data-kind="([^"]+)" data-description="([^"]+)">/g)]
@@ -23,7 +23,7 @@ function browser({dpr=1,chartWidth=900,chartHeight=400}={}) {
       getContext: () => context2d,
       getBoundingClientRect: () => ({ left:40, top:60,
         width:id==='point-details'?Math.min(320,chartWidth-16):chartWidth,
-        height:id==='point-details'?Math.min(300,chartHeight-16):chartHeight }),
+        height:id==='point-details'?cardHeight:chartHeight }),
     });
     return elements.get(id);
   };
@@ -491,6 +491,19 @@ test('pinned overlays track rendered points and stay bounded after resize or evi
   run('reset()');
   assert.equal(card.hidden,true);
   assert.equal(run('pointAnchor'),null);
+});
+
+test('tall pinned cards retain natural height instead of clipping or vertically scrolling', () => {
+  const {run,element}=browser({cardHeight:600});
+  run('playing=false; draw(performance.now())');
+  element('graph').onclick(pointEvent(run));
+  const card=element('point-details');
+  assert.equal(card.hidden,false);
+  assert.equal(card.getBoundingClientRect().height,600);
+  assert.equal(card.style.top,'8px');
+  assert.equal(card.style.height,undefined);
+  assert.equal(card.style.maxHeight,undefined);
+  assert.ok(parseFloat(card.style.left)+320<=900-8,'horizontal bounds still apply');
 });
 
 test('seed buttons adjust by exactly one and restart at step zero', async () => {

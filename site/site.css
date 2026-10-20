@@ -11,12 +11,12 @@
 .formula-example strong{font-weight:600;color:var(--ink)}
 .formula-history{margin:8px 0 0;color:#68747e;font:12px/1.5 ui-sans-serif,system-ui,sans-serif}
 .formula-history a{color:var(--blue)}
-#point-factorization{max-width:100%;overflow-x:auto}
+#point-factorization{max-width:100%;overflow-x:auto;overflow-y:hidden}
 math{font-family:math,"Cambria Math","STIX Two Math",serif}
 /* Point cards are anchored in chart-local CSS pixels, never in page flow. */
 .chart{position:relative}
 .point-help{font-size:11px;line-height:1.6;color:#68747e;margin:9px 0}
-.point-details{position:absolute;z-index:2;left:8px;top:8px;width:320px;max-width:calc(100% - 16px);max-height:min(340px,calc(100% - 16px));overflow:auto;overscroll-behavior:contain;border:1px solid #cbd6ff;border-radius:7px;background:#fff;box-shadow:0 4px 18px #18212620;padding:10px;font-size:12px;pointer-events:none}
+.point-details{position:absolute;z-index:2;left:8px;top:8px;width:320px;max-width:calc(100% - 16px);overflow:visible;border:1px solid #cbd6ff;border-radius:7px;background:#fff;box-shadow:0 4px 18px #18212620;padding:10px;font-size:12px;pointer-events:none}
 .point-details[hidden]{display:none}
 .point-details[data-pinned=true]{pointer-events:auto}
 .point-details-heading{display:flex;align-items:center;gap:8px}
@@ -25,7 +25,7 @@ math{font-family:math,"Cambria Math","STIX Two Math",serif}
 .point-mode{margin-left:auto;font-size:10px;color:#68747e;white-space:nowrap}
 .point-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;margin:8px 0 0}
 .point-fields .point-value,.point-fields .point-wide{grid-column:1/-1}
-#point-divisors{max-height:5rem;overflow-y:auto}
+#point-divisors{overflow:visible}
 #point-compute{margin-top:8px}
 #point-compute[hidden]{display:none}
 #point-compute:disabled{cursor:default;opacity:.65}
