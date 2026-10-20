@@ -10,3 +10,34 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 2. Subsequent work: precise conjecture statement, literature and known results, reproducible experiments, and independently checked proof/disproof attempts.
 
 No proof or disproof is claimed. Repository creation and project registration do not establish hosting acceptance.
+
+## Development
+
+Node.js 22+ runs the dependency-free tests: `npm test`.
+For a local-only server: `npm run dev -- --bind 127.0.0.1 8000`.
+For managed LAN testing, let the platform allocate the port:
+
+```sh
+q5m-lab serve --directory ./site --json
+```
+
+Only `site/` is served. All sequence computation happens in the browser; no backend, account, external script, or build step is required. The supplied explorer is preserved as `site/explorer.js`, with its presentation in `site/index.html` and `site/site.css`. The header follows Erdős 193's brand/navigation pattern; the footer uses Causal Sets' q5m/GitHub markup. Shared chrome uses a system-font fallback without requiring Google Fonts.
+
+Tests cover exact proper-divisor sums, first-cycle marking, zero/perfect states, invalid inputs, cancellation, step control, a mocked canvas smoke check, and branding/icon consistency. These are not a real-browser visual or phone test.
+
+## Canonical static hosting
+
+Target: [aliquot.q5m.ai](https://aliquot.q5m.ai/). The owner approved the canonical production infrastructure for this **testing/research site**, not an exposed dev/debug server. `q5m.yaml` declares n01 placement and the hostname; the native contract uses the bootstrap-selected origin. The digest-pinned, unprivileged nginx image includes only `site/`, disables directory listings and hidden paths, and reports its exact source revision at `/.q5m-release`. Containers have a read-only root, no Linux capabilities, bounded memory/CPU/PIDs and local logs. No application secrets or mutable data are needed.
+
+First-route creation uses the separately installed `q5m-production-bootstrap` operator workflow. After onboarding, releases use the approved native production lifecycle from a clean exact source commit on n01:
+
+```sh
+q5m-lab project production plan --revision FULL_COMMIT --json
+q5m-lab project production deploy --revision FULL_COMMIT --json
+q5m-lab project production status --service aliquot --json
+q5m-lab project production rollback --service aliquot --json
+```
+
+Rollback requires a prior successful release and does not remove the public route. Never run raw Docker/DNS/tunnel operations as a fallback. The independent LAN development server can remain running for edits; those edits are not automatically published to the canonical site.
+
+[PR #1](https://github.com/q5m-ai/aliquot/pull/1) tracks initial public-HTTPS acceptance. Fleet placement is tracked separately in [lab PR #694](https://github.com/q5m-ai/lab/pull/694); source declaration alone is not live fleet acceptance. Current operational lifecycle and exact installed state belong in [lab operations](https://github.com/q5m-ai/lab/blob/main/context/homelab-operations.md#aliquot-research-testing-bootstrap), not this README. No proof or disproof is part of the hosting milestone.

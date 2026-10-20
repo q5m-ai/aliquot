@@ -1,0 +1,10 @@
+version: 2
+name: aliquot
+release:
+  adapter: compose
+  compose: q5m/compose.yaml
+  contract: q5m/app.env
+  health: /.q5m-release
+production:
+  node: q5m-n01
+  hostname: aliquot.q5m.ai

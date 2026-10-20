@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Explore aliquot sequences, cycles, and the open aliquot sequence conjecture. A q5m research project investigating potential proof or disproof.">
+<title>Aliquot — q5m research</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/explorer.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#explorer">Skip to explorer</a>
+<header class="site shell">
+<div class="brand"><a href="/">aliquot<span>.q5m.ai</span></a></div>
+<nav class="site" aria-label="Main navigation"><a href="#explorer" aria-current="page">Explore</a><a href="#research">Research</a></nav>
+</header>
+<main id="explorer"><div class="explorer-heading"><h1>Aliquot</h1><span class="math">s(n) = ∑<sub>d ∣ n, d &lt; n</sub> d</span></div>
+<form class="controls" id="form"><input id="seed" type="text" inputmode="numeric" value="12" aria-label="Starting number"><button>Set ↵</button><button type="button" id="play" class="primary">Ⅱ Pause</button><button type="button" id="step">Step →</button><label>speed <input type="range" id="speed" min="1" max="10" value="5"></label><select id="scale" aria-label="Vertical scale"><option value="log">log y</option><option value="linear">linear y</option></select></form>
+<canvas id="graph" aria-label="Animated aliquot sequence"></canvas><div class="stats"><div><small>INDEX k</small><output id="index">0</output></div><div><small>VALUE nₖ</small><output id="value">12</output></div><div><small>PEAK</small><output id="peak">12</output></div></div><div id="note" class="note" role="status">Blue: sequence. Amber: first discovery only.</div><div class="presets"><button data-n="12">12 · decay</button><button data-n="28">28 · perfect</button><button data-n="220">220 · period 2</button><button data-n="12496">12496 · period 5</button><button data-n="276">276 · growth</button></div><section id="research" class="research" aria-labelledby="research-title">
+<h2 id="research-title">An open research question</h2>
+<p>Start with a positive integer and repeatedly sum its proper positive divisors. Does every sequence eventually reach 1 and terminate, or settle into a cycle? This is the aliquot sequence conjecture.</p>
+<p>This q5m research project explores possible paths to a proof or disproof. The animation is an experiment, not a proof: a growing finite prefix is not evidence of divergence, and a calculation limit is not a mathematical conclusion.</p>
+<p>The explorer uses exact BigInt arithmetic up to 10¹⁵ and bounded trial division. It displays the latest 180 terms. We extend terminated sequences with 0 → 0 for visualization only; s(0) is not defined by the positive-divisor formula. Amber marks the first zero, perfect number, or repeated value encountered in this run—not a new mathematical discovery.</p>
+<p><a href="https://github.com/q5m-ai/aliquot">Research, reproducibility, and future proof attempts ↗</a></p>
+</section></main>
+<footer class="sitefoot shell"><span>Aliquot · A q5m research project</span><span class="right"><a href="https://www.q5m.ai" aria-label="q5m"><svg class="footer-icon" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"/><path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"/></g></svg><span>q5m</span></a><a href="https://github.com/q5m-ai/aliquot"><svg class="footer-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.7 7.7 0 0 1 8 3.84a7.7 7.7 0 0 1 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><span>GitHub</span></a></span></footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+name: Test
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test
+      - run: node --check site/explorer.js
+  container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build exact static release
+        run: docker build --build-arg Q5M_RELEASE="$GITHUB_SHA" -f q5m/Dockerfile -t aliquot-test .
+      - name: Smoke-test hardened image and artifact boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run -d --name aliquot-test --read-only --user 1000:1000 --cap-drop ALL --security-opt no-new-privileges --tmpfs /tmp:rw,nosuid,nodev,noexec,size=32m,mode=1777 -p 127.0.0.1:18080:8080 aliquot-test
+          trap 'docker logs aliquot-test; docker rm -f aliquot-test' EXIT
+          for attempt in {1..30}; do
+            if curl -fsS http://127.0.0.1:18080/ -o /tmp/aliquot-page; then break; fi
+            sleep 1
+          done
+          grep -q 'Aliquot' /tmp/aliquot-page
+          test "$(curl -fsS http://127.0.0.1:18080/.q5m-release)" = "$GITHUB_SHA"
+          for asset in explorer.js site.css favicon.svg; do
+            curl -fsS "http://127.0.0.1:18080/$asset" -o "/tmp/$asset"
+            cmp "site/$asset" "/tmp/$asset"
+          done
+          for private in /.git/config /q5m/app.env /README.md /package.json; do
+            status=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:18080$private")
+            test "$status" = 403 || test "$status" = 404
+          done
