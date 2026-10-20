@@ -36,7 +36,7 @@ class HostingTests(unittest.TestCase):
     def test_site_dependencies_are_self_hosted_and_ordered(self):
         html = read("site/index.html")
         scripts = re.findall(r'<script src="([^"]+)" defer></script>', html)
-        self.assertEqual(scripts, ["/math.js", "/explorer.js"])
+        self.assertEqual(scripts, ["/vendor/katex/katex.min.js", "/latex.js", "/math.js", "/explorer.js"])
         for script in scripts:
             self.assertTrue((ROOT / "site" / script.lstrip("/")).is_file())
         self.assertEqual(read("favicon.svg"), read("site/favicon.svg"))

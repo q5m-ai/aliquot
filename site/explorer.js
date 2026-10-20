@@ -26,6 +26,7 @@ function divisorDetails(p){
   const truncated=BigInt(shown.length)<info.count;
   p.divisorCard={
     factorization:factors.length?factors.map(({prime,exponent})=>fmt(prime)+(exponent>1?`^${exponent}`:'')).join(' × '):'—',
+    factorizationTex:factors.length?factors.map(({prime,exponent})=>prime.toString()+(exponent>1?`^{${exponent}}`:'')).join(' \\times '):null,
     divisors:shown.length?shown.join(', '):'None',
     'divisor-summary':`${fmt(info.count)} divisor${info.count===1n?'':'s'} · sum ${fmt(info.sum)}${truncated?` · ${shown.length} shown (sample)`:''}`,
     canCompute:false,
@@ -58,7 +59,8 @@ function showPointDetails(){
   $('point-details').hidden=!p;
   if(!p)return;
   const details=pointDetails(p);
-  for(const field of ['title','value','size','residue','previous','change','next','status','factorization','divisors','divisor-summary'])$('point-'+field).textContent=details[field];
+  for(const field of ['title','value','size','residue','previous','change','next','status','divisors','divisor-summary'])$('point-'+field).textContent=details[field];
+  PageLatex.render($('point-factorization'),details.factorizationTex,{fallback:details.factorization});
   $('point-compute').hidden=!details.canCompute;
   $('point-compute').disabled=!pinnedPoint||busy;
   $('point-compute').textContent=inspectionJob?.point===p?'Computing…':!pinnedPoint?'Pin to compute divisors':busy?'Computing…':'Compute divisors';

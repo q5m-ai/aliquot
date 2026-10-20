@@ -4,8 +4,8 @@ import vm from 'node:vm';
 import { readFileSync } from 'node:fs';
 
 const root = new URL('../', import.meta.url);
-const source = readFileSync(new URL('site/math.js', root), 'utf8') + '\n' +
-  readFileSync(new URL('site/explorer.js', root), 'utf8');
+const source = ['site/vendor/katex/katex.min.js','site/latex.js','site/math.js','site/explorer.js']
+  .map(path=>readFileSync(new URL(path,root),'utf8')).join('\n');
 function browser({dpr=1}={}) {
   const elements = new Map();
   const labels = [], frames = [];
@@ -16,7 +16,7 @@ function browser({dpr=1}={}) {
   const element = id => {
     if (!elements.has(id)) elements.set(id, {
       value: id === 'seed' ? '12' : id === 'scale' ? 'log' : '5',
-      textContent: '', className: '', width: 0, height: 0, hidden:false, style:{},
+      textContent: '', innerHTML:'', dataset:{}, className: '', width: 0, height: 0, hidden:false, style:{},
       focus() { this.focused=true; },
       getContext: () => context2d,
       getBoundingClientRect: () => ({ left:40, top:60, width: 900, height: 400 }),
@@ -327,6 +327,8 @@ test('cards reuse proven factors to show complete proper divisors, count, and su
   run('AliquotMath.sum=()=>{throw new Error("no refactoring on hover")};');
   element('graph').onpointermove(pointEvent(run));
   assert.equal(element('point-factorization').textContent,'2^2 × 3');
+  assert.match(element('point-factorization').innerHTML,/<msup>/);
+  assert.equal(element('point-factorization').dataset.mathError,undefined);
   assert.equal(element('point-divisors').textContent,'1, 2, 3, 4, 6');
   assert.equal(element('point-divisor-summary').textContent,'5 divisors · sum 16');
   assert.equal(element('point-mode').textContent,'Click to pin');

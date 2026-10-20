@@ -50,6 +50,12 @@ Divisor displays are limited to **200 entries / 8,000 characters** and a scrolla
 
 Browser Python is **not included in this change**: Pyodide would add a sizeable runtime, assets, startup cost, and CSP/worker requirements without itself making factorization faster. The isolated adapter leaves room for a future self-hosted Python/WASM worker. A stronger proven factorization/certificate pipeline, rather than a language change alone, is the next step for difficult large terms.
 
+### Formula rendering
+
+The definition and iteration rule sit directly below the title. Explicit `data-tex` fields and point-card factorizations use **self-hosted KaTeX 0.19.0**, with native MathML output and readable text fallbacks. There are no CDN requests, extra font downloads, or relaxed CSP rules. Unchanged formulas are cached rather than re-typeset on hover.
+
+The pinned bundle and MIT license are in `site/vendor/katex/`; provenance and hash are recorded there and checked by tests. `site/latex.js` keeps untrusted commands disabled and bounds expression length/expansion. Static formulas use `data-tex` (and `data-display="true"` for display math); arithmetic still uses Python/BigInt, never the typesetter.
+
 ## Local website development
 
 For a local-only server: `python3 -m http.server --directory site --bind 127.0.0.1 8000`.
