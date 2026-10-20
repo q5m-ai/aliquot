@@ -12,10 +12,10 @@ services:
     read_only: true
     cap_drop: [ALL]
     security_opt: [no-new-privileges:true]
-    # Planning-only placeholder; replace with the bootstrap-selected origin.
+    # Origin selected by the managed canonical bootstrap plan.
     ports:
       - target: 8080
-        published: "0"
+        published: "20001"
         host_ip: 0.0.0.0
         protocol: tcp
     tmpfs:

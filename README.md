@@ -25,12 +25,19 @@ Only `site/` is served. All sequence computation happens in the browser; no back
 
 Tests cover exact proper-divisor sums, first-cycle marking, zero/perfect states, invalid inputs, cancellation, step control, a mocked canvas smoke check, and branding/icon consistency. These are not a real-browser visual or phone test.
 
-## Testing milestone status (2026-10-20)
+## Canonical static hosting
 
-- Public repository, minimal initial `main` commit, root favicon, and n02 Paseo registration: complete.
-- Site implementation and automated checks: in PR #1, not merged.
-- Managed LAN testing server: running; exact temporary lifecycle is recorded in [lab operations](https://github.com/q5m-ai/lab/blob/main/context/homelab-operations.md#aliquot-research-testing-bootstrap).
-- Public testing: **blocked before provisioning**. After the initial static-review policy refusal, the owner explicitly approved n01's canonical stateless production bootstrap for the static testing site. The native declaration is committed for planning only: `auto/tcp` and Compose's port placeholder must be replaced with the bootstrap-selected origin before deployment. N01's installed bootstrap cannot load its pinned `runtime/q5m-production` because the referenced development release is absent. No origin plan succeeded, no `create` ran, and `aliquot.q5m.ai` remains unprovisioned. Protected runtime repair requires separate approval; never repoint its dependency symlink or improvise DNS/tunnel changes.
-- Fleet declaration: prepared in the companion lab PR. Reviewed merge, managed manifest rollout, and per-node reconciliation remain pending; only n02's Paseo registration exists so far.
+Target: [aliquot.q5m.ai](https://aliquot.q5m.ai/). The owner approved the canonical production infrastructure for this **testing/research site**, not an exposed dev/debug server. `q5m.yaml` declares n01 placement and the hostname; the native contract uses the bootstrap-selected origin. The digest-pinned, unprivileged nginx image includes only `site/`, disables directory listings and hidden paths, and reports its exact source revision at `/.q5m-release`. Containers have a read-only root, no Linux capabilities, bounded memory/CPU/PIDs and local logs. No application secrets or mutable data are needed.
 
-PR #1 is complete only after the requested public testing URL is verified. No production release or mathematical result is part of this milestone.
+First-route creation uses the separately installed `q5m-production-bootstrap` operator workflow. After onboarding, releases use the approved native production lifecycle from a clean exact source commit on n01:
+
+```sh
+q5m-lab project production plan --revision FULL_COMMIT --json
+q5m-lab project production deploy --revision FULL_COMMIT --json
+q5m-lab project production status --service aliquot --json
+q5m-lab project production rollback --service aliquot --json
+```
+
+Rollback requires a prior successful release and does not remove the public route. Never run raw Docker/DNS/tunnel operations as a fallback. The independent LAN development server can remain running for edits; those edits are not automatically published to the canonical site.
+
+[PR #1](https://github.com/q5m-ai/aliquot/pull/1) tracks initial public-HTTPS acceptance. Fleet placement is tracked separately in [lab PR #694](https://github.com/q5m-ai/lab/pull/694); source declaration alone is not live fleet acceptance. Current operational lifecycle and exact installed state belong in [lab operations](https://github.com/q5m-ai/lab/blob/main/context/homelab-operations.md#aliquot-research-testing-bootstrap), not this README. No proof or disproof is part of the hosting milestone.
