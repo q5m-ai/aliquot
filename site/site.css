@@ -3,10 +3,12 @@
 #play[data-playing=true]::before{content:'';display:block;width:10px;height:12px;border-left:3px solid currentColor;border-right:3px solid currentColor;flex-shrink:0}
 /* Self-hosted TeX → native MathML, with no external fonts or inline styles. */
 .formula-copy{margin:12px 0 0;color:#58646c;font:14px/1.5 ui-sans-serif,system-ui,sans-serif}
-.formula-group{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:12px 28px;margin-top:12px;font-size:18px;text-align:left}
+.formula-group{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:flex-start;gap:12px 28px;margin-top:12px;font-size:18px;text-align:left}
 .formula{margin:0;line-height:normal}
-.formula-iteration{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0;font-size:inherit}
+.formula-iteration{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin:0;font-size:inherit}
 .formula-separator{color:var(--muted)}
+.formula-example{max-width:76ch;margin:14px 0 0;color:#58646c;font:14px/1.6 ui-sans-serif,system-ui,sans-serif}
+.formula-example strong{font-weight:600;color:var(--ink)}
 #point-factorization{max-width:100%;overflow-x:auto}
 math{font-family:math,"Cambria Math","STIX Two Math",serif}
 /* Point cards are anchored in chart-local CSS pixels, never in page flow. */

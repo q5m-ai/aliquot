@@ -36,7 +36,7 @@ class LatexTests(unittest.TestCase):
         self.assertEqual(len(parser.formulas), 4)
         self.assertTrue(all(not formula["display"] for formula in parser.formulas),
                         "heading formulas must stay inline, not centered display blocks")
-        expected = [r"s(n)=\sum_{\substack{d\mid n\\1\le d<n}}d", r"n_{k+1}=s(n_k)", "s(1)=0", "n_k"]
+        expected = [r"s(n)=\sum\limits_{\substack{d\mid n\\1\le d<n}}d", r"n_{k+1}=s(n_k)", "s(1)=0", "n_k"]
         self.assertEqual([f["tex"] for f in parser.formulas], expected)
         for formula, rendered in zip(parser.formulas, self.render(parser.formulas)):
             self.assertTrue(rendered["ok"], formula)
@@ -62,7 +62,23 @@ class LatexTests(unittest.TestCase):
         self.assertNotIn("overflow", formula_rule)
         self.assertIn("flex-wrap:wrap", group_rule)
         self.assertIn("justify-content:flex-start", group_rule)
+        self.assertIn("align-items:baseline", group_rule)
+        sum_markup = self.render([parser.formulas[0]])[0]["markup"]
+        self.assertIsNotNone(ET.fromstring(sum_markup).find(".//" + MATHML + "munder"),
+                             "sum conditions belong below the operator, not beside the equation")
         self.assertNotIn(".tex-math,#point-factorization", css)
+
+    def test_plain_text_example_matches_exact_arithmetic(self):
+        from aliquot import aliquot_sum
+        html = (ROOT / "site/index.html").read_text()
+        self.assertIn('class="formula-example"', html)
+        self.assertIn("1 + 2 + 3 + 4 + 6 = 16", html)
+        self.assertIn("1 + 2 + 4 + 8 = 15", html)
+        self.assertIn("excluding 12 itself", html)
+        self.assertIn("12 → 16 → 15 → …", html)
+        self.assertEqual(aliquot_sum(12), 16)
+        self.assertEqual(aliquot_sum(16), 15)
+        self.assertLess(html.index('class="formula-example"'), html.index('<form class="controls"'))
 
     def test_factorization_has_real_superscripts(self):
         result = self.render([{"tex": r"2^{20} \times 3"}])[0]

@@ -23,9 +23,10 @@
 <h1>Aliquot</h1>
 <p class="formula-copy">The aliquot sum is the sum of a positive integer’s proper positive divisors.</p>
 <div class="formula-group">
-<div class="formula tex-math" data-tex="s(n)=\sum_{\substack{d\mid n\\1\le d&lt;n}}d">s(n) = ∑<sub>d ∣ n, 1 ≤ d &lt; n</sub> d</div>
+<div class="formula tex-math" data-tex="s(n)=\sum\limits_{\substack{d\mid n\\1\le d&lt;n}}d">s(n) = ∑<sub>d ∣ n, 1 ≤ d &lt; n</sub> d</div>
 <p class="formula-iteration"><span data-tex="n_{k+1}=s(n_k)">nₖ₊₁ = s(nₖ)</span><span class="formula-separator"> · </span><span data-tex="s(1)=0">s(1) = 0</span></p>
 </div>
+<p class="formula-example"><strong>Example:</strong> For 12, add 1 + 2 + 3 + 4 + 6 = 16 (excluding 12 itself). For 16, add 1 + 2 + 4 + 8 = 15. The sequence begins 12 → 16 → 15 → …</p>
 </div>
 <form class="controls" id="form">
 <div class="seed-row">
