@@ -9,6 +9,8 @@
 .formula-separator{color:var(--muted)}
 .formula-example{max-width:76ch;margin:14px 0 0;color:#58646c;font:14px/1.6 ui-sans-serif,system-ui,sans-serif}
 .formula-example strong{font-weight:600;color:var(--ink)}
+.formula-history{margin:8px 0 0;color:#68747e;font:12px/1.5 ui-sans-serif,system-ui,sans-serif}
+.formula-history a{color:var(--blue)}
 #point-factorization{max-width:100%;overflow-x:auto}
 math{font-family:math,"Cambria Math","STIX Two Math",serif}
 /* Point cards are anchored in chart-local CSS pixels, never in page flow. */
