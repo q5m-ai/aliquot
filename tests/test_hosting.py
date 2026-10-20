@@ -61,6 +61,7 @@ class HostingTests(unittest.TestCase):
         self.assertIn('id="seed-increment" aria-label="Increase starting number by 1"', form)
         self.assertIn('id="speed" min="1" max="20" value="8"', form)
         self.assertIn('id="speed-readout"', form)
+        self.assertIn('<option value="linear" selected>linear y</option>', form)
 
     def test_site_dependencies_are_self_hosted_and_ordered(self):
         html = read("site/index.html")

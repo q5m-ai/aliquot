@@ -17,7 +17,7 @@ function browser({dpr=1,chartWidth=900,chartHeight=400,cardHeight=Math.min(300,c
   }, set: () => true });
   const element = id => {
     if (!elements.has(id)) elements.set(id, {
-      value: id === 'seed' ? '12' : id === 'scale' ? 'log' : id === 'speed' ? '8' : '5',
+      value: id === 'seed' ? '12' : id === 'scale' ? 'linear' : id === 'speed' ? '8' : '5',
       textContent: '', innerHTML:'', dataset:{}, className: '', width: 0, height: 0, hidden:false, style:{},
       focus() { this.focused=true; },
       getContext: () => context2d,
