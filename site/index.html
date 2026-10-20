@@ -37,8 +37,20 @@
 <button type="button" id="seed-increment" aria-label="Increase starting number by 1">+</button>
 <button type="submit">Set ↵</button>
 </div>
-<div class="presets" role="group" aria-label="Starting number shortcuts"><button type="button" data-n="12">12 · decay</button><button type="button" data-n="28">28 · perfect</button><button type="button" data-n="220">220 · period 2</button><button type="button" data-n="12496">12496 · period 5</button><button type="button" data-n="276">276 · growth</button></div>
+<div class="presets" role="group" aria-label="Starting number shortcuts">
+<button type="button" data-n="12" data-kind="terminating" data-description="Terminating: reaches 1, then 0.">12 · terminates</button>
+<button type="button" data-n="30" data-kind="terminating" data-description="Rise then fall: peaks at 259, then terminates at 0.">30 · rise then fall</button>
+<button type="button" data-n="28" data-kind="perfect" data-description="Perfect: 28 → 28, a fixed point.">28 · perfect</button>
+<button type="button" data-n="95" data-kind="aspiring" data-description="Aspiring: 95 → 25 → 6 → 6. Reaches a perfect number.">95 · aspiring</button>
+<button type="button" data-n="790" data-kind="aspiring" data-description="Aspiring: 790 → 650 → 652 → 496 → 496. Reaches a perfect number.">790 · aspiring</button>
+<button type="button" data-n="220" data-kind="amicable" data-description="Amicable: 220 ↔ 284, a 2-cycle.">220 · amicable</button>
+<button type="button" data-n="1184" data-kind="amicable" data-description="Amicable: 1184 ↔ 1210, a 2-cycle.">1184 · amicable</button>
+<button type="button" data-n="1264460" data-kind="sociable" data-description="Sociable: a 4-cycle returning to 1264460.">1264460 · cycle 4</button>
+<button type="button" data-n="12496" data-kind="sociable" data-description="Sociable: a 5-cycle returning to 12496.">12496 · cycle 5</button>
+<button type="button" data-n="276" data-kind="unresolved" data-description="Unresolved: not known to terminate or cycle. Growth is not proof of divergence.">276 · unresolved</button>
 </div>
+</div>
+<p id="preset-info" class="preset-info" role="status"></p>
 <div class="playback-controls">
 <button type="button" id="play" class="primary" data-playing="true" aria-describedby="autoplay-help">Pause</button>
 <button type="button" id="step">Step →</button>

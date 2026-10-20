@@ -9,7 +9,8 @@ const source = ['site/vendor/katex/katex.min.js','site/latex.js','site/math.js',
 function browser({dpr=1,chartWidth=900,chartHeight=400}={}) {
   const elements = new Map();
   const labels = [], frames = [];
-  const presets=[12,28,220,12496,276].map(n=>({dataset:{n:String(n)}}));
+  const presets=[...readFileSync(new URL('site/index.html',root),'utf8').matchAll(/<button type="button" data-n="(\d+)" data-kind="([^"]+)" data-description="([^"]+)">/g)]
+    .map(([,n,kind,description])=>({dataset:{n,kind,description},attributes:{},setAttribute(name,value){this.attributes[name]=value;}}));
   const context2d = new Proxy({}, { get: (_, name) => (...args) => {
     for (const arg of args) if (typeof arg === 'number') assert.ok(Number.isFinite(arg), `non-finite canvas argument in ${String(name)}`);
     if (name === 'fillText') labels.push(args[0]);
@@ -549,7 +550,7 @@ test('top shortcuts select their seed and preserve the 100-step autoplay checkpo
     assert.equal(run('points[0].n'),BigInt(preset.dataset.n));
     assert.equal(run('points[0].k'),0);
   }
-  presets[1].onclick();
+  presets.find(preset=>preset.dataset.n==='28').onclick();
   element('speed').value='20';element('speed').oninput();
   for(let i=0;i<100;i++)await run('animation=null; advance()');
   assert.equal(run('points[points.length-1].k'),100);
@@ -579,6 +580,31 @@ test('expanded speed range is monotonic with a twice-as-fast target maximum', as
     element('speed').value=raw;
     assert.ok(Number.isFinite(run('duration()'))&&run('duration()')>0);
   }
+});
+
+test('educational preset descriptions and selection follow the starting seed', async () => {
+  const {run,element,presets}=browser();
+  assert.equal(presets.length,10);
+  const aspiring=presets.find(preset=>preset.dataset.n==='95');
+  aspiring.onclick();
+  assert.match(element('preset-info').textContent,/Aspiring: 95 → 25 → 6 → 6/);
+  assert.equal(element('preset-info').hidden,false);
+  assert.equal(aspiring.attributes['aria-pressed'],'true');
+  assert.ok(presets.filter(preset=>preset.attributes['aria-pressed']==='true').length===1);
+  assert.equal(aspiring.title,aspiring.dataset.description);
+  for(let i=0;i<3;i++)await run('animation=null; advance()');
+  assert.match(element('preset-info').textContent,/Aspiring/,'discovery notes must not erase the explanation');
+  const unresolved=presets.find(preset=>preset.dataset.n==='276');
+  unresolved.onclick();
+  assert.match(element('preset-info').textContent,/not known to terminate or cycle/);
+  assert.match(element('preset-info').textContent,/not proof of divergence/);
+  assert.equal(aspiring.attributes['aria-pressed'],'false');
+  element('seed').value='13';run('reset()');
+  assert.equal(element('preset-info').hidden,true);
+  assert.equal(element('preset-info').textContent,'');
+  assert.ok(presets.every(preset=>preset.attributes['aria-pressed']==='false'));
+  element('seed').value='95';run('reset()');
+  assert.equal(aspiring.attributes['aria-pressed'],'true','manual Set uses the same preset metadata');
 });
 
 test('pause uses a two-bar CSS icon with a plain accessible label', () => {
