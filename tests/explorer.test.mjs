@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs';
 const root = new URL('../', import.meta.url);
 const source = readFileSync(new URL('site/math.js', root), 'utf8') + '\n' +
   readFileSync(new URL('site/explorer.js', root), 'utf8');
-function browser() {
+function browser({dpr=1}={}) {
   const elements = new Map();
   const labels = [];
   const context2d = new Proxy({}, { get: (_, name) => (...args) => {
@@ -16,15 +16,16 @@ function browser() {
   const element = id => {
     if (!elements.has(id)) elements.set(id, {
       value: id === 'seed' ? '12' : id === 'scale' ? 'log' : '5',
-      textContent: '', className: '', width: 0, height: 0,
+      textContent: '', className: '', width: 0, height: 0, hidden:false, style:{},
+      focus() { this.focused=true; },
       getContext: () => context2d,
-      getBoundingClientRect: () => ({ width: 900, height: 400 }),
+      getBoundingClientRect: () => ({ left:40, top:60, width: 900, height: 400 }),
     });
     return elements.get(id);
   };
   const context = vm.createContext({
     document: { getElementById: element, querySelectorAll: () => [] },
-    window: { devicePixelRatio: 1, addEventListener() {} },
+    window: { devicePixelRatio: dpr, addEventListener() {} },
     requestAnimationFrame() {}, performance, setTimeout,
   });
   vm.runInContext(source, context);
@@ -108,6 +109,7 @@ test('budget failures and resource limits never advance or cache partial sums', 
   assert.equal(run('playing'), false);
   assert.equal(run('cache.has("999983")'), false);
   assert.match(element('note').textContent, /unresolved/);
+  assert.match(run('pointDetails(points[0]).status'), /Calculation stopped:.*unresolved/);
   run('AliquotMath.sum=originalSum');
   // A successor can exceed the digit budget even when its source fits.
   element('seed').value = '1'+'0'.repeat(999); run('reset()');
@@ -123,8 +125,133 @@ test('repeated-factor work yields and can be cancelled', async () => {
   await assert.rejects(run('let cancelled=false; AliquotMath.sum(2n**1000n,{cancelled:()=>cancelled,yieldUI:async()=>{cancelled=true}})'), /cancelled/);
 });
 
+function pointEvent(run,index=0){
+  const target=run(`screenPoints[${index}]`);
+  assert.ok(target,'a rendered hit target exists');
+  return {clientX:target.x+40,clientY:target.y+60,pointerType:'mouse'};
+}
+
+test('hover shows exact point data and leaves without computing anything', async () => {
+  const {run,element}=browser();
+  await run('advance()');
+  run('playing=false; animation=null; draw(performance.now()); AliquotMath.sum=()=>{throw new Error("hover must not factor")};');
+  element('graph').onpointermove(pointEvent(run,1));
+  assert.equal(element('point-details').hidden,false);
+  assert.equal(element('point-title').textContent,'Point · step 1');
+  assert.equal(element('point-value').textContent,'16');
+  assert.equal(element('point-previous').textContent,'12');
+  assert.match(element('point-change').textContent,/\+4 · increased/);
+  assert.equal(element('point-next').textContent,'Not computed yet');
+  assert.match(element('point-status').textContent,/not computed/);
+  assert.match(element('point-size').textContent,/2 decimal digits · even/);
+  element('graph').onpointerleave();
+  assert.equal(element('point-details').hidden,true);
+  assert.equal(run('points.length'),2);
+});
+
+test('click toggles a pin, switches points, and empty space or Close dismisses', async () => {
+  const {run,element}=browser();
+  await run('advance()');run('playing=false; animation=null; draw(performance.now())');
+  const graph=element('graph'),first=pointEvent(run),second=pointEvent(run,1);
+  graph.onclick(first);
+  assert.match(element('point-mode').textContent,/Pinned/);
+  assert.equal(element('point-next').textContent,'16');
+  assert.match(element('point-status').textContent,/Abundant/);
+  graph.onpointerleave();
+  assert.equal(element('point-details').hidden,false);
+  graph.onpointermove(second);
+  assert.equal(element('point-title').textContent,'Point · step 0');
+  graph.onclick(second);
+  assert.equal(element('point-title').textContent,'Point · step 1');
+  graph.onclick(second);
+  assert.equal(element('point-details').hidden,true);
+  graph.onpointermove(second);
+  assert.equal(element('point-details').hidden,true,'same-point hover cannot immediately reopen a toggled box');
+  graph.onpointermove(first);
+  assert.equal(element('point-details').hidden,false);
+  graph.onclick(first);graph.onclick({clientX:0,clientY:0});
+  assert.equal(element('point-details').hidden,true);
+  graph.onclick(first);element('point-close').onclick();
+  assert.equal(element('point-details').hidden,true);
+  assert.equal(graph.focused,true);
+});
+
+test('pins survive advancement and retained-window eviction but reset clears them', async () => {
+  const {run,element}=browser();
+  run('playing=false; draw(performance.now())');
+  element('graph').onclick(pointEvent(run));
+  await run('advance()');
+  assert.equal(element('point-next').textContent,'16');
+  assert.match(element('point-status').textContent,/Abundant/);
+  for(let i=0;i<181;i++)await run('animation=null; advance()');
+  assert.equal(run('points.length'),180);
+  assert.ok(run('points[0].k>0'));
+  assert.equal(element('point-value').textContent,'12');
+  assert.equal(element('point-next').textContent,'16');
+  run('reset()');
+  assert.equal(element('point-details').hidden,true);
+  assert.equal(run('screenPoints.length'),0);
+});
+
+test('keyboard inspection, pinning, and Escape work without a mouse', async () => {
+  const {run,element}=browser();
+  await run('advance()');run('playing=false; animation=null; draw(performance.now())');
+  const graph=element('graph');
+  const press=key=>{let prevented=false;graph.onkeydown({key,preventDefault(){prevented=true;}});assert.equal(prevented,true);};
+  press('Home');assert.equal(element('point-title').textContent,'Point · step 0');
+  press('ArrowRight');assert.equal(element('point-title').textContent,'Point · step 1');
+  press('Enter');assert.match(element('point-mode').textContent,/Pinned/);
+  press('ArrowLeft');assert.equal(element('point-title').textContent,'Point · step 0');
+  press('End');assert.equal(element('point-title').textContent,'Point · step 1');
+  press('Escape');assert.equal(element('point-details').hidden,true);
+});
+
+test('hit targets use CSS coordinates at high DPR and exclude unfinished endpoints', async () => {
+  const {run,element}=browser({dpr:2});
+  await run('advance()');run('playing=false; draw(performance.now())');
+  assert.equal(run('screenPoints.length'),1);
+  assert.equal(element('graph').width,1800);
+  element('graph').onpointermove(pointEvent(run));
+  assert.equal(element('point-value').textContent,'12');
+  run('animation=null; draw(performance.now())');
+  assert.equal(run('screenPoints.length'),2);
+  element('scale').value='linear';run('draw(performance.now())');
+  element('graph').onclick({...pointEvent(run,1),pointerType:'touch'});
+  assert.equal(element('point-value').textContent,'16');
+});
+
+test('details distinguish zero, terminal 1, perfect numbers, repeats, and C6', async () => {
+  const {run,element}=browser();
+  assert.match(run('pointDetails(points[0]).residue'),/^0$/);
+  element('seed').value='6';run('reset()');
+  assert.match(run('pointDetails(points[0]).residue'),/driver-six/);
+  await run('advance()');
+  assert.match(run('pointDetails(points[0]).status'),/Perfect/);
+  assert.match(run('pointDetails(points[1]).status'),/period 1/);
+  element('seed').value='220';run('reset()');
+  for(let i=0;i<2;i++)await run('animation=null; advance()');
+  assert.match(run('pointDetails(points[2]).status'),/Repeats step 0; cycle period 2/);
+  for(let i=0;i<2;i++)await run('animation=null; advance()');
+  assert.match(run('pointDetails(points[4]).status'),/Repeats step 0; cycle period 2/);
+  element('seed').value='1';run('reset()');
+  assert.equal(run('pointDetails(points[0]).next'),'0');
+  assert.match(run('pointDetails(points[0]).status'),/Terminal/);
+  await run('advance()');
+  assert.match(run('pointDetails(points[1]).status'),/s\(0\) is undefined/);
+  assert.match(run('pointDetails(points[1]).next'),/not s\(0\)/);
+});
+
+test('hundreds-digit point details preserve the exact integer without factoring', () => {
+  const {run,element}=browser();
+  element('seed').value=String(2n**2000n);run('reset(); playing=false; draw(performance.now())');
+  element('graph').onpointermove(pointEvent(run));
+  assert.equal(element('point-value').textContent,(2n**2000n).toLocaleString('en-CA'));
+  assert.match(element('point-size').textContent,/603 decimal digits/);
+  assert.match(element('point-previous').textContent,/Starting value/);
+});
+
 test('site has q5m research chrome, accessible controls, and matching icons', () => {
   const html = readFileSync(new URL('site/index.html', root), 'utf8');
-  for (const marker of ['aliquot<span>.q5m.ai', 'https://www.q5m.ai', 'https://github.com/q5m-ai/aliquot', 'not a proof', 'aria-label="Main navigation"', 'role="status"']) assert.ok(html.includes(marker), marker);
+  for (const marker of ['aliquot<span>.q5m.ai', 'https://www.q5m.ai', 'https://github.com/q5m-ai/aliquot', 'not a proof', 'aria-label="Main navigation"', 'role="status"', 'aria-describedby="point-help"', 'aria-labelledby="point-title"', 'id="point-details"', 'tabindex="0"']) assert.ok(html.includes(marker), marker);
   assert.equal(readFileSync(new URL('favicon.svg', root), 'utf8'), readFileSync(new URL('site/favicon.svg', root), 'utf8'));
 });

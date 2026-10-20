@@ -18,7 +18,22 @@
 </header>
 <main id="explorer"><div class="explorer-heading"><h1>Aliquot</h1><span class="math">s(n) = ∑<sub>d ∣ n, d &lt; n</sub> d</span></div>
 <form class="controls" id="form"><input id="seed" type="text" inputmode="numeric" value="12" aria-label="Starting number"><button>Set ↵</button><button type="button" id="play" class="primary">Ⅱ Pause</button><button type="button" id="step">Step →</button><label>speed <input type="range" id="speed" min="1" max="10" value="5"></label><select id="scale" aria-label="Vertical scale"><option value="log">log y</option><option value="linear">linear y</option></select></form>
-<canvas id="graph" aria-label="Animated aliquot sequence"></canvas><div class="stats"><div><small>INDEX k</small><output id="index">0</output></div><div><small>VALUE nₖ</small><output id="value">12</output></div><div><small>PEAK</small><output id="peak">12</output></div></div><div id="note" class="note" role="status">Blue: sequence. Amber: first discovery only.</div><div class="presets"><button data-n="12">12 · decay</button><button data-n="28">28 · perfect</button><button data-n="220">220 · period 2</button><button data-n="12496">12496 · period 5</button><button data-n="276">276 · growth</button></div><section id="research" class="research" aria-labelledby="research-title">
+<canvas id="graph" tabindex="0" aria-label="Animated aliquot sequence; use arrow keys to inspect points" aria-describedby="point-help"></canvas>
+<p id="point-help" class="point-help">Hover for details. Click or tap to pin; click the same point again to close. Keyboard: focus the chart, use ←/→, Enter to pin, Esc to close.</p>
+<section id="point-details" class="point-details" aria-labelledby="point-title" hidden>
+<div class="point-details-heading"><h2 id="point-title">Point details</h2><button type="button" id="point-close" aria-label="Close point details">Close ×</button></div>
+<p id="point-mode" class="point-mode"></p>
+<dl class="point-fields">
+<div class="point-value"><dt>Exact value nₖ</dt><dd id="point-value"></dd></div>
+<div><dt>Digits / parity</dt><dd id="point-size"></dd></div>
+<div><dt>Remainder mod 12</dt><dd id="point-residue"></dd></div>
+<div><dt>Previous value</dt><dd id="point-previous"></dd></div>
+<div><dt>Change from previous</dt><dd id="point-change"></dd></div>
+<div><dt>Next value s(nₖ)</dt><dd id="point-next"></dd></div>
+<div><dt>Known status</dt><dd id="point-status"></dd></div>
+</dl>
+</section>
+<div class="stats"><div><small>INDEX k</small><output id="index">0</output></div><div><small>VALUE nₖ</small><output id="value">12</output></div><div><small>PEAK</small><output id="peak">12</output></div></div><div id="note" class="note" role="status">Blue: sequence. Amber: first discovery only.</div><div class="presets"><button data-n="12">12 · decay</button><button data-n="28">28 · perfect</button><button data-n="220">220 · period 2</button><button data-n="12496">12496 · period 5</button><button data-n="276">276 · growth</button></div><section id="research" class="research" aria-labelledby="research-title">
 <h2 id="research-title">An open research question</h2>
 <p>Start with a positive integer and repeatedly sum its proper positive divisors. Does every sequence eventually reach 1 and terminate, or settle into a cycle? This is the aliquot sequence conjecture.</p>
 <p>This q5m research project explores possible paths to a proof or disproof. The animation is an experiment, not a proof: a growing finite prefix is not evidence of divergence, and a calculation limit is not a mathematical conclusion.</p>

@@ -42,6 +42,8 @@ The static website keeps JavaScript for controls/canvas and an isolated `site/ma
 
 Graph coordinates are approximate, never used in sequence arithmetic, and stay finite beyond floating-point range using logarithms or normalized linear coordinates. Displayed integer values remain exact. There is no claim that a finite run establishes divergence.
 
+Hover a completed point to inspect its exact value, index, digit count/parity, remainder modulo 12, previous value/change, known next value, and status. Click/tap to pin; click the same point again, empty chart space, or Close to dismiss. Pins retain the selected point even when the rolling 180-point chart advances. Focus the chart and use arrow keys (or Home/End), Enter to pin, and Escape to dismiss. Inspection only reads computed data; it never launches a factorization or guesses primality.
+
 Browser Python is **not included in this change**: Pyodide would add a sizeable runtime, assets, startup cost, and CSP/worker requirements without itself making factorization faster. The isolated adapter leaves room for a future self-hosted Python/WASM worker. A stronger proven factorization/certificate pipeline, rather than a language change alone, is the next step for difficult large terms.
 
 ## Local website development
@@ -55,7 +57,7 @@ q5m-lab serve --directory ./site --json
 
 Only `site/` is served. Website sequence computation happens in the browser; no backend, account, external script, or build step is required. Local Python code and research reports are never served. The explorer UI is `site/explorer.js`, with its presentation in `site/index.html` and `site/site.css`. The header follows Erdős 193's brand/navigation pattern; the footer uses Causal Sets' q5m/GitHub markup. Shared chrome uses a system-font fallback without requiring Google Fonts.
 
-Python's `unittest` runner covers exact sums, independent sieve/divisor-pair verification, census reproduction, CLI failures, hosting boundaries, and Python/browser parity. It also invokes Node's UI harness for cycle marking, zero/perfect states, invalid inputs, cancellation, step control, budget exhaustion, and finite canvas coordinates for hundreds-digit values. These are mocked canvas checks, not a real-browser visual or phone test.
+Python's `unittest` runner covers exact sums, independent sieve/divisor-pair verification, census reproduction, CLI failures, hosting boundaries, and Python/browser parity. It also invokes Node's UI harness for cycle marking, zero/perfect states, invalid inputs, cancellation, step control, budget exhaustion, finite canvas coordinates for hundreds-digit values, and hover/pin/keyboard inspection (including high-DPI hit testing, reset/eviction, and exact long values). These are mocked canvas checks, not a real-browser visual or phone test.
 
 ## Canonical static hosting
 
