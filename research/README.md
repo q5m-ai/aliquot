@@ -283,6 +283,13 @@ actual aliquot transitions through some such hits. Base-four unit information
 provides a conditional phase invariant but does not close the factorization
 guard. The tested core-plus-good-spike class is not invariant.
 
+[Research note 05](GLOBAL.md) steps back from local refinements. Lenstra's
+classical construction already gives arbitrary-length finite increasing
+prefixes. A deduction from the S-unit theorem proves finiteness of adjacent
+aliquot pairs over any fixed finite prime set, without choosing a driver.
+It does not control changing prime support or resolve the conjecture. The
+local work is clarification, not an established major advance.
+
 ## 6. Initial literature map (not a comprehensive review)
 
 - **Definition/status, consulted:** Eric W. Weisstein,
