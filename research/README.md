@@ -264,6 +264,13 @@ A finite test can reject a proposed invariant by producing a witness. It cannot
 establish the universal closure assertion. Seek an independent mathematical
 review of any candidate closure argument before calling it a result.
 
+**Follow-up:** [notebook 02](TWO-ADIC.md) pursues the Erdős 193-style valuation
+strategy and performs the bounded two-step check. It proves that no nonempty
+C6 subclass specified only by a fixed number of binary digits (even above a
+finite cutoff) is forward-invariant. It also isolates an odd-cofactor avoidance
+problem requiring factorization information. Neither the C6 escape question nor
+the full conjecture is resolved.
+
 ## 6. Initial literature map (not a comprehensive review)
 
 - **Definition/status, consulted:** Eric W. Weisstein,

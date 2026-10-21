@@ -1,0 +1,69 @@
+{
+  "schema": "aliquot-two-adic-scan-v1",
+  "bound": "100000",
+  "scope": "one step for every even source; C6 sources stop at the first exit or after two steps",
+  "arithmetic": {
+    "primary": "Python int trial factorization, product formula, and prime-exponent valuation law",
+    "independentFirstStep": "Python int additive proper-divisor sieve",
+    "independentSecondStep": "Python int divisor-pair enumeration, including odd-part divisor sums"
+  },
+  "evenSources": 50000,
+  "valuationBranches": {
+    "drops": 8394,
+    "stays": 34248,
+    "rises": 7358
+  },
+  "firstExamples": {
+    "drops": {
+      "n": "2",
+      "a": 1,
+      "b": 0,
+      "next": "1",
+      "nextValuation": 0
+    },
+    "stays": {
+      "n": "6",
+      "a": 1,
+      "b": 2,
+      "next": "6",
+      "nextValuation": 1
+    },
+    "rises": {
+      "n": "10",
+      "a": 1,
+      "b": 1,
+      "next": "8",
+      "nextValuation": 3
+    }
+  },
+  "sixClass": {
+    "sources": 8333,
+    "secondStepsChecked": 7821,
+    "outcomes": {
+      "firstExitOdd": 37,
+      "firstExitMultipleOfFour": 475,
+      "secondExitOdd": 30,
+      "secondExitMultipleOfFour": 502,
+      "retainedThroughTwoSteps": 7289
+    },
+    "includesFixedPointSix": true
+  },
+  "largestFirstSuccessor": "304920",
+  "largestSecondSuccessor": "402570",
+  "primeBranchResidues": {
+    "modulus": "1024",
+    "edge": "r -> r + 12 (mod modulus)",
+    "eligibleResidues": 256,
+    "coveredResidues": 256,
+    "completeCoverage": true,
+    "largestFirstWitnessPrime": "7681",
+    "scope": "observed prime-branch edges only; no inference from missing edges"
+  },
+  "checks": {
+    "divisorSumsMatched": true,
+    "primeExponentValuationsMatched": true,
+    "successorValuationsMatched": true,
+    "sixClassGrowthAndDivisibilityMatched": true
+  },
+  "conclusion": "Finite checks only; no proof/disproof, divergent orbit, or orbit survival probability."
+}
