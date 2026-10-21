@@ -172,6 +172,15 @@ class. **No elegant resolution has been found.**
 
 ## 4. Sources and review status
 
+The broader [literature audit](LITERATURE.md) identifies an explicit related
+predecessor: Pollack (2012), end of section 5, states fixed-prime-support
+finiteness for amicable pairs and notes extensions to sociable cycles and
+amicable tuples. Those cycle consequences are not new here. His statement
+is not the same as arbitrary one-way adjacent-pair finiteness in Proposition K;
+an exact earlier statement of that proposition remains unlocated, not ruled
+out. The audit also records older S-unit machinery, the Pollack erratum, and
+hypotheses that prevent transferring related results automatically.
+
 1. P. Erdős, [*On Asymptotic Properties of Aliquot Sequences*](https://www.renyi.hu/~p_erdos/1976-22.pdf),
    *Mathematics of Computation* 30 (1976), 641–645. The opening pages reproduce
    Lenstra's finite increasing-chain argument. That argument, not a novel
