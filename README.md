@@ -9,6 +9,7 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 1. **PR #1 — interactive research site:** adapt the supplied Aliquot HTML explorer, add the standard q5m research header/footer, and establish testing/hosting at the requested `aliquot.q5m.ai` hostname. This is a development milestone, not a production release.
 2. **Research notebook 01 — growth and driver loss:** [precise statement, elementary proofs, initial literature map, and next proof obligation](research/README.md). An exact one-step census checks the exit criterion for the class n ≡ 6 (mod 12), independently recomputing divisor sums through a second algorithm. This is foundational work, not a proof/disproof or a novelty claim.
 3. **Research notebook 02 — the 2-adic approach:** [adaptation of the Erdős 193 strategy](research/TWO-ADIC.md), including the exact valuation transition, an obstruction to binary-residue-only invariant growing classes, failed fingerprint candidates, and an odd-cofactor reduction with an explicit unproved avoidance obligation. A bounded two-step census is supporting verification, not an infinite-orbit result.
+4. **Research notebook 03 — coupled divisibility and regeneration:** [a proved family of finite return blocks](research/REGENERATION.md), with arbitrarily large two-step amplification, exact 2–3 supply accounting, and counterexamples to universal regeneration and net-growth claims. The entry condition does not propagate: no perpetual return or novelty is established.
 
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
@@ -27,6 +28,9 @@ python3 -m aliquot sum 999983 --max-work 10000
 python3 -m aliquot scan-six --bound 100000
 python3 -m aliquot scan-two-adic --bound 100000
 
+# Named finite return certificates and counterexamples (not another census):
+python3 -m aliquot regeneration
+
 # Full verification, including browser-JS parity and UI checks (needs Node.js 22+):
 python3 -m unittest discover -s tests -v
 # npm test is a convenience alias for the same Python runner.
@@ -36,7 +40,7 @@ python3 -m unittest discover -s tests -p test_arithmetic.py -v
 python3 -m unittest discover -s tests -p test_research.py -v
 ```
 
-`aliquot/` uses arbitrary-precision Python `int`, exact division, and exhaustive trial factorization. The default per-call work budget is 2,000,000 candidate tests/successful divisions. A budget failure raises `ComputationLimit`; the CLI exits nonzero with no partial JSON. This is **unresolved**, not a probable-prime result or evidence of divergence. The one-step C6 census retains its separate inclusive source-bound cap of 1,000,000; the two-adic/two-step census is capped at 100,000. Large integer values in JSON use decimal strings. Python's default decimal text-conversion safety limit remains enabled; the integer API is not restricted by that text limit.
+`aliquot/` uses arbitrary-precision Python `int`, exact division, and exhaustive trial factorization. The default per-call work budget is 2,000,000 candidate tests/successful divisions. A budget failure raises `ComputationLimit`; the CLI exits nonzero with no partial JSON. This is **unresolved**, not a probable-prime result or evidence of divergence. The one-step C6 census retains its separate inclusive source-bound cap of 1,000,000; the two-adic/two-step census is capped at 100,000. Named regeneration traces use 64 steps and a 1,000,000 source-term cap, with explicit unresolved statuses for limits; only an exact return, termination, or cycle settles a trace. Large integer values and rational numerators/denominators in JSON use decimal strings. Python's default decimal text-conversion safety limit remains enabled; the integer API is not restricted by that text limit.
 
 ## Browser architecture and larger values
 

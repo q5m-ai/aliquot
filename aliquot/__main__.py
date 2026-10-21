@@ -7,6 +7,7 @@ import sys
 from . import ComputationLimit, DEFAULT_MAX_WORK, aliquot_sum
 from .research import DEFAULT_BOUND, scan_six
 from .two_adic import scan_two_adic
+from .regeneration import regeneration_report
 
 
 def decimal_integer(raw):
@@ -25,6 +26,7 @@ def main(argv=None):
     scan.add_argument("--bound", type=decimal_integer, default=DEFAULT_BOUND)
     two_adic = commands.add_parser("scan-two-adic", help="checked valuation law and two-step C6 census")
     two_adic.add_argument("--bound", type=decimal_integer, default=DEFAULT_BOUND)
+    commands.add_parser("regeneration", help="checked finite return blocks and counterexamples")
     total = commands.add_parser("sum", help="compute one exact proper-divisor sum")
     total.add_argument("n", type=decimal_integer)
     total.add_argument("--max-work", type=decimal_integer, default=DEFAULT_MAX_WORK)
@@ -34,6 +36,8 @@ def main(argv=None):
             result = scan_six(args.bound)
         elif args.command == "scan-two-adic":
             result = scan_two_adic(args.bound)
+        elif args.command == "regeneration":
+            result = regeneration_report()
         else:
             result = {"n": str(args.n), "sum": str(aliquot_sum(args.n, max_work=args.max_work)),
                       "status": "exact", "max_work": args.max_work}

@@ -271,6 +271,12 @@ finite cutoff) is forward-invariant. It also isolates an odd-cofactor avoidance
 problem requiring factorization information. Neither the C6 escape question nor
 the full conjecture is resolved.
 
+[Notebook 03](REGENERATION.md) adds coupled 2–3 supply laws and a positive
+unitary-factor return lemma. Dirichlet's theorem supplies infinitely many
+entries with arbitrarily large finite two-step gains, but the sufficient
+entry condition is not preserved. Exact examples disprove universal
+regeneration and net growth of every return.
+
 ## 6. Initial literature map (not a comprehensive review)
 
 - **Definition/status, consulted:** Eric W. Weisstein,
@@ -283,14 +289,20 @@ the full conjecture is resolved.
   Guy–Selfridge conjecture, guides/drivers, driver loss, and why averaged
   growth statistics require care. The date matters: its numerical records
   are not asserted to be current here.
-- **Primary source to obtain and read:** R. K. Guy and J. L. Selfridge,
+- **Primary source, subsequently consulted:** R. K. Guy and J. L. Selfridge,
   [*What drives an aliquot sequence?*](https://doi.org/10.1090/S0025-5718-1975-0384669-X),
   *Mathematics of Computation* 29 (1975), 101–107. Also consult their
   [1980 corrigendum](https://doi.org/10.2307/2006239), p. 319. Bibliographic
-  metadata was checked through Crossref; the original AMS PDF returned HTTP
-  403, and neither full text nor the corrigendum has been reviewed here.
-  Do not attribute unverified precise statements to these papers.
+  metadata was initially checked through Crossref after a direct AMS request
+  returned HTTP 403. A subsequent literature audit retrieved the original
+  paper and confirmed that valuation transitions and the perpetual-driver
+  strategy are classical. The corrigendum remains unreviewed; do not attribute
+  unverified precise statements to it.
+- **Explicit valuation prior art:** T. Amdeberhan, V. H. Moll, V. Sharma, and
+  D. Villamizar, [*Arithmetic properties of the sum of divisors*](https://arxiv.org/abs/2007.03088),
+  *Journal of Number Theory* 223 (2021), 325–349, Theorem 1.1. The prime-exponent
+  formula for v₂(σ(n)) is known, not a new result of this project.
 
 Literature heuristics are not used as premises in Propositions 1–3. Their
-proofs are written out so that the first research artifact is auditable even
-while the primary-source review remains unfinished.
+proofs are written out for auditing; the literature map is not an exhaustive
+novelty review.

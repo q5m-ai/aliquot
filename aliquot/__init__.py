@@ -4,7 +4,7 @@ DEFAULT_MAX_WORK = 2_000_000
 
 
 class ComputationLimit(RuntimeError):
-    """Factorization is unresolved within the requested work budget."""
+    """Exact computation or verification is unresolved within its budget."""
 
 
 def positive_integer(value, name="n"):

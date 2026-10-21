@@ -54,6 +54,9 @@ b = Σ over odd exponents e of [v₂(p+1) + v₂(e+1) − 1].
 
 Even exponents contribute zero. This is the geometric-sum/LTE identity proved
 in [notebook 01](README.md#2-a-growing-class-with-an-exact-exit-criterion).
+A subsequent literature audit located this known formula explicitly in
+Amdeberhan–Moll–Sharma–Villamizar, Theorem 1.1; see the
+[prior-art note in notebook 03](REGENERATION.md#1-growth-versus-the-supply-of-factors-2-and-3).
 In particular it depends on **prime exponents**, not just m's final binary digits.
 
 ### Proposition A — complete valuation transition
@@ -337,3 +340,7 @@ The checkers share a Python runtime: their algorithms differ, but this is not
 independent human review or formal verification. The second-step frequencies
 are **not** survival probabilities, and a short residue graph is not an
 infinite-orbit certificate.
+
+**Follow-up:** [notebook 03](REGENERATION.md) derives coupled 2–3 supply laws
+and proves an infinite family of guarded finite return blocks. The return
+condition is not closed; neither perpetual regeneration nor novelty is claimed.
