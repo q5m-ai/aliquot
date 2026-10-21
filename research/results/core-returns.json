@@ -1,0 +1,581 @@
+{
+  "schema": "aliquot-core-returns-v1",
+  "scope": "finite checked examples; no infinite closure or novelty claim",
+  "arithmetic": {
+    "primary": "exact integer factorization and multiplicativity",
+    "independent": "divisor-pair sums for every computed source and cofactor"
+  },
+  "baseFourPhases": [
+    {
+      "u": "5",
+      "sigma": "6",
+      "square": false,
+      "residueMod4": 1,
+      "next": "7",
+      "nextMod4": 3
+    },
+    {
+      "u": "47",
+      "sigma": "48",
+      "square": false,
+      "residueMod4": 3,
+      "next": "49",
+      "nextMod4": 1
+    },
+    {
+      "u": "49",
+      "sigma": "57",
+      "square": true,
+      "residueMod4": 1,
+      "next": "65",
+      "nextMod4": 1
+    },
+    {
+      "u": "53",
+      "sigma": "54",
+      "square": false,
+      "residueMod4": 1,
+      "next": "55",
+      "nextMod4": 3
+    },
+    {
+      "u": "55",
+      "sigma": "72",
+      "square": false,
+      "residueMod4": 3,
+      "next": "89",
+      "nextMod4": 1
+    },
+    {
+      "u": "65",
+      "sigma": "84",
+      "square": false,
+      "residueMod4": 1,
+      "next": "103",
+      "nextMod4": 3
+    },
+    {
+      "u": "89",
+      "sigma": "90",
+      "square": false,
+      "residueMod4": 1,
+      "next": "91",
+      "nextMod4": 3
+    },
+    {
+      "u": "263",
+      "sigma": "264",
+      "square": false,
+      "residueMod4": 3,
+      "next": "265",
+      "nextMod4": 1
+    },
+    {
+      "u": "265",
+      "sigma": "324",
+      "square": false,
+      "residueMod4": 1,
+      "next": "383",
+      "nextMod4": 3
+    }
+  ],
+  "localAmbiguityBasepoint": {
+    "prime": "5",
+    "cofactorPath": [
+      "5",
+      "7",
+      "9"
+    ],
+    "scope": "fails the two-step return, not all later returns"
+  },
+  "localAmbiguityExamples": [
+    {
+      "fourAdicDigits": 1,
+      "threeAdicDigits": 2,
+      "localModulus": "36",
+      "primeResidue": "653",
+      "primeModulus": "900",
+      "prime": "653",
+      "cofactorPath": [
+        "653",
+        "655",
+        "929"
+      ],
+      "aliquotPath": [
+        "3918",
+        "3930",
+        "5574"
+      ]
+    },
+    {
+      "fourAdicDigits": 2,
+      "threeAdicDigits": 2,
+      "localModulus": "144",
+      "primeResidue": "2453",
+      "primeModulus": "3600",
+      "prime": "6053",
+      "cofactorPath": [
+        "6053",
+        "6055",
+        "10649"
+      ],
+      "aliquotPath": [
+        "36318",
+        "36330",
+        "63894"
+      ]
+    },
+    {
+      "fourAdicDigits": 3,
+      "threeAdicDigits": 2,
+      "localModulus": "576",
+      "primeResidue": "13253",
+      "primeModulus": "14400",
+      "prime": "27653",
+      "cofactorPath": [
+        "27653",
+        "27655",
+        "38729"
+      ],
+      "aliquotPath": [
+        "165918",
+        "165930",
+        "232374"
+      ]
+    },
+    {
+      "fourAdicDigits": 4,
+      "threeAdicDigits": 2,
+      "localModulus": "2304",
+      "primeResidue": "27653",
+      "primeModulus": "57600",
+      "prime": "27653",
+      "cofactorPath": [
+        "27653",
+        "27655",
+        "38729"
+      ],
+      "aliquotPath": [
+        "165918",
+        "165930",
+        "232374"
+      ]
+    },
+    {
+      "fourAdicDigits": 5,
+      "threeAdicDigits": 2,
+      "localModulus": "9216",
+      "primeResidue": "27653",
+      "primeModulus": "230400",
+      "prime": "27653",
+      "cofactorPath": [
+        "27653",
+        "27655",
+        "38729"
+      ],
+      "aliquotPath": [
+        "165918",
+        "165930",
+        "232374"
+      ]
+    }
+  ],
+  "bridgeExamples": [
+    {
+      "n": "18",
+      "core": "6",
+      "a": 1,
+      "q": "3",
+      "b": 2,
+      "cofactor": "1",
+      "sigmaCofactor": "1",
+      "next": "21",
+      "nextA": 0,
+      "nextB": 1,
+      "bridgePredicted": false,
+      "restoredExactCore": false,
+      "retainedDriver": false
+    },
+    {
+      "n": "54",
+      "core": "6",
+      "a": 1,
+      "q": "3",
+      "b": 3,
+      "cofactor": "1",
+      "sigmaCofactor": "1",
+      "next": "66",
+      "nextA": 1,
+      "nextB": 1,
+      "bridgePredicted": true,
+      "restoredExactCore": true,
+      "retainedDriver": true
+    },
+    {
+      "n": "90",
+      "core": "6",
+      "a": 1,
+      "q": "3",
+      "b": 2,
+      "cofactor": "5",
+      "sigmaCofactor": "6",
+      "next": "144",
+      "nextA": 4,
+      "nextB": 2,
+      "bridgePredicted": false,
+      "restoredExactCore": false,
+      "retainedDriver": false
+    },
+    {
+      "n": "2646",
+      "core": "6",
+      "a": 1,
+      "q": "3",
+      "b": 3,
+      "cofactor": "49",
+      "sigmaCofactor": "57",
+      "next": "4194",
+      "nextA": 1,
+      "nextB": 2,
+      "bridgePredicted": false,
+      "restoredExactCore": false,
+      "retainedDriver": true
+    },
+    {
+      "n": "12978",
+      "core": "6",
+      "a": 1,
+      "q": "3",
+      "b": 2,
+      "cofactor": "721",
+      "sigmaCofactor": "832",
+      "next": "19470",
+      "nextA": 1,
+      "nextB": 1,
+      "bridgePredicted": true,
+      "restoredExactCore": true,
+      "retainedDriver": true
+    },
+    {
+      "n": "196",
+      "core": "28",
+      "a": 2,
+      "q": "7",
+      "b": 2,
+      "cofactor": "1",
+      "sigmaCofactor": "1",
+      "next": "203",
+      "nextA": 0,
+      "nextB": 1,
+      "bridgePredicted": false,
+      "restoredExactCore": false,
+      "retainedDriver": false
+    },
+    {
+      "n": "1372",
+      "core": "28",
+      "a": 2,
+      "q": "7",
+      "b": 3,
+      "cofactor": "1",
+      "sigmaCofactor": "1",
+      "next": "1428",
+      "nextA": 2,
+      "nextB": 1,
+      "bridgePredicted": true,
+      "restoredExactCore": true,
+      "retainedDriver": true
+    },
+    {
+      "n": "17836",
+      "core": "28",
+      "a": 2,
+      "q": "7",
+      "b": 3,
+      "cofactor": "13",
+      "sigmaCofactor": "14",
+      "next": "21364",
+      "nextA": 2,
+      "nextB": 2,
+      "bridgePredicted": false,
+      "restoredExactCore": false,
+      "retainedDriver": true
+    },
+    {
+      "n": "19404",
+      "core": "28",
+      "a": 2,
+      "q": "7",
+      "b": 2,
+      "cofactor": "99",
+      "sigmaCofactor": "156",
+      "next": "42840",
+      "nextA": 3,
+      "nextB": 1,
+      "bridgePredicted": false,
+      "restoredExactCore": false,
+      "retainedDriver": false
+    },
+    {
+      "n": "60564",
+      "core": "28",
+      "a": 2,
+      "q": "7",
+      "b": 2,
+      "cofactor": "309",
+      "sigmaCofactor": "416",
+      "next": "105420",
+      "nextA": 2,
+      "nextB": 1,
+      "bridgePredicted": true,
+      "restoredExactCore": true,
+      "retainedDriver": true
+    }
+  ],
+  "driverTraces": [
+    {
+      "seed": "30",
+      "core": "6",
+      "status": "driver_exit",
+      "terms": [
+        "30",
+        "42",
+        "54",
+        "66",
+        "78",
+        "90",
+        "144"
+      ],
+      "spikes": [
+        {
+          "index": 2,
+          "n": "54",
+          "core": "6",
+          "a": 1,
+          "q": "3",
+          "b": 3,
+          "cofactor": "1",
+          "sigmaCofactor": "1",
+          "next": "66",
+          "nextA": 1,
+          "nextB": 1,
+          "bridgePredicted": true,
+          "restoredExactCore": true,
+          "retainedDriver": true
+        },
+        {
+          "index": 5,
+          "n": "90",
+          "core": "6",
+          "a": 1,
+          "q": "3",
+          "b": 2,
+          "cofactor": "5",
+          "sigmaCofactor": "6",
+          "next": "144",
+          "nextA": 4,
+          "nextB": 2,
+          "bridgePredicted": false,
+          "restoredExactCore": false,
+          "retainedDriver": false
+        }
+      ],
+      "stepsComputed": 6,
+      "limits": {
+        "steps": 64,
+        "sourceTerm": "1000000",
+        "factorizationWorkPerCall": 2000000
+      }
+    },
+    {
+      "seed": "1578",
+      "core": "6",
+      "status": "term_limit",
+      "terms": [
+        "1578",
+        "1590",
+        "2298",
+        "2310",
+        "4602",
+        "5478",
+        "6618",
+        "6630",
+        "11514",
+        "12966",
+        "12978",
+        "19470",
+        "32370",
+        "52302",
+        "57138",
+        "59502",
+        "62610",
+        "87726",
+        "87738",
+        "112902",
+        "120570",
+        "168870",
+        "268602",
+        "275718",
+        "275730",
+        "546798",
+        "734226",
+        "753774",
+        "994962",
+        "1010958"
+      ],
+      "spikes": [
+        {
+          "index": 10,
+          "n": "12978",
+          "core": "6",
+          "a": 1,
+          "q": "3",
+          "b": 2,
+          "cofactor": "721",
+          "sigmaCofactor": "832",
+          "next": "19470",
+          "nextA": 1,
+          "nextB": 1,
+          "bridgePredicted": true,
+          "restoredExactCore": true,
+          "retainedDriver": true
+        }
+      ],
+      "stepsComputed": 29,
+      "limits": {
+        "steps": 64,
+        "sourceTerm": "1000000",
+        "factorizationWorkPerCall": 2000000
+      }
+    },
+    {
+      "seed": "1316",
+      "core": "28",
+      "status": "driver_exit",
+      "terms": [
+        "1316",
+        "1372",
+        "1428",
+        "2604",
+        "4564",
+        "4620",
+        "11508",
+        "19404",
+        "42840"
+      ],
+      "spikes": [
+        {
+          "index": 1,
+          "n": "1372",
+          "core": "28",
+          "a": 2,
+          "q": "7",
+          "b": 3,
+          "cofactor": "1",
+          "sigmaCofactor": "1",
+          "next": "1428",
+          "nextA": 2,
+          "nextB": 1,
+          "bridgePredicted": true,
+          "restoredExactCore": true,
+          "retainedDriver": true
+        },
+        {
+          "index": 7,
+          "n": "19404",
+          "core": "28",
+          "a": 2,
+          "q": "7",
+          "b": 2,
+          "cofactor": "99",
+          "sigmaCofactor": "156",
+          "next": "42840",
+          "nextA": 3,
+          "nextB": 1,
+          "bridgePredicted": false,
+          "restoredExactCore": false,
+          "retainedDriver": false
+        }
+      ],
+      "stepsComputed": 8,
+      "limits": {
+        "steps": 64,
+        "sourceTerm": "1000000",
+        "factorizationWorkPerCall": 2000000
+      }
+    },
+    {
+      "seed": "9772",
+      "core": "28",
+      "status": "term_limit",
+      "terms": [
+        "9772",
+        "9828",
+        "21532",
+        "21588",
+        "36204",
+        "60564",
+        "105420",
+        "233268",
+        "389004",
+        "745332",
+        "1351308"
+      ],
+      "spikes": [
+        {
+          "index": 5,
+          "n": "60564",
+          "core": "28",
+          "a": 2,
+          "q": "7",
+          "b": 2,
+          "cofactor": "309",
+          "sigmaCofactor": "416",
+          "next": "105420",
+          "nextA": 2,
+          "nextB": 1,
+          "bridgePredicted": true,
+          "restoredExactCore": true,
+          "retainedDriver": true
+        }
+      ],
+      "stepsComputed": 10,
+      "limits": {
+        "steps": 64,
+        "sourceTerm": "1000000",
+        "factorizationWorkPerCall": 2000000
+      }
+    }
+  ],
+  "primeCore84Corridor": [
+    {
+      "n": "1932",
+      "cofactor": "23",
+      "cofactorPrime": true,
+      "valuationThreeOfCofactorPlusFour": 3,
+      "next": "3444"
+    },
+    {
+      "n": "3444",
+      "cofactor": "41",
+      "cofactorPrime": true,
+      "valuationThreeOfCofactorPlusFour": 2,
+      "next": "5964"
+    },
+    {
+      "n": "5964",
+      "cofactor": "71",
+      "cofactorPrime": true,
+      "valuationThreeOfCofactorPlusFour": 1,
+      "next": "10164"
+    },
+    {
+      "n": "10164",
+      "cofactor": "121",
+      "cofactorPrime": false,
+      "valuationThreeOfCofactorPlusFour": 0,
+      "next": "19628"
+    }
+  ],
+  "conclusion": "Prime-power spikes can regenerate a core, but the restoration guard is not closed."
+}

@@ -283,3 +283,9 @@ All terms and rational numerators/denominators in JSON are exact decimal
 strings. Counts, indices, valuations, and bounded work limits are integers.
 All code/data remains outside `site/`; independent algorithms share a Python
 runtime and are not independent human review or formal verification.
+
+**Follow-up:** [notebook 04](FOUR-ADIC.md) adds a conditional base-four phase
+invariant and an exact restoration criterion after a perfect core's odd prime
+is hit. It follows some actual restoration steps that the coprime T-reduction
+cannot cover. That larger candidate still fails closure; no infinite orbit or
+historical novelty is claimed.

@@ -277,6 +277,12 @@ entries with arbitrarily large finite two-step gains, but the sufficient
 entry condition is not preserved. Exact examples disprove universal
 regeneration and net growth of every return.
 
+[Notebook 04](FOUR-ADIC.md) goes beyond stopping at a core-prime hit: it gives
+an exact restoration criterion for perfect cores such as 6 and 28, and follows
+actual aliquot transitions through some such hits. Base-four unit information
+provides a conditional phase invariant but does not close the factorization
+guard. The tested core-plus-good-spike class is not invariant.
+
 ## 6. Initial literature map (not a comprehensive review)
 
 - **Definition/status, consulted:** Eric W. Weisstein,
