@@ -33,18 +33,19 @@ class LatexTests(unittest.TestCase):
         html = (ROOT / "site/index.html").read_text()
         parser = FormulaParser()
         parser.feed(html)
-        self.assertEqual(len(parser.formulas), 4)
-        self.assertTrue(all(not formula["display"] for formula in parser.formulas),
+        self.assertEqual(len(parser.formulas), 9)
+        self.assertTrue(all(not formula["display"] for formula in parser.formulas[:4]),
                         "heading formulas must stay inline, not centered display blocks")
         expected = [r"s(n)=\sum\limits_{\substack{d\mid n\\1\le d<n}}d", r"n_{k+1}=s(n_k)", "s(1)=0", "n_k"]
-        self.assertEqual([f["tex"] for f in parser.formulas], expected)
+        self.assertEqual([f["tex"] for f in parser.formulas[:4]], expected)
+        self.assertTrue(all(formula["display"] for formula in parser.formulas[4:]))
         for formula, rendered in zip(parser.formulas, self.render(parser.formulas)):
             self.assertTrue(rendered["ok"], formula)
             self.assertEqual(rendered["assignments"], 1, "unchanged formulas should be cached")
             root = ET.fromstring(rendered["markup"])
             math = root.find(MATHML + "math")
             self.assertIsNotNone(math)
-            self.assertNotEqual(math.get("display"), "block")
+            self.assertEqual(math.get("display") == "block", formula["display"])
             annotation = math.find(".//" + MATHML + "annotation")
             self.assertEqual(annotation.text, formula["tex"])
             for element in root.iter():
@@ -67,6 +68,28 @@ class LatexTests(unittest.TestCase):
         self.assertIsNotNone(ET.fromstring(sum_markup).find(".//" + MATHML + "munder"),
                              "sum conditions belong below the operator, not beside the equation")
         self.assertNotIn(".tex-math,#point-factorization", css)
+
+    def test_research_summary_preserves_hypotheses_and_supplied_image(self):
+        html = (ROOT / "site/index.html").read_text()
+        research = html.split('<h3>What an escaping orbit would require</h3>', 1)[1]
+        for qualification in ["Conditional result, not a solution", "classical S-unit",
+                              "historical novelty", "no term repeats", "nonperiodicity",
+                              "does not mean every prime occurs", "s(0)"]:
+            self.assertIn(qualification, research)
+        parser = FormulaParser()
+        parser.feed(research)
+        expected = [
+            r"n_0\in\mathbb Z_{>0},\qquad n_{k+1}=s(n_k)=\sum_{\substack{d\mid n_k\\1\le d<n_k}}d",
+            r"\forall k\ge0,\ n_k>0;\qquad \forall\,0\le i<j,\ n_i\ne n_j",
+            r"\forall S\subseteq\mathbb P,\quad |S|<\infty\ \Longrightarrow\ \left|\{n>1:P(n)\cup P(s(n))\subseteq S\}\right|<\infty",
+            r"\forall S\subseteq\mathbb P,\quad |S|<\infty\ \Longrightarrow\ \left|\{k\ge0:P(n_k)\cup P(n_{k+1})\subseteq S\}\right|<\infty",
+            r"\left|\bigcup_{k\ge0}P(n_k)\right|=\aleph_0",
+        ]
+        self.assertEqual([f["tex"] for f in parser.formulas], expected)
+        image = ROOT / "site/images/prime-support-whiteboard.png"
+        self.assertTrue(image.read_bytes().startswith(b"\x89PNG\r\n\x1a\n"))
+        self.assertIn('src="images/prime-support-whiteboard.png"', research)
+        self.assertIn("summary, not the proof", research)
 
     def test_plain_text_example_matches_exact_arithmetic(self):
         from aliquot import aliquot_sum

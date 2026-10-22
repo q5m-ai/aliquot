@@ -1,0 +1,485 @@
+{
+  "schema": "aliquot-regeneration-examples-v1",
+  "scope": "named finite certificates and counterexamples, not a source census",
+  "returnClass": "positive n congruent to 30 modulo 36",
+  "arithmetic": {
+    "primary": "proven trial factorization and exact 2–3 valuation laws",
+    "independent": "divisor-pair sums, including coprime cofactor sums"
+  },
+  "coupledExamples": [
+    {
+      "n": "72",
+      "a": 3,
+      "b": 2,
+      "cofactor": "1",
+      "sigmaCofactor": "1",
+      "sigma": "195",
+      "supplyTwo": 0,
+      "supplyThree": 1,
+      "next": "123",
+      "nextA": 0,
+      "nextB": 1
+    },
+    {
+      "n": "1122",
+      "a": 1,
+      "b": 1,
+      "cofactor": "187",
+      "sigmaCofactor": "216",
+      "sigma": "2592",
+      "supplyTwo": 5,
+      "supplyThree": 4,
+      "next": "1470",
+      "nextA": 1,
+      "nextB": 1
+    },
+    {
+      "n": "1470",
+      "a": 1,
+      "b": 1,
+      "cofactor": "245",
+      "sigmaCofactor": "342",
+      "sigma": "4104",
+      "supplyTwo": 3,
+      "supplyThree": 3,
+      "next": "2634",
+      "nextA": 1,
+      "nextB": 1
+    },
+    {
+      "n": "2634",
+      "a": 1,
+      "b": 1,
+      "cofactor": "439",
+      "sigmaCofactor": "440",
+      "sigma": "5280",
+      "supplyTwo": 5,
+      "supplyThree": 1,
+      "next": "2646",
+      "nextA": 1,
+      "nextB": 3
+    },
+    {
+      "n": "2646",
+      "a": 1,
+      "b": 3,
+      "cofactor": "49",
+      "sigmaCofactor": "57",
+      "sigma": "6840",
+      "supplyTwo": 3,
+      "supplyThree": 2,
+      "next": "4194",
+      "nextA": 1,
+      "nextB": 2
+    },
+    {
+      "n": "66",
+      "a": 1,
+      "b": 1,
+      "cofactor": "11",
+      "sigmaCofactor": "12",
+      "sigma": "144",
+      "supplyTwo": 4,
+      "supplyThree": 2,
+      "next": "78",
+      "nextA": 1,
+      "nextB": 1
+    },
+    {
+      "n": "500394",
+      "a": 1,
+      "b": 1,
+      "cofactor": "83399",
+      "sigmaCofactor": "83400",
+      "sigma": "1000800",
+      "supplyTwo": 5,
+      "supplyThree": 2,
+      "next": "500406",
+      "nextA": 1,
+      "nextB": 1
+    }
+  ],
+  "primeEntryExamples": [
+    {
+      "prime": "53",
+      "entryClass": {
+        "residue": "53",
+        "modulus": "150"
+      },
+      "u": "53",
+      "d": "5",
+      "sigmaD": "6",
+      "cofactorPath": [
+        "53",
+        "55",
+        "89"
+      ],
+      "aliquotPath": [
+        "318",
+        "330",
+        "534"
+      ],
+      "strictGrowthFactorLowerBound": {
+        "numerator": "7",
+        "denominator": "5"
+      },
+      "actualGrowthFactor": {
+        "numerator": "89",
+        "denominator": "53"
+      },
+      "firstReturnSteps": 2,
+      "scope": "one certified return only; the next entry guard is not established"
+    },
+    {
+      "prime": "9833",
+      "entryClass": {
+        "residue": "2483",
+        "modulus": "7350"
+      },
+      "u": "9833",
+      "d": "35",
+      "sigmaD": "48",
+      "cofactorPath": [
+        "9833",
+        "9835",
+        "17237"
+      ],
+      "aliquotPath": [
+        "58998",
+        "59010",
+        "103422"
+      ],
+      "strictGrowthFactorLowerBound": {
+        "numerator": "61",
+        "denominator": "35"
+      },
+      "actualGrowthFactor": {
+        "numerator": "17237",
+        "denominator": "9833"
+      },
+      "firstReturnSteps": 2,
+      "scope": "one certified return only; the next entry guard is not established"
+    },
+    {
+      "prime": "53",
+      "entryClass": {
+        "residue": "53",
+        "modulus": "18150"
+      },
+      "u": "53",
+      "d": "55",
+      "sigmaD": "72",
+      "cofactorPath": [
+        "53",
+        "55",
+        "89"
+      ],
+      "aliquotPath": [
+        "318",
+        "330",
+        "534"
+      ],
+      "strictGrowthFactorLowerBound": {
+        "numerator": "89",
+        "denominator": "55"
+      },
+      "actualGrowthFactor": {
+        "numerator": "89",
+        "denominator": "53"
+      },
+      "firstReturnSteps": 2,
+      "scope": "one certified return only; the next entry guard is not established"
+    },
+    {
+      "prime": "383",
+      "entryClass": {
+        "residue": "383",
+        "modulus": "889350"
+      },
+      "u": "383",
+      "d": "385",
+      "sigmaD": "576",
+      "cofactorPath": [
+        "383",
+        "385",
+        "767"
+      ],
+      "aliquotPath": [
+        "2298",
+        "2310",
+        "4602"
+      ],
+      "strictGrowthFactorLowerBound": {
+        "numerator": "767",
+        "denominator": "385"
+      },
+      "actualGrowthFactor": {
+        "numerator": "767",
+        "denominator": "383"
+      },
+      "firstReturnSteps": 2,
+      "scope": "one certified return only; the next entry guard is not established"
+    },
+    {
+      "prime": "5003",
+      "entryClass": {
+        "residue": "5003",
+        "modulus": "150300150"
+      },
+      "u": "5003",
+      "d": "5005",
+      "sigmaD": "8064",
+      "cofactorPath": [
+        "5003",
+        "5005",
+        "11123"
+      ],
+      "aliquotPath": [
+        "30018",
+        "30030",
+        "66738"
+      ],
+      "strictGrowthFactorLowerBound": {
+        "numerator": "1589",
+        "denominator": "715"
+      },
+      "actualGrowthFactor": {
+        "numerator": "11123",
+        "denominator": "5003"
+      },
+      "firstReturnSteps": 2,
+      "scope": "one certified return only; the next entry guard is not established"
+    }
+  ],
+  "firstReturns": [
+    {
+      "seed": "30",
+      "status": "returned",
+      "terms": [
+        "30",
+        "42",
+        "54",
+        "66"
+      ],
+      "stepsComputed": 3,
+      "cycleStartIndex": null,
+      "growthFactor": {
+        "numerator": "11",
+        "denominator": "5"
+      },
+      "limits": {
+        "steps": 64,
+        "sourceTerm": "1000000",
+        "factorizationWorkPerCall": 2000000
+      }
+    },
+    {
+      "seed": "66",
+      "status": "terminated",
+      "terms": [
+        "66",
+        "78",
+        "90",
+        "144",
+        "259",
+        "45",
+        "33",
+        "15",
+        "9",
+        "4",
+        "3",
+        "1",
+        "0"
+      ],
+      "stepsComputed": 12,
+      "cycleStartIndex": null,
+      "growthFactor": null,
+      "limits": {
+        "steps": 64,
+        "sourceTerm": "1000000",
+        "factorizationWorkPerCall": 2000000
+      }
+    },
+    {
+      "seed": "318",
+      "status": "returned",
+      "terms": [
+        "318",
+        "330",
+        "534"
+      ],
+      "stepsComputed": 2,
+      "cycleStartIndex": null,
+      "growthFactor": {
+        "numerator": "89",
+        "denominator": "53"
+      },
+      "limits": {
+        "steps": 64,
+        "sourceTerm": "1000000",
+        "factorizationWorkPerCall": 2000000
+      }
+    },
+    {
+      "seed": "534",
+      "status": "returned",
+      "terms": [
+        "534",
+        "546",
+        "798",
+        "1122",
+        "1470"
+      ],
+      "stepsComputed": 4,
+      "cycleStartIndex": null,
+      "growthFactor": {
+        "numerator": "245",
+        "denominator": "89"
+      },
+      "limits": {
+        "steps": 64,
+        "sourceTerm": "1000000",
+        "factorizationWorkPerCall": 2000000
+      }
+    },
+    {
+      "seed": "1470",
+      "status": "returned",
+      "terms": [
+        "1470",
+        "2634",
+        "2646",
+        "4194",
+        "4932",
+        "7626"
+      ],
+      "stepsComputed": 5,
+      "cycleStartIndex": null,
+      "growthFactor": {
+        "numerator": "1271",
+        "denominator": "245"
+      },
+      "limits": {
+        "steps": 64,
+        "sourceTerm": "1000000",
+        "factorizationWorkPerCall": 2000000
+      }
+    },
+    {
+      "seed": "7626",
+      "status": "terminated",
+      "terms": [
+        "7626",
+        "8502",
+        "9978",
+        "9990",
+        "17370",
+        "28026",
+        "35136",
+        "67226",
+        "33616",
+        "37808",
+        "40312",
+        "35288",
+        "37072",
+        "45264",
+        "79728",
+        "146448",
+        "281166",
+        "281178",
+        "363942",
+        "424638",
+        "526338",
+        "722961",
+        "321329",
+        "1",
+        "0"
+      ],
+      "stepsComputed": 24,
+      "cycleStartIndex": null,
+      "growthFactor": null,
+      "limits": {
+        "steps": 64,
+        "sourceTerm": "1000000",
+        "factorizationWorkPerCall": 2000000
+      }
+    },
+    {
+      "seed": "3162",
+      "status": "cycle",
+      "terms": [
+        "3162",
+        "3750",
+        "5622",
+        "5634",
+        "6612",
+        "10188",
+        "15656",
+        "15544",
+        "15056",
+        "14146",
+        "9038",
+        "4522",
+        "4118",
+        "2362",
+        "1184",
+        "1210",
+        "1184"
+      ],
+      "stepsComputed": 16,
+      "cycleStartIndex": 14,
+      "growthFactor": null,
+      "limits": {
+        "steps": 64,
+        "sourceTerm": "1000000",
+        "factorizationWorkPerCall": 2000000
+      }
+    },
+    {
+      "seed": "500394",
+      "status": "returned",
+      "terms": [
+        "500394",
+        "500406",
+        "500418",
+        "621252",
+        "949226",
+        "485878",
+        "246002",
+        "123004",
+        "135044",
+        "166600",
+        "310490",
+        "258670",
+        "206954",
+        "147286",
+        "73646",
+        "41698",
+        "20852",
+        "18544",
+        "19896",
+        "29904",
+        "59376",
+        "94136",
+        "112624",
+        "105616",
+        "144368",
+        "175552",
+        "201384",
+        "344226"
+      ],
+      "stepsComputed": 27,
+      "cycleStartIndex": null,
+      "growthFactor": {
+        "numerator": "57371",
+        "denominator": "83399"
+      },
+      "limits": {
+        "steps": 64,
+        "sourceTerm": "1000000",
+        "factorizationWorkPerCall": 2000000
+      }
+    }
+  ],
+  "conclusion": "Finite returns do not compose automatically; no perpetual regeneration or conjecture resolution."
+}
