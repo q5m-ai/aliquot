@@ -4,6 +4,8 @@ A [q5m research](https://www.q5m.ai) project exploring aliquot sequences and the
 
 For positive integers, s(n) is the sum of the proper positive divisors of n. The conjecture asks whether every aliquot sequence eventually reaches 1 (then terminates at 0) or enters a cycle. Numerical experiments alone do not establish a proof or a divergent counterexample.
 
+**Start here:** [Research synthesis](research/SYNTHESIS.md) — the complete result map for notes 01–07, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
+
 ## Milestones
 
 1. **PR #1 — interactive research site:** adapt the supplied Aliquot HTML explorer, add the standard q5m research header/footer, and establish testing/hosting at the requested `aliquot.q5m.ai` hostname. This is a development milestone, not a production release.
@@ -13,8 +15,7 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 5. **Research notebook 04 — base-four phases and core restoration:** [an exact criterion for restoring perfect cores after prime-power spikes](research/FOUR-ADIC.md), including 28 and its v₂=2 driver. A conditional mod-4 tag propagates, but the restoration guard does not. Finite local tags and finite multiperfect-core/prime-cofactor templates have explicit limitations; no infinite closure is established.
 6. **Research note 05 — global reset:** [a finiteness deduction from the classical S-unit theorem](research/GLOBAL.md). For any fixed finite prime set, only finitely many adjacent aliquot pairs use that set alone. This constrains every hypothetical escaping orbit, but does not exclude changing prime support. Lenstra's earlier arbitrary-length finite growth theorem is the benchmark; the local notes are not a demonstrated breakthrough.
 7. **Research note 06 — factor transport:** [an exact conditional handoff to composite supplying blocks](research/BLOCK-TRANSPORT.md), together with correction identities and obstructions to simpler renewal rules. The output does not regenerate the input hypotheses: no closed return family or whole-orbit control is obtained.
-
-**Research note 07 — deficient recovery:** [guaranteed finite rebounds and scoped template obstructions](research/RECOVERY.md). Any fixed deficient core D>1 admits arbitrarily large two-step recovery for infinitely many prime cofactors; periodic prime-cofactor schedules cannot escape, and finite-core schedules need an expansive graph cycle. Composite entry conditions still fail to renew. No closed return class, resolution, or novelty is claimed.
+8. **Research note 07 — deficient recovery:** [guaranteed finite rebounds and scoped template obstructions](research/RECOVERY.md). Any fixed deficient core D>1 admits arbitrarily large two-step recovery for infinitely many coprime prime cofactors; periodic prime-cofactor schedules cannot escape, and finite-core prime schedules need an expansive graph cycle. Composite entry conditions still fail to renew. No closed return class, resolution, or novelty is claimed.
 
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 

@@ -5,6 +5,10 @@ experiment. No proof or disproof of the aliquot conjecture, no divergent orbit,
 and no claim of mathematical novelty. The results below belong to the classical
 guide/driver framework; this notebook makes one small case explicit.
 
+For the complete cross-notebook result map, attribution, failure cases, and
+current proof obligations, start with the [research synthesis](SYNTHESIS.md).
+This file remains the original notebook 01, not the full research index.
+
 ## 1. The exact question
 
 For a positive integer n, define

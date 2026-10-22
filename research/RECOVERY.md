@@ -7,7 +7,9 @@ prime-cofactor templates cannot escape; nonperiodic finite-core templates need
 an expansive transition-graph cycle. None of these results settles the
 conjecture, supplies a closed return class, or establishes historical novelty.
 The prime-cofactor restrictions are essential to the obstruction proofs.
-This note does not depend on the unmerged factor-transport note 06.
+This note is logically independent of [factor-transport note 06](BLOCK-TRANSPORT.md),
+now included alongside it. The [research synthesis](SYNTHESIS.md) maps all seven
+notes, their attribution, failure cases, and the two remaining proof obligations.
 
 Throughout, s(n)=σ(n)−n for positive n. Stop at zero; s(0) is undefined.
 A nonterminating, nonperiodic orbit has distinct positive terms and tends to
@@ -26,6 +28,54 @@ The fixed-support result in [note 05](GLOBAL.md) forces
 P⁺(n_k n_(k+1))→∞, not a descent. In particular large primes coexist with
 one-step growth, as s(6p)=6p+12 for every prime p>3. No prime-escape cost that
 forces a net loss has been proved here.
+
+### Two further constraints from the contradiction attempt
+
+**A least escaping seed has no smaller abundant predecessor.** In particular,
+for every abundant C and prime p coprime to C,
+
+```text
+s(Cp)=s(C)p+σ(C)>Cp.
+```
+
+A least escaping seed N cannot equal that expression: its smaller predecessor
+Cp would escape too. This excludes specified arithmetic families, but there is
+no covering theorem here saying that every sufficiently large abundant number
+has such a predecessor. It does not by itself produce a contradiction.
+
+**Large primes cannot compensate a fixed deficiency margin cheaply.** Fix an
+integer B≥2 and write n=dr, where d contains the complete prime-power factors
+of n with primes at most B, and every prime dividing r exceeds B. Thus
+gcd(d,r)=1. Put t=ω(r), the number of distinct primes dividing r. If
+
+```text
+σ(d)/d ≤ 2−ε,       0<ε<2,
+```
+
+and n is abundant, then necessarily
+
+```text
+(2−ε)(1+1/B)^t > 2,
+t > log(2/(2−ε)) / log(1+1/B).
+```
+
+For each prime p>B and exponent e≥1,
+σ(p^e)/p^e < p/(p−1) ≤ 1+1/B. Multiplying these bounds gives
+
+```text
+2 < σ(n)/n = [σ(d)/d][σ(r)/r] ≤ (2−ε)(1+1/B)^t,
+```
+
+which proves both assertions. A bounded number of sufficiently large primes
+cannot overcome a fixed positive deficiency margin in the small-prime part.
+The margin hypothesis is essential: a perfect or abundant d bypasses it, as
+6p illustrates with d=6. Proposition K does not force the small-prime part to
+be deficient, so it cannot supply the missing hypothesis. This is an elementary
+necessary inequality, not a universal prime-escape cost or a novelty claim.
+The regressions in `tests/test_synthesis.py` check the multiplicative form with
+exact rational arithmetic; logarithms are not approximated in the tests.
+
+### The constructive return target
 
 **Construction.** It would suffice to give an explicit seed in an arithmetically
 defined class X and prove, for every n∈X, a finite positive-time actual return
@@ -124,8 +174,7 @@ No single seed is shown to repeat it. Even fixing the deficient core does not
 bound two-step amplification. This rules out a universal two-step net-decrease
 bound for deficient sources, not longer or seed-dependent descent arguments.
 The earlier finite amplification results and Lenstra's arbitrary-length
-increasing prefixes are relevant benchmarks,
-not perpetual-orbit certificates.
+increasing prefixes are relevant benchmarks, not perpetual-orbit certificates.
 
 ### A small, explicit profitable class
 
@@ -187,8 +236,9 @@ m=s(n)=7σ(u)−4u=3u+7s(u)<4u,       160|m.
 
 The congruence follows since 7·92≡4 (mod160). The source n is deficient;
 the middle term m is abundant because it is divisible by 160. As s(u)≥1,
-the divisibility lemma again yields s²(n)>(327/320)n. Thus X₀ includes composite cofactors
-and the infinite prime subclass above, without referring to future iterates.
+the divisibility lemma again yields s²(n)>(327/320)n. Thus X₀ includes composite
+cofactors and the infinite prime subclass above, without referring to future
+iterates.
 
 But even retaining the shape and deficiency does not renew the guard:
 
@@ -225,9 +275,13 @@ If both u and v are prime, the correction terms vanish. Repeating this
 prime-only block j times would require 320^j|(u+4429), since gcd(327,320)=1.
 Equivalently j≤min(⌊v₂(u+4429)/6⌋, v₅(u+4429)); there is a finite denominator
 budget. This is necessary, not sufficient for the other guards. Composite
-corrections can change that budget, but do not imply
-σ(w)<8w/7 or σ(w)≡92w (mod160), as the displayed counterexample shows.
-No propagation of those conditions or the bridge guards is established.
+corrections can change that budget, but the identity does not establish
+simultaneous renewal of σ(w)<8w/7 and σ(w)≡92w (mod160). For the displayed
+cofactor triple (u,v,w)=(691,13,803), both input cofactors are prime, so the
+correction is zero: the deficiency inequality survives, but the next congruence
+fails. This does
+not individually disprove propagation of the inequality. No simultaneous
+renewal of these conditions and the bridge guards is established.
 
 ### Recovery can land in a perfect-core class
 
