@@ -290,6 +290,12 @@ aliquot pairs over any fixed finite prime set, without choosing a driver.
 It does not control changing prime support or resolve the conjecture. The
 local work is clarification, not an established major advance.
 
+[Research note 06](BLOCK-TRANSPORT.md) tries to transport the supplying factors
+rather than just their residues. It proves a conditional handoff to composite
+blocks and identifies exact correction terms when simple renewal fails. Its
+output does not inherit the input template; the infinite-closure obligation
+remains unsolved. Bounded arithmetic checks are separate from the proofs.
+
 [Research note 07](RECOVERY.md) resumes both directions with deficient
 excursions: every fixed deficient core D>1 admits arbitrarily large finite
 two-step rebounds for infinitely many prime cofactors, but an explicit
