@@ -290,6 +290,14 @@ aliquot pairs over any fixed finite prime set, without choosing a driver.
 It does not control changing prime support or resolve the conjecture. The
 local work is clarification, not an established major advance.
 
+[Research note 07](RECOVERY.md) resumes both directions with deficient
+excursions: every fixed deficient core D>1 admits arbitrarily large finite
+two-step rebounds for infinitely many prime cofactors, but an explicit
+composite return class fails to renew. Periodic prime-cofactor schedules
+cannot escape, and a finite-core prime transition graph must have an expansive
+cycle to permit escape. These scoped results do not provide a closed return
+class or a universal descent argument; no novelty is claimed.
+
 ## 6. Initial literature map (not a comprehensive review)
 
 - **Definition/status, consulted:** Eric W. Weisstein,

@@ -13,6 +13,8 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 5. **Research notebook 04 — base-four phases and core restoration:** [an exact criterion for restoring perfect cores after prime-power spikes](research/FOUR-ADIC.md), including 28 and its v₂=2 driver. A conditional mod-4 tag propagates, but the restoration guard does not. Finite local tags and finite multiperfect-core/prime-cofactor templates have explicit limitations; no infinite closure is established.
 6. **Research note 05 — global reset:** [a finiteness deduction from the classical S-unit theorem](research/GLOBAL.md). For any fixed finite prime set, only finitely many adjacent aliquot pairs use that set alone. This constrains every hypothetical escaping orbit, but does not exclude changing prime support. Lenstra's earlier arbitrary-length finite growth theorem is the benchmark; the local notes are not a demonstrated breakthrough.
 
+**Research note 07 — deficient recovery:** [guaranteed finite rebounds and scoped template obstructions](research/RECOVERY.md). Any fixed deficient core D>1 admits arbitrarily large two-step recovery for infinitely many prime cofactors; periodic prime-cofactor schedules cannot escape, and finite-core schedules need an expansive graph cycle. Composite entry conditions still fail to renew. No closed return class, resolution, or novelty is claimed.
+
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
 No proof or disproof is claimed. Repository creation and project registration do not establish hosting acceptance.
