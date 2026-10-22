@@ -290,6 +290,12 @@ aliquot pairs over any fixed finite prime set, without choosing a driver.
 It does not control changing prime support or resolve the conjecture. The
 local work is clarification, not an established major advance.
 
+[Research note 06](BLOCK-TRANSPORT.md) tries to transport the supplying factors
+rather than just their residues. It proves a conditional handoff to composite
+blocks and identifies exact correction terms when simple renewal fails. Its
+output does not inherit the input template; the infinite-closure obligation
+remains unsolved. Bounded arithmetic checks are separate from the proofs.
+
 ## 6. Initial literature map (not a comprehensive review)
 
 - **Definition/status, consulted:** Eric W. Weisstein,
