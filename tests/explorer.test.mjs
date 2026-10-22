@@ -634,6 +634,6 @@ test('playback button uses plain text without decorative icons', () => {
 
 test('site has q5m research chrome, accessible controls, and matching icons', () => {
   const html = readFileSync(new URL('site/index.html', root), 'utf8');
-  for (const marker of ['aliquot<span>.q5m.ai', 'https://www.q5m.ai', 'https://github.com/q5m-ai/aliquot', 'not a proof', 'aria-label="Main navigation"', 'role="status"', 'aria-describedby="point-help"', 'aria-labelledby="point-title"', 'id="point-details"', 'tabindex="0"']) assert.ok(html.includes(marker), marker);
+  for (const marker of ['aliquot<span>.q5m.ai', 'https://www.q5m.ai', 'https://github.com/q5m-ai/aliquot', 'class="research-timeline"', 'aria-label="Main navigation"', 'role="status"', 'aria-describedby="point-help"', 'aria-labelledby="point-title"', 'id="point-details"', 'tabindex="0"']) assert.ok(html.includes(marker), marker);
   assert.equal(readFileSync(new URL('favicon.svg', root), 'utf8'), readFileSync(new URL('site/favicon.svg', root), 'utf8'));
 });

@@ -33,7 +33,7 @@ class LatexTests(unittest.TestCase):
         html = (ROOT / "site/index.html").read_text()
         parser = FormulaParser()
         parser.feed(html)
-        self.assertEqual(len(parser.formulas), 9)
+        self.assertEqual(len(parser.formulas), 10)
         self.assertTrue(all(not formula["display"] for formula in parser.formulas[:4]),
                         "heading formulas must stay inline, not centered display blocks")
         expected = [r"s(n)=\sum\limits_{\substack{d\mid n\\1\le d<n}}d", r"n_{k+1}=s(n_k)", "s(1)=0", "n_k"]
@@ -69,27 +69,29 @@ class LatexTests(unittest.TestCase):
                              "sum conditions belong below the operator, not beside the equation")
         self.assertNotIn(".tex-math,#point-factorization", css)
 
-    def test_research_summary_preserves_hypotheses_and_supplied_image(self):
+    def test_research_timeline_keeps_formal_hypotheses_without_exposition(self):
         html = (ROOT / "site/index.html").read_text()
-        research = html.split('<h3>What an escaping orbit would require</h3>', 1)[1]
-        for qualification in ["Conditional result, not a solution", "classical S-unit",
-                              "historical novelty", "no term repeats", "nonperiodicity",
-                              "does not mean every prime occurs", "s(0)"]:
-            self.assertIn(qualification, research)
+        research = html.split('<section id="research"', 1)[1].split('</section>', 1)[0]
+        self.assertIn('class="research-timeline"', research)
+        self.assertIn('<time datetime="2026-10-21">', research)
+        self.assertIn("Classical S-unit theorem", research)
+        self.assertIn("Novelty unverified", research)
+        self.assertIn("/blob/main/research/GLOBAL.md", research)
+        self.assertNotIn('<img', research)
+        self.assertNotIn('whiteboard', research)
+        self.assertNotIn('The explorer uses', research)
+        self.assertFalse((ROOT / "site/images/prime-support-whiteboard.png").exists())
         parser = FormulaParser()
         parser.feed(research)
         expected = [
-            r"n_0\in\mathbb Z_{>0},\qquad n_{k+1}=s(n_k)=\sum_{\substack{d\mid n_k\\1\le d<n_k}}d",
-            r"\forall k\ge0,\ n_k>0;\qquad \forall\,0\le i<j,\ n_i\ne n_j",
+            r"n_0\in\mathbb Z_{>0},\qquad n_{k+1}=s(n_k)=\sum_{\substack{d\mid n_k\\1\le d<n_k}}d\quad(n_k>0)",
+            r"\mathbb P=\{p:p\text{ prime}\},\qquad P(n)=\{p\in\mathbb P:p\mid n\},\quad P(1)=\varnothing",
+            r"\mathcal E\iff\bigl(\forall k\ge0,\ n_k>0\bigr)\land\bigl(\forall\,0\le i<j,\ n_i\ne n_j\bigr)",
             r"\forall S\subseteq\mathbb P,\quad |S|<\infty\ \Longrightarrow\ \left|\{n>1:P(n)\cup P(s(n))\subseteq S\}\right|<\infty",
-            r"\forall S\subseteq\mathbb P,\quad |S|<\infty\ \Longrightarrow\ \left|\{k\ge0:P(n_k)\cup P(n_{k+1})\subseteq S\}\right|<\infty",
-            r"\left|\bigcup_{k\ge0}P(n_k)\right|=\aleph_0",
+            r"\mathcal E\ \Longrightarrow\ \forall S\subseteq\mathbb P,\quad |S|<\infty\ \Longrightarrow\ \left|\{k\ge0:P(n_k)\cup P(n_{k+1})\subseteq S\}\right|<\infty",
+            r"\mathcal E\ \Longrightarrow\ \left|\bigcup_{k\ge0}P(n_k)\right|=\aleph_0;\qquad \exists n_0:\mathcal E\ \text{is open}",
         ]
         self.assertEqual([f["tex"] for f in parser.formulas], expected)
-        image = ROOT / "site/images/prime-support-whiteboard.png"
-        self.assertTrue(image.read_bytes().startswith(b"\x89PNG\r\n\x1a\n"))
-        self.assertIn('src="images/prime-support-whiteboard.png"', research)
-        self.assertIn("summary, not the proof", research)
 
     def test_plain_text_example_matches_exact_arithmetic(self):
         from aliquot import aliquot_sum
