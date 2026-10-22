@@ -29,17 +29,8 @@ class LatexTests(unittest.TestCase):
         self.assertEqual(process.returncode, 0, process.stderr)
         return json.loads(process.stdout)
 
-    def test_actual_formulas_render_as_accessible_csp_compatible_mathml(self):
-        html = (ROOT / "site/index.html").read_text()
-        parser = FormulaParser()
-        parser.feed(html)
-        self.assertEqual(len(parser.formulas), 10)
-        self.assertTrue(all(not formula["display"] for formula in parser.formulas[:4]),
-                        "heading formulas must stay inline, not centered display blocks")
-        expected = [r"s(n)=\sum\limits_{\substack{d\mid n\\1\le d<n}}d", r"n_{k+1}=s(n_k)", "s(1)=0", "n_k"]
-        self.assertEqual([f["tex"] for f in parser.formulas[:4]], expected)
-        self.assertTrue(all(formula["display"] for formula in parser.formulas[4:]))
-        for formula, rendered in zip(parser.formulas, self.render(parser.formulas)):
+    def assert_mathml(self, formulas):
+        for formula, rendered in zip(formulas, self.render(formulas)):
             self.assertTrue(rendered["ok"], formula)
             self.assertEqual(rendered["assignments"], 1, "unchanged formulas should be cached")
             root = ET.fromstring(rendered["markup"])
@@ -52,6 +43,17 @@ class LatexTests(unittest.TestCase):
                 self.assertNotIn("style", element.attrib, "keep the existing no-inline-style CSP")
                 self.assertFalse(any(name.lower().startswith("on") for name in element.attrib))
                 self.assertNotIn(element.tag, ["script", "iframe", "img"])
+
+    def test_actual_formulas_render_as_accessible_csp_compatible_mathml(self):
+        html = (ROOT / "site/index.html").read_text()
+        parser = FormulaParser()
+        parser.feed(html)
+        self.assertEqual(len(parser.formulas), 4)
+        self.assertTrue(all(not formula["display"] for formula in parser.formulas[:4]),
+                        "heading formulas must stay inline, not centered display blocks")
+        expected = [r"s(n)=\sum\limits_{\substack{d\mid n\\1\le d<n}}d", r"n_{k+1}=s(n_k)", "s(1)=0", "n_k"]
+        self.assertEqual([f["tex"] for f in parser.formulas[:4]], expected)
+        self.assert_mathml(parser.formulas)
         self.assertLess(html.index("<h1>Aliquot</h1>"), html.index('class="formula tex-math"'))
         self.assertLess(html.index('class="formula tex-math"'), html.index('<form class="controls"'))
         self.assertNotIn('class="math"', html)  # The old upper-right formula is gone.
@@ -69,20 +71,21 @@ class LatexTests(unittest.TestCase):
                              "sum conditions belong below the operator, not beside the equation")
         self.assertNotIn(".tex-math,#point-factorization", css)
 
-    def test_research_timeline_keeps_formal_hypotheses_without_exposition(self):
-        html = (ROOT / "site/index.html").read_text()
-        research = html.split('<section id="research"', 1)[1].split('</section>', 1)[0]
+    def test_research_timeline_renders_all_formulas_and_retains_global_hypotheses(self):
+        research = (ROOT / "site/research/index.html").read_text()
         self.assertIn('class="research-timeline"', research)
         self.assertIn('<time datetime="2026-10-21">', research)
+        self.assertIn('<time datetime="2026-10-22">', research)
         self.assertIn("Classical S-unit theorem", research)
-        self.assertIn("Novelty unverified", research)
-        self.assertIn("/blob/main/research/GLOBAL.md", research)
+        self.assertIn("novelty is unverified", research)
         self.assertNotIn('<img', research)
         self.assertNotIn('whiteboard', research)
-        self.assertNotIn('The explorer uses', research)
         self.assertFalse((ROOT / "site/images/prime-support-whiteboard.png").exists())
         parser = FormulaParser()
         parser.feed(research)
+        self.assertEqual(len(parser.formulas), 15)
+        self.assertTrue(all(formula["display"] for formula in parser.formulas))
+        self.assert_mathml(parser.formulas)
         expected = [
             r"n_0\in\mathbb Z_{>0},\qquad n_{k+1}=s(n_k)=\sum_{\substack{d\mid n_k\\1\le d<n_k}}d\quad(n_k>0)",
             r"\mathbb P=\{p:p\text{ prime}\},\qquad P(n)=\{p\in\mathbb P:p\mid n\},\quad P(1)=\varnothing",
@@ -91,7 +94,8 @@ class LatexTests(unittest.TestCase):
             r"\mathcal E\ \Longrightarrow\ \forall S\subseteq\mathbb P,\quad |S|<\infty\ \Longrightarrow\ \left|\{k\ge0:P(n_k)\cup P(n_{k+1})\subseteq S\}\right|<\infty",
             r"\mathcal E\ \Longrightarrow\ \left|\bigcup_{k\ge0}P(n_k)\right|=\aleph_0;\qquad \exists n_0:\mathcal E\ \text{is open}",
         ]
-        self.assertEqual([f["tex"] for f in parser.formulas], expected)
+        for tex in expected:
+            self.assertIn(tex, [f["tex"] for f in parser.formulas])
 
     def test_plain_text_example_matches_exact_arithmetic(self):
         from aliquot import aliquot_sum

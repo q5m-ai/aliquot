@@ -380,4 +380,6 @@ conditions, constructive finite recovery, explicit failed shortcuts, and
 scoped necessary constraints on escape. **A major advance toward resolving
 the full conjecture has not been established.** The proof sources, attribution
 limits, and two missing whole-orbit obligations are now collected in one PR,
-without changing the served site or equating CI success with deployment.
+without equating CI success with deployment. A separate presentation change now
+adds the dedicated website timeline; source notes and computation reports remain
+outside the served directory.

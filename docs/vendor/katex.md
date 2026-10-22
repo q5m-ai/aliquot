@@ -1,7 +1,10 @@
 # KaTeX 0.19.0
 
 Self-hosted browser bundle from https://registry.npmjs.org/katex/-/katex-0.19.0.tgz
-(MIT; see LICENSE). Only `dist/katex.min.js` and the upstream license are copied.
+(MIT; see the [vendored license](../../site/vendor/katex/LICENSE)). Only
+`dist/katex.min.js` and the upstream license belong in the served directory.
+This provenance note stays outside `site/` so managed static previews do not
+expose source documentation.
 No package installation or CDN access is required by the website.
 
 Upstream tarball integrity (verified before extraction):
