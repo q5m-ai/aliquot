@@ -2,7 +2,6 @@
 
 from html.parser import HTMLParser
 from pathlib import Path
-import re
 import unittest
 from urllib.parse import urlsplit
 
@@ -48,7 +47,7 @@ class ResearchPageTests(unittest.TestCase):
         entries = [attrs["id"] for tag, attrs in page.elements if tag == "li"]
         self.assertEqual(entries, ["recovery", "prime-templates", "factor-transport", "prime-supply", "prime-support"])
         dates = [attrs["datetime"] for tag, attrs in page.elements if tag == "time"]
-        self.assertEqual(dates, ["2026-10-22"] * 5 + ["2026-10-21"])
+        self.assertEqual(dates, ["2026-10-22"] * 4 + ["2026-10-21"])
         self.assertEqual(len([tag for tag, _ in page.elements if tag == "article"]), 5)
         self.assertEqual(len([tag for tag, _ in page.elements if tag == "summary"]), 5)
         self.assertIn('href="#timeline">Skip to timeline', html)
@@ -58,8 +57,14 @@ class ResearchPageTests(unittest.TestCase):
                 self.assertTrue(attrs.get("aria-label"))
         css = (SITE / "research.css").read_text()
         self.assertIn("overflow-x: auto", css)
-        self.assertIn("minmax(0, 1fr)", css)
+        self.assertIn("background: #fff", css)
         self.assertIn("@media (max-width: 500px)", css)
+        for decoration in ["box-shadow", "border-radius", "border-left", "position: sticky"]:
+            self.assertNotIn(decoration, css)
+        for removed in ["journal-deck", "journal-rail", "result-tag", "orbit-example", "open-question"]:
+            self.assertNotIn(removed, html)
+        for slogan in ["Finite growth.", "Infinite questions.", "Growth is not yet renewal."]:
+            self.assertNotIn(slogan, html)
 
     def test_local_links_assets_and_accessible_references_resolve_on_both_pages(self):
         for relative in ["index.html", "research/index.html"]:
@@ -114,8 +119,8 @@ class ResearchPageTests(unittest.TestCase):
 
         recovery = entry("recovery")
         for text in ["every fixed deficient core D &gt; 1", "every real G &gt; 1",
-                     "infinitely many primes p coprime to D", "Finite, not perpetual.",
-                     "example later reaches zero", "not itself perfect"]:
+                     "infinitely many primes p coprime to D", "No repeated recovery on one seed is proved",
+                     "orbit later reaches zero", "not itself perfect"]:
             self.assertIn(text, recovery)
         self.assertIn(r"n=Dp,\qquad s(n)&lt;n,\qquad s^2(n)&gt;Gn", recovery)
         templates = entry("prime-templates")
@@ -146,4 +151,7 @@ class ResearchPageTests(unittest.TestCase):
         self.assertEqual(29274 // 6, 7 * 17 * 41)
         self.assertEqual(43302 // 6, 7 * 1031)
         self.assertEqual(55770 // 6, 13**2 * 5 * 11)
-        self.assertEqual(re.findall(r'<strong>(\d+)</strong>', html), ["844", "640", "890"])
+        self.assertIn("844 → 640 → 890", html)
+        self.assertIn("at least four distinct primes above 10", html)
+        self.assertLess(3 * 11**3, 4 * 10**3)
+        self.assertGreater(3 * 11**4, 4 * 10**4)
