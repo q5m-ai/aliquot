@@ -5,7 +5,16 @@
 .graph-controls, #find-form, .graph-zoom { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .graph-controls { margin: 16px 0 12px; }
 .graph-zoom { margin-left: auto; gap: 5px; }
-#find-node { width: 78px; }
+#find-node { width: 120px; }
+.point-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.source-setting { flex-wrap: wrap; margin-top: 14px; }
+#source-bound { width: 115px; }
+#input-status { overflow-wrap: anywhere; }
+#stop-work[hidden] { display: none; }
+#point-compute { margin-top: 0; }
+#orbits .point-details button:disabled { opacity: .55; cursor: default; }
+#point-value { max-height: none; }
+#orbits .point-details:not([data-pinned=true]) .point-actions { display: none; }
 #input-status:empty { display: none; }
 .graph-controls button:disabled { opacity: .45; cursor: default; }
 .graph-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin: 10px 0; font-size: 11px; color: #58646c; }

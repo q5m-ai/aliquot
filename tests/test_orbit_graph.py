@@ -7,6 +7,7 @@ from pathlib import Path
 import subprocess
 import unittest
 
+from aliquot import aliquot_sum
 from aliquot.orbit_graph import build_orbit_graph
 from aliquot.research import divisor_sieve
 from scripts.build_orbit_graph import render
@@ -164,6 +165,46 @@ class OrbitGraphTests(unittest.TestCase):
         process = subprocess.run(["node", "--test", "tests/orbits.test.mjs"], cwd=ROOT,
                                  capture_output=True, text=True, timeout=30)
         self.assertEqual(process.returncode, 0, process.stdout + process.stderr)
+
+    def test_browser_live_session_regressions(self):
+        process = subprocess.run(["node", "--test", "tests/orbit-session.test.mjs"], cwd=ROOT,
+                                 capture_output=True, text=True, timeout=30)
+        self.assertEqual(process.returncode, 0, process.stdout + process.stderr)
+
+    def test_live_browser_additions_match_independent_exact_python(self):
+        process = subprocess.run(["node", "tests/orbit-session-math.mjs"], cwd=ROOT,
+                                 capture_output=True, text=True, timeout=30)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        data = json.loads(process.stdout)
+        nodes = {node["id"]: node for node in data["nodes"]}
+        self.assertLessEqual(len(nodes), 500)
+        self.assertEqual(data["schema"], "aliquot-orbit-session-v1")
+        self.assertEqual(nodes["121"]["predecessors"]["status"], "complete")
+        inverse = [str(n) for n in range(1, 14401) if divisor_pair_sum(n) == 121]
+        self.assertEqual(nodes["121"]["predecessors"]["values"], inverse)
+        for source in inverse:
+            self.assertEqual(nodes[source]["next"], "121")
+        for edge in data["edges"]:
+            source = int(edge["from"])
+            self.assertGreater(source, 0)
+            # Large smooth sources are verified by the authoritative Python
+            # factorization core; smaller sources also get divisor-pair checks.
+            self.assertEqual(aliquot_sum(source), int(edge["to"]))
+            if source < 1000000:
+                self.assertEqual(divisor_pair_sum(source), int(edge["to"]))
+        for node in data["nodes"]:
+            if node["factors"] is not None and node["id"] != "0":
+                self.assertEqual(prod(int(f["prime"]) ** f["exponent"] for f in node["factors"]), int(node["id"]))
+                if node.get("sum") is not None:
+                    self.assertEqual(aliquot_sum(int(node["id"])), int(node["sum"]))
+            self.assertEqual(node["leaf"], not node["incoming"])
+            if node["predecessors"]["status"] == "unsearched":
+                self.assertFalse(node["untouchable"])
+        self.assertIsNone(nodes["0"]["next"])
+        self.assertTrue(any(o["seed"] == "220" and o["cycle"] == ["220", "284"] for o in data["orbits"]))
+        for orbit in data["orbits"]:
+            for source, target in zip(orbit["path"], orbit["path"][1:]):
+                self.assertEqual(nodes[source]["next"], target)
 
     def test_public_page_keeps_facts_scope_and_navigation_visible(self):
         page = (ROOT / "site/orbits/index.html").read_text()

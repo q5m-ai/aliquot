@@ -131,19 +131,22 @@ function browser({query = '', width = 1500, height = 700} = {}) {
     }
     getAttribute(key) { return this.attributes[key] ?? null; }
     append(...elements) { elements.forEach(el => { el.parent = this; this.children.push(el); }); }
+    replaceChildren(...elements) { this.children = []; this.append(...elements); }
     addEventListener(type, handler) { if (!this.events.has(type)) this.events.set(type, []); this.events.get(type).push(handler); }
     closest() { for (let element = this; element; element = element.parent) if (element.getAttribute('data-node') !== null) return element; return null; }
     setPointerCapture() {}
     fire(type, options = {}) {
       const event = {target: this, button: 0, pointerType: 'mouse', pointerId: 1, clientX: 150, clientY: 200,
         preventDefault() { this.prevented = true; }, stopPropagation() { this.stopped = true; }, ...options};
+      const pending = [];
       for (let el = this; el; el = el.parent) {
-        for (const handler of el.events.get(type) ?? []) handler(event);
+        for (const handler of el.events.get(type) ?? []) pending.push(handler(event));
         if (event.stopped || ['focus', 'blur', 'pointerenter', 'pointerleave'].includes(type)) break;
       }
+      event.done = Promise.all(pending);
       return event;
     }
-    click() { if (this.tagName === 'a') downloads.push(this); this.fire('click', {detail: 0}); }
+    click() { if (this.tagName === 'a') downloads.push(this); return this.fire('click', {detail: 0}).done; }
     remove() { this.parent.children = this.parent.children.filter(n => n !== this); }
   }
   const elements = new Map([...read('site/orbits/index.html').matchAll(/\bid="([^"]+)"/g)].map(match => [match[1], new Element('div', match[1])]));
@@ -152,21 +155,22 @@ function browser({query = '', width = 1500, height = 700} = {}) {
   el('graph').append(el('graph-world'));
   el('graph-world').append(el('graph-bands'), el('graph-edges'), el('graph-nodes'));
   el('point-details').append(el('point-close'));
+  el('source-bound').value = '10000';
   const document = {getElementById: el, createElement: tag => new Element(tag), createElementNS: (_ns, tag) => new Element(tag), querySelectorAll: () => [], body: new Element('body')};
   const context = vm.createContext({document, location: {search: query}, URLSearchParams, Blob,
     URL: {createObjectURL(blob) { const url = `blob:test-${blobs.size}`; blobs.set(url, blob); return url; }, revokeObjectURL(url) { blobs.delete(url); }},
-    setTimeout: callback => timers.push(callback),
+    setTimeout: (callback, delay) => delay === 1000 ? timers.push(callback) : setTimeout(callback, 0),
     ResizeObserver: class {constructor(callback) { observers.push(callback); } observe() {}},
   });
   vm.runInContext(['site/vendor/katex/katex.min.js', 'site/latex.js', 'site/math.js', 'site/point-info.js',
-    'site/orbit-data.js', 'site/orbit-graph.js', 'site/orbits.js'].map(read).join('\n'), context);
+    'site/reverse-math.js', 'site/orbit-data.js', 'site/orbit-graph.js', 'site/orbit-session.js', 'site/orbits.js'].map(read).join('\n'), context);
   const node = id => el('graph-nodes').children.find(n => n.getAttribute('data-node') === String(id));
   const pointer = (type, id, options = {}) => el('graph').fire(type, {target: id === null ? el('graph') : node(id), ...options});
   return {el, node, size, timers, downloads, blobs, pointer,
     transform: () => el('graph-world').getAttribute('transform'),
     hover: id => node(id).fire('pointerenter'),
     tap(id, options = {}) { pointer('pointerdown', id, options); pointer('pointerup', id, options); },
-    find(id) { el('find-node').value = String(id); el('find-form').fire('submit'); },
+    find(id) { el('find-node').value = String(id); return el('find-form').fire('submit').done; },
     press(key) { return el('graph').fire('keydown', {key}); },
     resize(w, h) { size.width = w; size.height = h; observers.forEach(callback => callback()); },
     active: () => el('graph-nodes').children.filter(n => n.classList.contains('active')).map(n => n.getAttribute('data-node')),
@@ -254,8 +258,13 @@ test('pan, pointer cancellation, and pinch do not accidentally select starting n
   assert.equal(b.transform(), original, 'pointer-driven focus must not recenter the camera');
   b.pointer('pointermove', 52, {clientX: 250, clientY: 230});
   b.pointer('pointerup', 52, {clientX: 250, clientY: 230});
-  assert.notEqual(b.transform(), original);
+  assert.equal(b.transform(), original, 'dragging a node must not pan the camera');
+  const moved = b.node(52).getAttribute('transform');
+  b.el('arrange').click();
+  assert.notEqual(b.node(52).getAttribute('transform'), moved);
   assert.equal(b.el('point-details').hidden, true);
+  b.pointer('pointerdown', null); b.pointer('pointermove', null, {clientX: 250, clientY: 250}); b.pointer('pointerup', null);
+  assert.notEqual(b.transform(), original, 'empty-space drag pans');
   b.pointer('pointerdown', 12); b.pointer('pointercancel', 12);
   assert.deepEqual(b.active(), []);
   b.el('fit').click();
@@ -285,28 +294,28 @@ test('zoom buttons/wheel/keys, Fit and resize keep the overlay horizontally boun
   assert.ok(parseFloat(b.el('point-details').style.left) + b.el('point-details').offsetWidth <= 352);
 });
 
-test('find and deep links are exact, validate membership, and do not invent new orbits', () => {
+test('find and deep links are exact; invalid values cannot invent orbits', async () => {
   const b = browser({query: '?n=00052'});
   assert.equal(b.el('point-value').textContent, '52');
   assert.equal(b.el('find-node').value, '52');
   const previous = b.el('route-status').textContent;
-  for (const value of ['101', '-1', '2.5', '1e2', '9'.repeat(21), '<script>']) {
-    b.find(value);
+  for (const value of ['-1', '2.5', '1e2', '9'.repeat(1001), '<script>']) {
+    await b.find(value);
     assert.ok(b.el('input-status').textContent);
     assert.equal(b.el('route-status').textContent, previous);
   }
   b.find('259');
   assert.equal(b.el('input-status').textContent, '');
   assert.equal(b.el('point-value').textContent, '259');
-  assert.match(b.el('point-starts').textContent, /outside seed range/);
+  assert.match(b.el('point-starts').textContent, /outside the start set/);
 });
 
 test('download preserves every exact certificate and the chosen trace as decimal strings', async () => {
   const b = browser({query: '?n=52'});
   b.el('download').click();
-  assert.equal(b.downloads[0].download, 'aliquot-orbits-1-100.json');
+  assert.equal(b.downloads[0].download, 'aliquot-orbit-graph.json');
   const exported = JSON.parse(await b.blobs.get(b.downloads[0].href).text());
-  assert.equal(exported.schema, 'aliquot-orbit-graph-v1');
+  assert.equal(exported.schema, 'aliquot-orbit-session-v1');
   assert.equal(exported.nodes.length, 117);
   assert.equal(exported.edges.length, 116);
   assert.equal(exported.selection.start, '52');
@@ -318,4 +327,68 @@ test('download preserves every exact certificate and the chosen trace as decimal
   }
   for (const callback of b.timers) callback();
   assert.equal(b.blobs.size, 0);
+});
+
+test('node actions add actual branches, distinguish partial search, and support undo/reset', async () => {
+  const b = browser();
+  b.tap(12);
+  assert.equal(b.el('point-expand').disabled, false);
+  await b.el('point-expand').click();
+  assert.ok(b.node(121));
+  assert.match(b.el('input-status').textContent, /1 predecessor arrow.*Complete predecessor set/);
+  assert.equal(b.el('point-details').hidden, true);
+  assert.ok(b.active().includes('121'));
+  b.tap(121);
+  assert.match(b.el('point-predecessors').textContent, /Not searched/);
+  assert.equal(b.el('point-compute').hidden, false);
+  await b.el('point-compute').click();
+  assert.equal(b.el('point-divisors').textContent, '1, 11');
+  await b.el('point-expand').click();
+  assert.ok(b.node(243));
+  assert.match(b.el('input-status').textContent, /Partial search through 10,000/);
+  await b.el('undo').click();
+  assert.equal(b.node(243), undefined);
+  assert.ok(b.node(121));
+  await b.el('reset-graph').click();
+  assert.equal(b.node(121), undefined);
+  assert.equal(b.el('graph-nodes').children.length, 117);
+  assert.equal(b.el('undo').disabled, true);
+});
+
+test('Explore adds new starts and an amicable component with exact card details', async () => {
+  const b = browser();
+  await b.find('220');
+  assert.ok(b.node(220) && b.node(284));
+  assert.match(b.el('route-status').textContent, /220 → 284 → 220.*cycle/);
+  assert.match(b.el('input-status').textContent, /2 nodes and 2 exact arrows/);
+  assert.equal(b.el('point-forward').disabled, true);
+  assert.match(b.el('point-predecessors').textContent, /Not searched/);
+  await b.find('101');
+  assert.equal(b.node(101).classList.contains('prime'), true);
+  assert.match(b.el('route-status').textContent, /101 → 1 → 0/);
+  b.tap(52);
+  assert.equal(b.el('point-expand').disabled, true);
+  assert.match(b.el('point-expand').textContent, /proved/);
+});
+
+test('live selection and Stop cancel pending work without leaking stale graph changes', async () => {
+  const b = browser();
+  const pending = b.find('9'.repeat(70));
+  assert.equal(b.el('stop-work').hidden, false);
+  assert.equal(b.el('find-button').disabled, true);
+  await b.el('stop-work').click();
+  // The real adapter yields at its exact work checkpoints; drive the queued
+  // callback after cancellation to ensure obsolete async work cannot commit.
+  for (let i = 0; i < 12; i++) { b.timers.splice(0).forEach(f => f()); await Promise.resolve(); }
+  await pending;
+  assert.equal(b.el('graph-nodes').children.length, 117);
+  assert.equal(b.el('find-button').disabled, false);
+  assert.match(b.el('input-status').textContent, /discarded/);
+  b.tap(12);
+  b.el('source-bound').value = '0';
+  // A completed certificate can still be reused, but an invalid explicit
+  // resource bound must be rejected before changing the graph.
+  await b.el('point-expand').click();
+  assert.equal(b.node(121), undefined);
+  assert.match(b.el('input-status').textContent, /Source bound/);
 });
