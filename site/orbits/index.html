@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Grow an interactive aliquot graph from starts 1–100. Add starting values and exact predecessors, drag nodes, and explore primes and shared tails.">
+<meta name="description" content="Grow an interactive aliquot graph from starts 1–1,000. Add starting values and exact predecessors, drag nodes, and explore primes and shared tails.">
 <title>Orbit graph — Aliquot</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="stylesheet" href="/site.css?v=330fcddeb41c5c71">
-<link rel="stylesheet" href="/orbits.css?v=3af8e1beffa62470">
+<link rel="stylesheet" href="/orbits.css?v=9264955eea6866e1">
 <script src="/vendor/katex/katex.min.js?v=103a53763cc033bb" defer></script>
 <script src="/latex.js?v=9f835ebcef4900f0" defer></script>
 <script src="/math.js?v=9fd40b9534e07736" defer></script>
 <script src="/point-info.js?v=eb3a0ddde1079dfa" defer></script>
 <script src="/reverse-math.js?v=ac43d570562280a6" defer></script>
-<script src="/orbit-data.js?v=86fd0ed731e4a68e" defer></script>
+<script src="/orbit-data.js?v=9a160824608018ca" defer></script>
 <script src="/orbit-graph.js?v=06279dd8732f51cf" defer></script>
-<script src="/orbit-session.js?v=c4a3e842804ec929" defer></script>
-<script src="/orbits.js?v=00a228df3411b48c" defer></script>
+<script src="/orbit-session.js?v=aa3db72b5571c7ce" defer></script>
+<script src="/orbits.js?v=11d4d8e0df6435d5" defer></script>
 </head>
 <body class="orbits-page">
 <a class="skip" href="#orbits">Skip to orbit graph</a>
@@ -27,9 +27,9 @@
 <main id="orbits">
 <div class="explorer-heading">
 <h1>Orbit graph</h1>
-<p class="formula-copy">All starts 1–100 are loaded. Add a start, click a node to expand its predecessors, or drag nodes to rearrange. Arrows follow n → s(n).</p>
+<p class="formula-copy">All starts 1–1,000 are loaded. Add a start, click a node to expand its predecessors, or drag nodes to rearrange. Arrows follow n → s(n).</p>
 </div>
-<noscript><p>This interactive graph needs JavaScript. The exact dataset includes all starts 1–100: 96 terminate at 0, three reach the perfect number 6, and 28 stays fixed. The numbers 2, 5, 52, 88, and 96 have no positive predecessors, proved using complete finite inverse searches.</p></noscript>
+<noscript><p>This interactive graph needs JavaScript. The exact bounded dataset includes all starts 1–1,000: 948 terminate at 0, 22 reach cycles or fixed points, and 30 remain unresolved within the stated limits. The numbers 2, 5, 52, 88, and 96 have no positive predecessors, proved using complete finite inverse searches.</p></noscript>
 <div class="graph-controls">
 <form id="find-form"><label for="find-node">Number</label><input id="find-node" type="text" inputmode="numeric" value="52" autocomplete="off" aria-describedby="graph-help"><button type="submit" id="find-button">Explore ↵</button></form>
 <button type="button" id="undo" disabled>Undo</button><button type="button" id="clear-trace" disabled>All orbits</button><button type="button" id="stop-work" hidden>Stop</button>
@@ -39,7 +39,7 @@
 <div class="graph-legend" aria-label="Graph legend"><span><i class="legend-dot composite"></i>Composite</span><span><i class="legend-dot prime"></i>Prime</span><span><i class="legend-dot perfect"></i>Perfect</span><span><i class="legend-dot terminal"></i>0 / 1</span><span><i class="legend-ring"></i>No predecessor · proved</span></div>
 <div id="chart" class="chart">
 <svg id="graph" xmlns="http://www.w3.org/2000/svg" role="group" tabindex="0" aria-labelledby="graph-title" aria-describedby="graph-help">
-<title id="graph-title">Interactive directed aliquot graph, beginning with starts 1–100</title>
+<title id="graph-title">Interactive directed aliquot graph, beginning with starts 1–1,000</title>
 <defs><marker id="arrow" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="7" markerHeight="6" orient="auto"><path d="M 0 0 L 10 4 L 0 8 Z"></path></marker><marker id="arrow-active" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="7" markerHeight="6" orient="auto"><path d="M 0 0 L 10 4 L 0 8 Z"></path></marker></defs>
 <g id="graph-world"><g id="graph-bands"></g><g id="graph-edges"></g><g id="graph-nodes"></g></g>
 </svg>
@@ -69,16 +69,16 @@
 <details class="graph-notes">
 <summary>Search settings, reset &amp; exact bounds</summary>
 <label class="source-setting" for="source-bound">Predecessor source bound <input id="source-bound" type="text" inputmode="numeric" value="10000" aria-describedby="bound-help"></label>
-<p id="bound-help">New searches check 1 ≤ m ≤ this bound, up to 1,000,000. Previously completed inverse certificates are reused, even when they cover a larger range. Each Add predecessors action draws at most 25 missing predecessor arrows; click again for another batch. The graph is limited to 500 nodes. Search completeness and how many matches are drawn are separate.</p>
-<button type="button" id="reset-graph">Reset to starts 1–100</button>
-<p>A <strong>displayed leaf</strong> has no incoming arrow in this graph. It need not lack a predecessor elsewhere: 12 is initially a displayed leaf, but 121 → 12 is outside the initial starting orbits. Click 12, then Add predecessors to draw that branch. A pink ring means the stronger statement: <strong>no positive predecessor exists</strong> (an untouchable number). Among starts 1–100, these are exactly 2, 5, 52, 88, and 96.</p>
-<p>For a target n &gt; 1, every solution of s(m) = n satisfies m ≤ (n − 1)²: m is composite and has a proper divisor d ≥ √m, so n ≥ 1 + d. The initial dataset’s independent source sieve covers 1–100,000, enough for every initial target other than 1. Newly added nodes have no absence claim until a completed search covers their ceiling; a smaller search is partial. In particular, all sources through 2,601 are checked for 52. For 1 the predecessor set is infinite: exactly all primes. For 0 the only predecessor is 1; <strong>s(0) is undefined</strong>, so there is no outgoing arrow from 0.</p>
-<p>Each positive starting integer from 1 through 100 is included, not just the leaves. Shared values and arrows are drawn once; values above 100 remain visible when an orbit reaches them. All these initial orbits are resolved: 96 starts terminate at 0, 1–100 contains three starts reaching 6 (6, 25, 95), and 28 is already fixed. The self-loops at 6 and 28 are genuine cycles.</p>
+<p id="bound-help">New searches check 1 ≤ m ≤ this bound, up to 1,000,000. Previously completed inverse certificates are reused, even when they cover a larger range. Each Add predecessors action draws at most 25 missing predecessor arrows; click again for another batch. The graph is limited to 5,000 nodes. Search completeness and how many matches are drawn are separate.</p>
+<button type="button" id="reset-graph">Reset to starts 1–1,000</button>
+<p>A <strong>displayed leaf</strong> has no incoming arrow in this graph. It need not lack a predecessor elsewhere: 121 → 12 now appears because 121 is included in the starting range. Other missing predecessors can still lie outside this family: use Add predecessors on a selected node to grow those branches. A pink ring means the stronger statement: <strong>no positive predecessor exists</strong> (an untouchable number). Among starts 1–100, these are exactly 2, 5, 52, 88, and 96; among all starts 1–1,000 there are 89 such certified targets.</p>
+<p>For a target n &gt; 1, every solution of s(m) = n satisfies m ≤ (n − 1)²: m is composite and has a proper divisor d ≥ √m, so n ≥ 1 + d. The initial dataset’s independent source sieve covers 1–1,000,000, enough for every starting target from 2 through 1,000. Larger reached values can have partial inverse coverage; their cards report it explicitly. Newly added nodes have no absence claim until a completed search covers their ceiling; a smaller search is partial. In particular, all sources through 2,601 are checked for 52. For 1 the predecessor set is infinite: exactly all primes. For 0 the only predecessor is 1; <strong>s(0) is undefined</strong>, so there is no outgoing arrow from 0.</p>
+<p>Every positive starting integer from 1 through 1,000 is included, not just the leaves. The initial union has 1,665 nodes and 1,653 arrows; values above 1,000 remain visible when reached. Of the 1,000 starts, 948 terminate at 0, 22 reach fixed points or cycles, and 30 remain unresolved. The graph includes the perfect numbers 6, 28, 496 and the amicable cycle 220 ↔ 284. Search for a number to zoom directly to it; the full overview is intentionally dense.</p>
 <p>Look for the prime fan into 1, shared tails, and the contrast between abundant steps and the small perfect-number components. The flow is left-to-right on wide screens and top-to-bottom on narrow screens. Larger dots have more incoming arrows <em>in this graph</em>, not necessarily more global predecessors. Placement within a layer is only layout. Selection highlights the forward orbit, not all ancestors. Closing the details card leaves the highlighted path visible; All orbits clears it.</p>
-<p>The public dataset is reproducibly generated by exact Python integer factorization, with 64 steps per starting value, a 1,000,000 source-value cap, and 2,000,000 factorization work units per call. None of these initial forward limits is reached: the largest initial value is 259. A separate additive divisor sieve checks predecessors; tests independently verify it by divisor-pair enumeration. Layout never determines arithmetic or primality. Integer values in the download are decimal strings.</p>
+<p>The public dataset is reproducibly generated by exact Python integer factorization, with 64 steps per starting value, a 1,000,000 source-value cap, and 2,000,000 factorization work units per call. The largest reached value is 1,895,712. Eleven frontiers exceed the source-value cap, leaving 30 starting orbits unresolved; these are computation limits, not claims about their eventual fate. A separate additive divisor sieve checks predecessors; tests independently verify it by divisor-pair enumeration. Layout never determines arithmetic or primality. Integer values in the download are decimal strings.</p>
 <p>Live forward additions use exact BigInt arithmetic: at most 64 new steps per action, 1,000 digits per drawn node, and 2,000,000 factorization work units per step. Extend forward explicitly to try another block. Limits leave unresolved frontiers, never guessed primes or evidence of divergence. Hovering does not launch a calculation; unknown divisor details require Compute divisors. Stop, changing the selection, or dragging cancels an unfinished action without publishing its partial changes. Completed forward prefixes ending at a computation limit are retained and labelled.</p>
-<p>Undo retains the last ten completed graph actions. Reset restores the original 1–100 dataset. Changes live in this tab; reload discards them. Download saves the current exact graph, starting paths, inverse coverage, limits, and selection, not the approximate draggable positions. Dragging changes only layout, never an edge or a value.</p>
-<p>This finite graph suggests questions, not a proof of the aliquot conjecture or evidence of divergence. The initial 45 displayed leaves describe only that family of starts; the five no-predecessor certificates are global statements for those individual targets.</p>
+<p>Undo retains the last ten completed graph actions. Reset restores the original 1–1,000 dataset. Changes live in this tab; reload discards them. Download saves the current exact graph, starting paths, inverse coverage, limits, and selection, not the approximate draggable positions. Dragging changes only layout, never an edge or a value.</p>
+<p>This finite graph suggests questions, not a proof of the aliquot conjecture or evidence of divergence. The initial 514 displayed leaves describe only that family of starts; the 89 no-predecessor certificates are global statements for those individual targets.</p>
 <button type="button" id="download">Download exact graph</button>
 </details>
 </main>

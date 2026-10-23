@@ -235,7 +235,7 @@
   $('reset-graph').addEventListener('click', () => {
     cancelJob(); session.reset(); revealed.clear(); selected = hovered = null; detailsHidden = false;
     $('find-node').value = '52'; rebuild({arrange: true});
-    $('input-status').textContent = 'Reset to the original starts 1–100.';
+    $('input-status').textContent = `Reset to the original starts 1–${fmt(session.data.initial_limits.seed_max)}.`;
   });
   $('arrange').addEventListener('click', () => { cancelJob(); rebuild({arrange: true}); });
   $('clear-trace').addEventListener('click', () => { clear(); fit(); });

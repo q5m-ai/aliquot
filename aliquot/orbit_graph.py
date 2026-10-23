@@ -12,8 +12,8 @@ from .research import divisor_sieve, require_bound
 def build_orbit_graph(*, seed_bound=100, max_steps=64, max_source=1_000_000,
                       predecessor_bound=100_000, max_work=DEFAULT_MAX_WORK):
     positive_integer(seed_bound, "seed_bound")
-    if seed_bound > 100:
-        raise ValueError("This visualization is bounded to starts 1–100.")
+    if seed_bound > 1000:
+        raise ValueError("This visualization is bounded to starts 1–1,000.")
     positive_integer(max_steps, "max_steps")
     if max_steps > 256:
         raise ValueError("max_steps must be at most 256")

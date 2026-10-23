@@ -32,6 +32,7 @@ class OrbitGraphTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.graph = build_orbit_graph()
+        cls.large_graph = build_orbit_graph(seed_bound=1000, predecessor_bound=1_000_000)
         cls.nodes = {int(n["id"]): n for n in cls.graph["nodes"]}
         cls.ceiling = max(int(n["predecessors"]["ceiling"] or 0) for n in cls.nodes.values())
         cls.inverse = {n: [] for n in cls.nodes if n != 1}
@@ -44,9 +45,10 @@ class OrbitGraphTests(unittest.TestCase):
 
     def test_generated_public_artifact_is_exactly_reproducible(self):
         artifact = (ROOT / "site/orbit-data.js").read_text()
-        self.assertEqual(artifact, render(self.graph))
+        self.assertEqual(artifact, render(self.large_graph))
+        self.assertEqual((ROOT / "tests/fixtures/orbit-data-100.js").read_text(), render(self.graph))
         parsed = json.loads(artifact.split("const AliquotOrbitData = ", 1)[1].removesuffix(";\n"))
-        self.assertEqual(parsed, self.graph)
+        self.assertEqual(parsed, self.large_graph)
         result = subprocess.run(["python3", "scripts/build_orbit_graph.py", "--check"],
                                 cwd=ROOT, capture_output=True, text=True, timeout=15)
         self.assertEqual(result.returncode, 0, result.stderr)
@@ -156,7 +158,7 @@ class OrbitGraphTests(unittest.TestCase):
         self.assertEqual(self.graph["limits"], {"seed_min": "1", "seed_max": "100", "max_steps": 64,
                                              "max_source": "1000000", "factorization_work": 2000000,
                                              "predecessor_source_bound": "100000"})
-        for options in [{"seed_bound": 101}, {"seed_bound": True}, {"max_steps": 0}, {"max_steps": 257},
+        for options in [{"seed_bound": 1001}, {"seed_bound": True}, {"max_steps": 0}, {"max_steps": 257},
                         {"predecessor_bound": 1000001}, {"max_source": 0}, {"max_work": -1}]:
             with self.subTest(options=options), self.assertRaises(ValueError):
                 build_orbit_graph(**options)
@@ -206,10 +208,58 @@ class OrbitGraphTests(unittest.TestCase):
             for source, target in zip(orbit["path"], orbit["path"][1:]):
                 self.assertEqual(nodes[source]["next"], target)
 
+    def test_thousand_start_graph_has_exact_edges_honest_frontiers_and_seed_coverage(self):
+        data = self.large_graph
+        nodes = {n["id"]: n for n in data["nodes"]}
+        self.assertEqual(len(nodes), 1665)
+        self.assertEqual(len(data["edges"]), 1653)
+        self.assertEqual(max(map(int, nodes)), 1895712)
+        self.assertEqual([o["seed"] for o in data["orbits"]], list(map(str, range(1, 1001))))
+        self.assertEqual(Counter(o["status"] for o in data["orbits"]),
+                         {"terminated": 948, "cycle": 22, "unresolved": 30})
+        self.assertFalse(data["complete_orbits"])
+        self.assertEqual(sum(n["leaf"] for n in nodes.values()), 514)
+        self.assertEqual(sum(n["untouchable"] for n in nodes.values()), 89)
+        self.assertEqual(nodes["121"]["next"], "12")
+        self.assertFalse(nodes["12"]["leaf"])
+        for edge in data["edges"]:
+            source, target = int(edge["from"]), int(edge["to"])
+            self.assertGreater(source, 0)
+            self.assertLessEqual(source, 1000000)
+            self.assertEqual(divisor_pair_sum(source), target)
+            self.assertEqual(aliquot_sum(source), target)
+        frontiers = [n for n in nodes.values() if n["unresolved"]]
+        self.assertEqual(len(frontiers), 11)
+        for node in frontiers:
+            self.assertEqual(node["unresolved"], "source limit")
+            self.assertGreater(int(node["id"]), 1000000)
+            self.assertIsNone(node["next"])
+            self.assertIsNone(node["prime"])
+            self.assertIsNone(node["factors"])
+        for orbit in data["orbits"]:
+            for source, target in zip(orbit["path"], orbit["path"][1:]):
+                self.assertEqual(nodes[source]["next"], target)
+            if orbit["status"] == "unresolved":
+                self.assertIsNotNone(nodes[orbit["path"][-1]]["unresolved"])
+        for value in range(2, 1001):
+            self.assertEqual(nodes[str(value)]["predecessors"]["status"], "complete")
+        for node in nodes.values():
+            if node["predecessors"]["status"] == "partial":
+                self.assertFalse(node["untouchable"])
+        sieve = divisor_sieve(1000000)
+        for source in list(range(1, 1001)) + [99991, 100000, 999983, 1000000]:
+            self.assertEqual(sieve[source], divisor_pair_sum(source))
+        inverses = {str(n): [] for n in range(2, 1001)}
+        for source in range(1, 1000001):
+            if str(sieve[source]) in inverses:
+                inverses[str(sieve[source])].append(str(source))
+        for target, values in inverses.items():
+            self.assertEqual(nodes[target]["predecessors"]["values"], values)
+
     def test_public_page_keeps_facts_scope_and_navigation_visible(self):
         page = (ROOT / "site/orbits/index.html").read_text()
-        for text in ["All starts 1–100", "s(0) is undefined", "121 → 12", "2, 5, 52, 88, and 96",
-                     "2,601", "100,000", "64 steps", "1,000,000", "2,000,000", "not a proof", "45 displayed leaves"]:
+        for text in ["All starts 1–1,000", "s(0) is undefined", "121 → 12", "2, 5, 52, 88, and 96",
+                     "2,601", "1,000,000", "64 steps", "2,000,000", "not a proof", "514 displayed leaves"]:
             self.assertIn(text, page)
         for name in ["index.html", "reverse/index.html", "research/index.html"]:
             self.assertIn('href="/orbits/"', (ROOT / "site" / name).read_text())

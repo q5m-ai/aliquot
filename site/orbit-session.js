@@ -2,7 +2,7 @@
 // Transactional, exact graph growth. Cancellation discards the whole unfinished
 // action; a computation limit publishes only verified edges and an open frontier.
 const AliquotOrbitSession = (() => {
-  const LIMITS = {maxNodes: 500, maxSteps: 64, maxDigits: AliquotMath.MAX_DIGITS,
+  const LIMITS = {maxNodes: 5000, maxSteps: 64, maxDigits: AliquotMath.MAX_DIGITS,
     maxWork: AliquotMath.MAX_WORK, batchSize: 25, history: 10};
   const copy = value => JSON.parse(JSON.stringify(value));
   const compare = (a, b) => BigInt(a) < BigInt(b) ? -1 : BigInt(a) > BigInt(b) ? 1 : 0;

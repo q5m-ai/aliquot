@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reproduce the deliberately public, fixed 1–100 graph; never serve this script."""
+"""Reproduce the deliberately public, fixed 1–1,000 graph and small regression fixture; never serve this script."""
 
 import argparse
 import json
@@ -11,6 +11,7 @@ sys.path.insert(0, str(ROOT))
 from aliquot.orbit_graph import build_orbit_graph  # noqa: E402
 
 OUTPUT = ROOT / "site/orbit-data.js"
+FIXTURE = ROOT / "tests/fixtures/orbit-data-100.js"
 
 
 def render(data):
@@ -34,14 +35,18 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="Fail if the committed data is stale; write nothing.")
     args = parser.parse_args()
-    expected = render(build_orbit_graph())
-    if args.check:
-        if not OUTPUT.is_file() or OUTPUT.read_text() != expected:
-            print("Orbit data is stale: run python3 scripts/build_orbit_graph.py", file=sys.stderr)
-            return 1
-    else:
-        OUTPUT.write_text(expected)
-        print("Updated site/orbit-data.js; refresh asset hashes next.")
+    for path, data in [(OUTPUT, build_orbit_graph(seed_bound=1000, predecessor_bound=1_000_000)),
+                       (FIXTURE, build_orbit_graph())]:
+        expected = render(data)
+        if args.check:
+            if not path.is_file() or path.read_text() != expected:
+                print("Orbit data is stale: run python3 scripts/build_orbit_graph.py", file=sys.stderr)
+                return 1
+        else:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(expected)
+    if not args.check:
+        print("Updated graph and small test fixture; refresh asset hashes next.")
     return 0
 
 

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
 const source = ['math', 'reverse-math', 'orbit-data', 'orbit-graph', 'orbit-session']
-  .map(name => readFileSync(new URL(`../site/${name}.js`, import.meta.url), 'utf8')).join('\n');
+  .map(name => readFileSync(new URL(name === 'orbit-data' ? './fixtures/orbit-data-100.js' : `../site/${name}.js`, import.meta.url), 'utf8')).join('\n');
 const plain = value => JSON.parse(JSON.stringify(value));
 function session(options = {}) {
   const context = vm.createContext({setTimeout});

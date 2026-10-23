@@ -4,7 +4,9 @@ import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
 
 const root = new URL('../', import.meta.url);
-const read = name => readFileSync(new URL(name, root), 'utf8');
+// Keep the small arithmetic/UI regressions stable; the served 1–1,000 graph
+// is checked separately by Python and a full-dataset browser smoke test.
+const read = name => readFileSync(new URL(name === 'site/orbit-data.js' ? 'tests/fixtures/orbit-data-100.js' : name, root), 'utf8');
 const mathSource = ['site/orbit-data.js', 'site/orbit-graph.js'].map(read).join('\n');
 const core = vm.createContext({});
 vm.runInContext(mathSource + '\nconst model = AliquotOrbitGraph.create(AliquotOrbitData);', core);
@@ -107,7 +109,7 @@ test('zoom preserves the pointer anchor and has finite bounded scale', () => {
 
 // Dependency-free DOM/PointerEvent harness; real Chromium smoke tests separately
 // exercise layout, CSP, native SVG focus, mouse capture, and mobile touch.
-function browser({query = '', width = 1500, height = 700} = {}) {
+function browser({query = '', width = 1500, height = 700, large = false} = {}) {
   const size = {width, height}, observers = [], downloads = [], blobs = new Map(), timers = [];
   class Element {
     constructor(tag = 'div', id = '') {
@@ -163,7 +165,8 @@ function browser({query = '', width = 1500, height = 700} = {}) {
     ResizeObserver: class {constructor(callback) { observers.push(callback); } observe() {}},
   });
   vm.runInContext(['site/vendor/katex/katex.min.js', 'site/latex.js', 'site/math.js', 'site/point-info.js',
-    'site/reverse-math.js', 'site/orbit-data.js', 'site/orbit-graph.js', 'site/orbit-session.js', 'site/orbits.js'].map(read).join('\n'), context);
+    'site/reverse-math.js', 'site/orbit-data.js', 'site/orbit-graph.js', 'site/orbit-session.js', 'site/orbits.js']
+    .map(name => large && name === 'site/orbit-data.js' ? readFileSync(new URL(name, root), 'utf8') : read(name)).join('\n'), context);
   const node = id => el('graph-nodes').children.find(n => n.getAttribute('data-node') === String(id));
   const pointer = (type, id, options = {}) => el('graph').fire(type, {target: id === null ? el('graph') : node(id), ...options});
   return {el, node, size, timers, downloads, blobs, pointer,
@@ -176,6 +179,28 @@ function browser({query = '', width = 1500, height = 700} = {}) {
     active: () => el('graph-nodes').children.filter(n => n.classList.contains('active')).map(n => n.getAttribute('data-node')),
   };
 }
+
+test('the actual served 1–1,000 graph loads, expands, adds starts, and resets', async () => {
+  const b = browser({large: true});
+  assert.equal(b.el('graph-nodes').children.length, 1665);
+  assert.equal(b.el('graph-edges').children.length, 1653);
+  for (let n = 1; n <= 1000; n++) assert.ok(b.node(n));
+  assert.match(b.el('graph-summary').textContent, /1000 starts.*1665\/5000/);
+  assert.match(b.el('route-status').textContent, /unresolved frontiers/);
+  await b.find('276');
+  assert.equal(b.el('point-forward').disabled, false);
+  assert.match(b.el('route-status').textContent, /unresolved within limits/);
+  await b.find('121');
+  assert.equal(b.el('point-expand').disabled, false);
+  await b.el('point-expand').click();
+  assert.ok(b.el('graph-nodes').children.length > 1665);
+  assert.match(b.el('input-status').textContent, /Complete predecessor set/);
+  await b.find('1000003');
+  assert.equal(b.node(1000003).classList.contains('prime'), true);
+  await b.el('reset-graph').click();
+  assert.equal(b.el('graph-nodes').children.length, 1665);
+  assert.match(b.el('input-status').textContent, /1–1,000/);
+});
 
 test('SVG UI renders all nodes/arrows once and hover previews exact info without factoring', () => {
   const b = browser();

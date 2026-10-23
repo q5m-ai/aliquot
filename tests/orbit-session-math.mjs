@@ -3,7 +3,7 @@ import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
 const context = vm.createContext({setTimeout});
 vm.runInContext(['math', 'reverse-math', 'orbit-data', 'orbit-graph', 'orbit-session']
-  .map(name => readFileSync(new URL(`../site/${name}.js`, import.meta.url), 'utf8')).join('\n') +
+  .map(name => readFileSync(new URL(name === 'orbit-data' ? './fixtures/orbit-data-100.js' : `../site/${name}.js`, import.meta.url), 'utf8')).join('\n') +
   '\nconst session = AliquotOrbitSession.create(AliquotOrbitData);', context);
 await vm.runInContext('session.expand("12")', context);
 await vm.runInContext('session.expand("121", {bound:14400})', context);

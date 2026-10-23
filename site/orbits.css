@@ -29,7 +29,7 @@
 #orbits #graph.dragging { cursor: grabbing; }
 #orbits #graph:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
 .graph-band { font: 11px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #68747e; pointer-events: none; }
-.graph-edge { fill: none; stroke: #aab8c2; stroke-width: 1.2; opacity: .85; pointer-events: none; }
+.graph-edge { fill: none; stroke: #aab8c2; stroke-width: .8; vector-effect: non-scaling-stroke; opacity: .85; pointer-events: none; }
 #arrow path { fill: #aab8c2; }
 #arrow-active path { fill: var(--blue); }
 .graph-node { cursor: pointer; outline: none; }
