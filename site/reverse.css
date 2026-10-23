@@ -1,59 +1,38 @@
-.reverse-formula { margin-top: 14px; font-size: 18px; }
-#root-input { width: 170px; }
+/* The same canvas and floating point cards as Explore, without a sidebar. */
+.reverse-page main, .reverse-page .shell { max-width: none; padding-inline: clamp(16px, 2.5vw, 40px); }
+.reverse-page .explorer-heading { padding-bottom: 14px; }
+.reverse-formula { margin-top: 10px; font-size: 18px; }
+.reverse-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 16px 0; }
+.reverse-controls .seed-control { margin-right: 8px; }
+#root-input { width: 130px; }
 #input-status:empty { display: none; }
-.reverse-search { padding: 16px 0; border-block: 1px solid var(--line); }
-.bound-controls, .reverse-actions, .candidate-pages { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+#reverse #graph { height: clamp(320px, 58vh, 760px); }
+#reverse button:disabled { cursor: default; opacity: .5; }
+#reverse .stats { margin-top: 18px; }
+#reverse .note { overflow-wrap: anywhere; }
+#cycle-status { color: var(--amber); }
+#point-issue { overflow-wrap: anywhere; margin-bottom: 0; }
+#point-issue:empty { display: none; }
+#point-branch { margin-top: 8px; }
+#point-branch[hidden], .point-details:not([data-pinned=true]) #point-branch { display: none; }
+.reverse-options { border-top: 1px solid var(--line); padding-top: 14px; font: 13px/1.65 ui-sans-serif, system-ui, sans-serif; }
+.reverse-options summary { cursor: pointer; color: #58646c; }
+.reverse-options p { max-width: 95ch; color: #58646c; overflow-wrap: anywhere; }
+.reverse-options .presets { margin: 12px 0; }
+.reverse-options > details { margin: 16px 0; }
+.bound-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; }
 .bound-controls label { color: #58646c; }
 .bound-controls input { max-width: 100%; }
 #source-bound { width: 120px; }
+#verify-input { width: 220px; }
 #search-progress { width: 120px; accent-color: var(--blue); }
-.search-status { margin: 10px 0 0; line-height: 1.6; font-size: 12px; overflow-wrap: anywhere; }
-.reverse-actions { margin-top: 16px; }
-.reverse-actions button, .candidate-pages button { padding: 8px 10px; font-size: 12px; }
-#cycle-status { color: #855006; font-size: 12px; }
-#reverse button:disabled { cursor: default; opacity: .5; }
-.reverse-stats { margin-top: 22px; }
-.reverse-stats small { font-size: 10px; line-height: 1.6; }
-.reverse-workspace { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; align-items: start; }
-.reverse-board { min-width: 0; }
-.reverse-board h2 { margin: 8px 0; font: 600 20px Georgia, serif; }
-.reverse-scroll { overflow: auto; border: 1px solid var(--line); border-radius: 6px; background: #fafbfd; }
-.reverse-scroll:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
-.reverse-surface { position: relative; min-width: 360px; min-height: 350px; background-image: radial-gradient(#dce3ed 1px, transparent 1px); background-size: 18px 18px; }
-#reverse-edges { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-#forward-arrow path { fill: #8d9ec6; }
-.reverse-edge { fill: none; stroke: #a5b4d5; stroke-width: 1.5; marker-end: url(#forward-arrow); }
-.reverse-edge.chosen { stroke: var(--blue); stroke-width: 2; }
-.reverse-edge.repeat { stroke: var(--amber); stroke-dasharray: 5 4; }
-.orbit-node { position: absolute; width: 140px; min-height: 44px; padding: 7px 8px; transform: translate(-50%, -50%); background: white; border-color: #b9c9ef; box-shadow: 0 2px 5px #18212608; }
-.orbit-node .node-value { display: block; font-size: 13px; font-weight: 600; }
-.orbit-node .node-caption { display: block; margin-top: 4px; font-size: 10px; color: #68747e; }
-.orbit-node.chosen { background: #eef3ff; border-color: var(--blue); color: #1c43bd; }
-.orbit-node.repeat { border-color: var(--amber); border-style: dashed; }
-.orbit-node[aria-pressed=true] { outline: 3px solid #9bb5ff; outline-offset: 3px; }
-.orbit-node:focus-visible { outline-color: var(--ink); }
-.grid-caption { position: absolute; top: 18px; width: 160px; transform: translateX(-50%); text-align: center; font-size: 11px; color: #68747e; }
-.grid-empty { position: absolute; top: 100px; left: 20px; width: 140px; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
-.candidate-pages { justify-content: space-between; margin-top: 12px; font-size: 11px; }
-#page-info { text-align: center; flex: 1; }
-.reverse-inspector { min-width: 0; }
-.reverse-inspector .point-details { position: static; width: auto; max-width: none; box-shadow: none; padding: 14px; }
-.reverse-inspector #point-close { margin-left: auto; }
-.reverse-inspector #point-follow { display: block; margin-top: 12px; padding: 9px 12px; width: 100%; font-size: 12px; }
-.reverse-inspector #point-issue { overflow-wrap: anywhere; margin-bottom: 0; }
-.manual-test, .reverse-limits { margin-top: 22px; border-top: 1px solid var(--line); padding-top: 16px; font: 13px/1.65 ui-sans-serif, system-ui, sans-serif; }
-.manual-test summary, .reverse-limits summary { cursor: pointer; font-weight: 600; }
-.manual-test p, .reverse-limits p { color: #58646c; max-width: 90ch; overflow-wrap: anywhere; }
-.manual-test input { width: 220px; }
-.manual-test .bound-controls { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; }
-@media (max-width: 800px) {
-  .reverse-workspace { grid-template-columns: minmax(0, 1fr); gap: 10px; }
-  .reverse-inspector .point-details { max-width: 500px; }
-}
+#download { font-size: 12px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 @media (max-width: 500px) {
-  .reverse-actions { gap: 6px; }
-  .reverse-stats { grid-template-columns: 1fr 1fr; }
-  .reverse-stats > :last-child { grid-column: 1 / -1; }
-  .candidate-pages { font-size: 10px; gap: 5px; }
-  .candidate-pages button { padding: 8px 6px; font-size: 10px; }
+  .reverse-controls .seed-control { margin-right: 0; }
+  .reverse-controls label { font-size: 12px; }
+  #root-input { width: 105px; }
+  .reverse-controls input, .reverse-controls button, .reverse-controls select { padding: 9px; }
+  #reverse #graph { height: clamp(320px, 52vh, 520px); }
+  #reverse .stats small { font-size: 10px; line-height: 1.5; }
 }

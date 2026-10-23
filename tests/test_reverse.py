@@ -73,11 +73,12 @@ class ReverseTests(unittest.TestCase):
 
     def test_reverse_page_keeps_bounds_direction_and_nondivergence_explicit(self):
         page = (ROOT / "site/reverse/index.html").read_text()
-        for text in ["All arrows point forward", "alternatives, not consecutive terms",
-                     "up to 1,000,000 per sieve", "Rows are layout, not a numeric scale",
+        for text in ["negative steps to the left", "alternatives, not consecutive terms",
+                     "up to 1,000,000 per sieve", "y-axis is the numeric value",
                      "m ≤ (n − 1)²", "every finite search is partial", "s(0) is undefined",
                      "not a proof of an unbounded forward orbit", "exact decimal strings",
-                     'id="point-compute"', 'id="point-follow"', 'id="verify-stop"', 'id="search-stop"',
+                     "All found predecessors are plotted, without pagination", "latest 180 chosen points",
+                     'id="point-compute"', 'id="verify-stop"', 'id="search-stop"',
                      'src="/point-info.js?v=', 'src="/reverse-math.js?v=']:
             self.assertIn(text, page)
         for path in ["site/index.html", "site/research/index.html"]:
@@ -86,9 +87,17 @@ class ReverseTests(unittest.TestCase):
             code = (ROOT / path).read_text()
             self.assertIn("AliquotPointInfo.basic", code)
             self.assertIn("AliquotPointInfo.divisors", code)
+        self.assertRegex(page, r'<div id="chart" class="chart">\s*<canvas[^>]+></canvas>\s*<section id="point-details"')
+        self.assertIn('<details id="search-options" class="reverse-options">', page)
+        self.assertIn('id="scale" aria-label="Vertical scale"', page)
+        self.assertIn('id="root-decrement"', page)
+        self.assertIn('id="root-increment"', page)
+        for obsolete in ['<aside', '<svg', 'id="point-follow"', 'id="page-next"', 'class="reverse-workspace"']:
+            self.assertNotIn(obsolete, page)
         css = (ROOT / "site/reverse.css").read_text()
-        card = css.split(".reverse-inspector .point-details {", 1)[1].split("}", 1)[0]
-        self.assertIn("position: static", card)
-        self.assertNotIn("height", card)
-        self.assertNotIn("overflow", card)
-        self.assertIn("@media (max-width: 800px)", css)
+        self.assertIn('.reverse-page main, .reverse-page .shell { max-width: none;', css)
+        self.assertNotIn('position: static', css)
+        self.assertNotIn('grid-template-columns', css, 'no inspector sidebar')
+        self.assertIn('@media (max-width: 500px)', css)
+        shared = (ROOT / "site/site.css").read_text()
+        self.assertIn('.point-details{position:absolute', shared)
