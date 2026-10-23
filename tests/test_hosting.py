@@ -1,6 +1,7 @@
 from pathlib import Path
 import re
 import unittest
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -65,7 +66,7 @@ class HostingTests(unittest.TestCase):
 
     def test_site_dependencies_are_self_hosted_and_ordered(self):
         html = read("site/index.html")
-        scripts = re.findall(r'<script src="([^"]+)" defer></script>', html)
+        scripts = [urlsplit(url).path for url in re.findall(r'<script src="([^"]+)" defer></script>', html)]
         self.assertEqual(scripts, ["/vendor/katex/katex.min.js", "/latex.js", "/math.js", "/explorer.js"])
         for script in scripts:
             self.assertTrue((ROOT / "site" / script.lstrip("/")).is_file())
