@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="The aliquot research timeline: exact factor transport, finite deficient recovery, and constraints on escaping orbits. The conjecture remains open; historical novelty is unverified.">
+<title>Research timeline — Aliquot</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/research.css">
+<script src="/vendor/katex/katex.min.js" defer></script>
+<script src="/latex.js" defer></script>
+</head>
+<body class="research-page">
+<a class="skip" href="#timeline">Skip to timeline</a>
+<header class="site shell">
+<div class="brand"><a href="/">aliquot<span>.q5m.ai</span></a></div>
+<nav class="site" aria-label="Main navigation"><a href="/">Explore</a><a href="/research/" aria-current="page">Research</a></nav>
+</header>
+<main class="research-journal">
+<header class="journal-heading">
+<h1>Research timeline</h1>
+<p class="journal-meta">Conjecture open. Historical novelty is unverified. <a href="https://github.com/q5m-ai/aliquot/blob/78b6c8b92ad71e1febfca577bd57de5b0a32c5b1/research/SYNTHESIS.md">Research synthesis</a></p>
+</header>
+
+<div class="journal-content">
+<details class="notation">
+<summary>Notation <span>s, σ, T, and escape</span></summary>
+<div class="notation-body">
+<p>The aliquot sum s(n) adds the positive divisors of n smaller than n itself. Repeatedly applying s produces an aliquot sequence; iteration stops at zero. Superscript 2 on s or T means applying the function twice, not squaring its value. All number-theoretic variables are integers unless stated otherwise.</p>
+<div class="research-formula" tabindex="0" role="group" aria-label="Aliquot iteration" data-tex="n_0\in\mathbb Z_{&gt;0},\qquad n_{k+1}=s(n_k)=\sum_{\substack{d\mid n_k\\1\le d&lt;n_k}}d\quad(n_k&gt;0)" data-display="true">n₀ is positive; while nₖ &gt; 0, nₖ₊₁ = s(nₖ) is the sum of its proper positive divisors.</div>
+<div class="research-formula" tabindex="0" role="group" aria-label="Divisor sum and cofactor map" data-tex="\sigma(n)=n+s(n),\qquad T(u)=2\sigma(u)-u" data-display="true">σ(n) = n + s(n); T(u) = 2σ(u) − u.</div>
+<div class="research-formula" tabindex="0" role="group" aria-label="Prime support notation" data-tex="\mathbb P=\{p:p\text{ prime}\},\qquad P(n)=\{p\in\mathbb P:p\mid n\},\quad P(1)=\varnothing" data-display="true">ℙ = the primes; P(n) = the prime divisors of n; P(1) = ∅.</div>
+<div class="research-formula" tabindex="0" role="group" aria-label="Escaping orbit hypothesis" data-tex="\mathcal E\iff\bigl(\forall k\ge0,\ n_k&gt;0\bigr)\land\bigl(\forall\,0\le i&lt;j,\ n_i\ne n_j\bigr)" data-display="true">E means an infinite positive orbit with no repeated terms.</div>
+<p>A number is deficient if the next term is smaller, abundant if it is larger, and perfect if it is unchanged. An escaping orbit is an infinite sequence with no repeated terms. Its values tend to infinity, but individual steps can decrease.</p>
+</div>
+</details>
+
+<section id="timeline" aria-labelledby="timeline-title">
+<h2 id="timeline-title" class="timeline-heading">Results</h2>
+<ol class="research-timeline">
+<li id="recovery">
+<div class="entry-meta"><time datetime="2026-10-22">22 Oct 2026</time><span>Note 07 · Proposition O</span></div>
+<article class="research-entry" aria-labelledby="recovery-title">
+<h3 id="recovery-title">Deficient recovery</h3>
+<p class="entry-context">A decreasing step does not imply a net loss over two steps. For every fixed deficient core D &gt; 1 (so s(D) &lt; D) and every real G &gt; 1, infinitely many primes p coprime to D (sharing no prime factor with D) give:</p>
+<div class="research-formula" tabindex="0" role="group" aria-label="Guaranteed two-step rebound" data-tex="n=Dp,\qquad s(n)&lt;n,\qquad s^2(n)&gt;Gn" data-display="true">n = Dp, s(n) &lt; n, and s(s(n)) &gt; Gn.</div>
+<p>The first inequality says the sequence decreases from n. The second says that after one more step it exceeds G times its starting value. G can be as large as desired, with a suitable choice of starting number.</p>
+<p>For a prime p not dividing D, s(Dp) = s(D)p + σ(D). A prime progression forces this next term to contain a divisor with a large proper-divisor sum, which guarantees the rebound. The argument uses Dirichlet’s theorem and Euler-product divergence.</p>
+<p class="result-boundary">Example: 844 → 640 → 890; this orbit later reaches zero. No repeated recovery on one seed is proved: the recovered term need not satisfy the entry conditions for another block.</p>
+<details class="entry-detail">
+<summary>Recovery into a perfect-core class</summary>
+<p>A refinement lands above any prescribed gain in a proper multiple r of perfect 28, guaranteeing one further growing step:</p>
+<div class="research-formula" tabindex="0" role="group" aria-label="Abundant recovered multiple of 28" data-tex="28\mid r,\qquad r&gt;28\quad\Longrightarrow\quad s(r)&gt;r" data-display="true">28 divides r and r &gt; 28, so s(r) &gt; r.</div>
+<p>The recovered term is not itself perfect, and is outside this construction’s entry family.</p>
+</details>
+<footer class="entry-footer"><span>Dirichlet + Euler products</span><a href="https://github.com/q5m-ai/aliquot/blob/78b6c8b92ad71e1febfca577bd57de5b0a32c5b1/research/RECOVERY.md#2-a-guaranteed-loss-followed-by-a-more-than-compensating-rebound">Argument &amp; hypotheses ↗</a></footer>
+</article>
+</li>
+
+<li id="prime-templates">
+<div class="entry-meta"><time datetime="2026-10-22">22 Oct 2026</time><span>Note 07 · Propositions P–Q</span></div>
+<article class="research-entry" aria-labelledby="templates-title">
+<h3 id="templates-title">Periodic prime-cofactor schedules</h3>
+<p class="entry-context">Can an orbit escape by repeatedly cycling through a fixed list of factorization shapes? Fix cores D₀, …, D<sub>L−1</sub> &gt; 1 in a repeating schedule. A core is the chosen fixed factor Dᵢ in n = Dᵢp. At every source, the remaining cofactor p must be prime and coprime to its core.</p>
+<div class="research-formula" tabindex="0" role="group" aria-label="Periodic core schedule with prime cofactors" data-tex="\begin{gathered}n_{jL+i}=D_i p_{jL+i},\quad 0\le i&lt;L,\\p_{jL+i}\in\mathbb P,\quad\gcd(D_i,p_{jL+i})=1\end{gathered}" data-display="true">nⱼL₊ᵢ = DᵢpⱼL₊ᵢ for 0 ≤ i &lt; L, with prime pⱼL₊ᵢ coprime to Dᵢ.</div>
+<div class="research-formula formula-conclusion" tabindex="0" role="group" aria-label="An infinite tail is periodic" data-tex="\text{infinite positive tail}\quad\Longrightarrow\quad n_{k+L}=n_k" data-display="true">An infinite positive tail of this form satisfies nₖ₊L = nₖ.</div>
+<p>If these shapes persist forever, the actual values must repeat too: after L steps, the sequence returns to the same number. Thus this mechanism can describe a cycle, but not escape.</p>
+<p>Composing one scheduled block gives an affine rule p′ = Ap + B for the checkpoint primes. Expanding rules either exhaust a finite divisibility reserve or force a later cofactor to be composite; contracting rules can describe a genuine cycle.</p>
+<p class="result-boundary">Deficient steps are allowed. Composite cofactors and nonperiodic schedules are not excluded by this result.</p>
+<details class="entry-detail">
+<summary>Nonperiodic switching · Proposition Q</summary>
+<p>With finitely many fixed cores Dᵢ ≥ 2 and prime, coprime cofactors at every source, an escaping itinerary requires an expansive cycle C in its recurrent transition graph:</p>
+<div class="research-formula" tabindex="0" role="group" aria-label="Necessary expansive cycle" data-tex="\mathcal E\quad\Longrightarrow\quad\exists C:\ \prod_{i\in C}\frac{s(D_i)}{D_i}&gt;1" data-display="true">Escape requires a recurrent-graph cycle C whose source-core ratios s(Dᵢ)/Dᵢ multiply to more than 1.</div>
+<p>The graph records which core can follow which, keeping only transitions used infinitely often. Each factor s(Dᵢ)/Dᵢ is the slope contributed by a source core; their product measures expansion around a cycle. If every cycle is nonexpansive, the prime-cofactor itinerary cannot escape.</p>
+<p>Necessary, not sufficient. The cycle need not occur consecutively or be repeatable by the actual orbit. This leaves nonperiodic switching with expansive cycles unresolved.</p>
+</details>
+<footer class="entry-footer"><span>Affine recurrences + prime gaps</span><a href="https://github.com/q5m-ai/aliquot/blob/78b6c8b92ad71e1febfca577bd57de5b0a32c5b1/research/RECOVERY.md">Arguments &amp; scope ↗</a></footer>
+</article>
+</li>
+
+<li id="factor-transport">
+<div class="entry-meta"><time datetime="2026-10-22">22 Oct 2026</time><span>Note 06 · Propositions L–N</span></div>
+<article class="research-entry" aria-labelledby="transport-title">
+<h3 id="transport-title">Composite factor transport</h3>
+<p class="entry-context">Tracking factors separately would simplify iteration, but updating two factors independently generally gives the wrong answer. Define T(u) = 2σ(u) − u, where σ sums all positive divisors. For coprime v, w &gt; 1, the correction is exact:</p>
+<div class="research-formula" tabindex="0" role="group" aria-label="Composite factor-transport correction" data-tex="\begin{aligned}T^2(vw)&amp;=T(v)T(w)\\&amp;\quad+2\bigl[s(T(vw))-s(v)s(w)\bigr].\end{aligned}" data-display="true">T(T(vw)) = T(v)T(w) + 2[s(T(vw)) − s(v)s(w)].</div>
+<p>The first term updates v and w separately. The bracket is the discrepancy: it depends on the divisor sum of the combined intermediate value T(vw), not just on the two original factors. This identifies the additional arithmetic information a factor-based construction must control.</p>
+<p class="result-boundary">The connection to aliquot iteration is s(6u) = 6T(u), which requires gcd(u, 6) = 1 at each source. The correction does not guarantee renewal.</p>
+<details class="entry-detail">
+<summary>A conditional supplier handoff</summary>
+<div class="research-formula" tabindex="0" role="group" aria-label="Exact finite factor handoff" data-tex="\begin{gathered}29274\to43302\to55770,\\7\cdot17\cdot41\xrightarrow{T}7\cdot1031\xrightarrow{T}13^2\cdot5\cdot11\end{gathered}" data-display="true">29274 → 43302 → 55770. Their cofactors follow 7·17·41 → 7·1031 → 13²·5·11 under T.</div>
+<p>A guarded formula replaces suppliers with composite output blocks. The output does not regenerate the input factorization or the next prime-bridge condition.</p>
+</details>
+<footer class="entry-footer"><span>Composite corrections + guarded handoff</span><a href="https://github.com/q5m-ai/aliquot/blob/78b6c8b92ad71e1febfca577bd57de5b0a32c5b1/research/BLOCK-TRANSPORT.md">Identities &amp; hypotheses ↗</a></footer>
+</article>
+</li>
+
+<li id="prime-supply">
+<div class="entry-meta"><time datetime="2026-10-22">22 Oct 2026</time><span>Note 07 · Supporting constraint</span></div>
+<article class="research-entry" aria-labelledby="supply-title">
+<h3 id="supply-title">Large-prime supply bound</h3>
+<p class="entry-context">How many large prime factors are needed to make a number abundant? Write n = dr, where d contains the complete prime-power factors with primes at most B ≥ 2. Let t count the distinct primes in r, all greater than B. For real 0 &lt; ε &lt; 2:</p>
+<div class="research-formula" tabindex="0" role="group" aria-label="Large-prime supply bound" data-tex="\begin{gathered}\frac{\sigma(d)}d\le2-\varepsilon,\quad s(n)&gt;n\\\Longrightarrow\quad(2-\varepsilon)\left(1+\frac1B\right)^t&gt;2\end{gathered}" data-display="true">If σ(d)/d ≤ 2 − ε and n is abundant, then (2 − ε)(1 + 1/B)ᵗ &gt; 2.</div>
+<p>The ratio σ(n)/n measures the sum of all divisors relative to n; abundance means this ratio exceeds 2. If the small-prime part falls short by at least ε, the large-prime factors must collectively make up the difference. Each contributes less than 1 + 1/B, giving the displayed necessary inequality.</p>
+<p>For example, if σ(d)/d ≤ 3/2 and B = 10, at least four distinct primes above 10 are needed: (3/2)(11/10)³ &lt; 2. Four is only a necessary count, not a guarantee of abundance.</p>
+<p class="result-boundary">A fixed deficiency margin is essential. Perfect or abundant small-prime parts avoid this hypothesis. Prime-support escape does not supply it.</p>
+<footer class="entry-footer"><span>Elementary abundancy bound</span><a href="https://github.com/q5m-ai/aliquot/blob/78b6c8b92ad71e1febfca577bd57de5b0a32c5b1/research/RECOVERY.md#two-further-constraints-from-the-contradiction-attempt">Inequality &amp; limits ↗</a></footer>
+</article>
+</li>
+
+<li id="prime-support">
+<div class="entry-meta"><time datetime="2026-10-21">21 Oct 2026</time><span>Note 05 · Proposition K</span></div>
+<article class="research-entry" aria-labelledby="support-title">
+<h3 id="support-title">Fixed prime-support finiteness</h3>
+<p class="entry-context">Can an orbit grow forever using only a fixed collection of primes, with their exponents increasing? P(n) is the set of prime divisors of n, with P(1) = ∅. For any prescribed finite prime set S, only finitely many adjacent pairs n, s(n) use primes from S alone:</p>
+<div class="research-formula" tabindex="0" role="group" aria-label="Fixed prime-support finiteness" data-tex="\forall S\subseteq\mathbb P,\quad |S|&lt;\infty\ \Longrightarrow\ \left|\{n&gt;1:P(n)\cup P(s(n))\subseteq S\}\right|&lt;\infty" data-display="true">For each finite prime set S, only finitely many n &gt; 1 have all prime factors of both n and s(n) in S.</div>
+<div class="research-formula formula-conclusion" tabindex="0" role="group" aria-label="Prime escape is conditional on an escaping orbit" data-tex="\mathcal E\ \Longrightarrow\ \left|\bigcup_{k\ge0}P(n_k)\right|=\aleph_0;\qquad \exists n_0:\mathcal E\ \text{is open}" data-display="true">If E holds, infinitely many distinct primes occur. Whether any such seed exists remains open.</div>
+<p>An escaping orbit never repeats a value, so it eventually leaves every finite collection of admissible pairs. Consequently, no fixed finite set of primes can support the whole orbit: infinitely many distinct primes must appear. The proof applies the classical S-unit finiteness theorem to the divisor-sum identity.</p>
+<p class="result-boundary">Conditional on escape; this does not force a new prime at every step, or a decrease when large primes appear. It constrains an escaping orbit without establishing that one exists.</p>
+<details class="entry-detail">
+<summary>From source values to orbit indices</summary>
+<div class="research-formula" tabindex="0" role="group" aria-label="Adjacent-pair index finiteness for nonrepeating orbits" data-tex="\mathcal E\ \Longrightarrow\ \forall S\subseteq\mathbb P,\quad |S|&lt;\infty\ \Longrightarrow\ \left|\{k\ge0:P(n_k)\cup P(n_{k+1})\subseteq S\}\right|&lt;\infty" data-display="true">If E holds, then for each finite prime set S, only finitely many adjacent orbit pairs are supported on S.</div>
+<p>Nonrepetition is essential: finitely many source values can otherwise recur at infinitely many indices.</p>
+</details>
+<footer class="entry-footer"><span>Classical S-unit theorem</span><a href="https://github.com/q5m-ai/aliquot/blob/78b6c8b92ad71e1febfca577bd57de5b0a32c5b1/research/GLOBAL.md">Argument ↗</a><a href="https://github.com/q5m-ai/aliquot/blob/78b6c8b92ad71e1febfca577bd57de5b0a32c5b1/research/LITERATURE.md">Attribution ↗</a></footer>
+</article>
+</li>
+</ol>
+</section>
+
+<p class="journal-colophon">Sources are pinned to the notes. Tests and AI audits are not human mathematical review or formal verification. <a href="https://github.com/q5m-ai/aliquot/pull/6">PR #6</a></p>
+</div>
+</main>
+<footer class="sitefoot shell"><span>Aliquot · A q5m research project</span><span class="right"><a href="https://www.q5m.ai" aria-label="q5m"><svg class="footer-icon" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"/><path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"/></g></svg><span>q5m</span></a><a href="https://github.com/q5m-ai/aliquot"><svg class="footer-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.7 7.7 0 0 1 8 3.84a7.7 7.7 0 0 1 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><span>GitHub</span></a></span></footer>
+</body>
+</html>

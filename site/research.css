@@ -1,0 +1,36 @@
+/* Compact mathematical notes; shared header/footer remain in site.css. */
+.research-page {
+  background: #fff;
+  font: 15px/1.5 ui-sans-serif, system-ui, sans-serif;
+}
+.research-journal a { color: #2049c4; text-underline-offset: 2px; }
+.research-page .skip { z-index: 5; }
+.research-journal { padding: 16px 18px; }
+.journal-heading h1 { font: 500 30px/1.2 Georgia, serif; margin: 0 0 6px; }
+.journal-meta, .journal-colophon { font-size: 12px; color: #58646c; }
+.journal-meta { margin: 0 0 12px; }
+.notation { margin: 0 0 16px; }
+summary { cursor: pointer; font-size: 13px; }
+.notation summary span { color: #58646c; }
+.notation p, .entry-detail p { margin: 6px 0; }
+.timeline-heading { font: 500 20px Georgia, serif; margin: 12px 0; }
+.research-timeline { list-style: none; margin: 0; padding: 0; }
+.research-timeline > li { margin: 0 0 22px; scroll-margin-top: 12px; }
+.entry-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 11px; color: #58646c; }
+.research-entry h3 { font: 500 21px/1.3 Georgia, serif; margin: 3px 0 6px; }
+.entry-context, .result-boundary { margin: 6px 0; }
+.research-formula { max-width: 100%; min-width: 0; overflow-x: auto; padding: 6px 0; font-size: 17px; }
+.research-formula math[display="block"] { margin: 0; }
+.entry-detail { margin: 8px 0; }
+.entry-footer { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 6px; font-size: 11px; color: #58646c; }
+.journal-colophon { margin: 16px 0 0; }
+summary:focus-visible, .research-formula:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+@media (max-width: 500px) {
+  .research-journal { padding: 12px 14px; }
+  .journal-heading h1 { font-size: 27px; }
+  .research-formula { font-size: 16px; }
+}
+@media print {
+  .skip { display: none; }
+  .research-formula { font-size: 12px; }
+}
