@@ -66,6 +66,15 @@ class ResearchPageTests(unittest.TestCase):
         for slogan in ["Finite growth.", "Infinite questions.", "Growth is not yet renewal."]:
             self.assertNotIn(slogan, html)
 
+    def test_formula_overflow_is_horizontal_only_with_block_math_wrapper(self):
+        css = (SITE / "research.css").read_text()
+        formula_rule = css.split(".research-formula {", 1)[1].split("}", 1)[0]
+        self.assertIn("overflow-x: auto", formula_rule)
+        self.assertIn("overflow-y: hidden", formula_rule)
+        self.assertNotIn("height:", formula_rule, "formula height must grow with its MathML")
+        self.assertIn(".research-formula > .katex { display: block; }", css)
+        self.assertNotIn("scrollbar-width: none", css, "wide mobile formulas must remain scrollable")
+
     def test_local_links_assets_and_accessible_references_resolve_on_both_pages(self):
         for relative in ["index.html", "research/index.html"]:
             path = SITE / relative
