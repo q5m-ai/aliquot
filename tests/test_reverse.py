@@ -78,7 +78,7 @@ class ReverseTests(unittest.TestCase):
                      "m ≤ (n − 1)²", "every finite search is partial", "s(0) is undefined",
                      "not a proof of an unbounded forward orbit", "exact decimal strings",
                      'id="point-compute"', 'id="point-follow"', 'id="verify-stop"', 'id="search-stop"',
-                     'src="/point-info.js"', 'src="/reverse-math.js"']:
+                     'src="/point-info.js?v=', 'src="/reverse-math.js?v=']:
             self.assertIn(text, page)
         for path in ["site/index.html", "site/research/index.html"]:
             self.assertIn('href="/reverse/"', (ROOT / path).read_text())

@@ -31,13 +31,13 @@ class ResearchPageTests(unittest.TestCase):
         home = (SITE / "index.html").read_text()
         self.assertIn('<a id="research" href="/research/">Research</a>', home)
         self.assertNotIn('class="research-timeline"', home)
-        self.assertNotIn('href="/research.css"', home)
+        self.assertNotIn('/research.css', home)
         self.assertIn('id="graph"', home)
         research = (SITE / "research/index.html").read_text()
         self.assertIn('<a href="/research/" aria-current="page">Research</a>', research)
         self.assertIn('<a href="/">Explore</a>', research)
         self.assertNotIn('<canvas', research)
-        scripts = [attrs["src"] for tag, attrs in PageParser(research).elements if tag == "script"]
+        scripts = [urlsplit(attrs["src"]).path for tag, attrs in PageParser(research).elements if tag == "script"]
         self.assertEqual(scripts, ["/vendor/katex/katex.min.js", "/latex.js"])
 
     def test_timeline_has_dated_accessible_entries_and_expandable_details(self):
