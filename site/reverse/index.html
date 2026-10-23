@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Explore aliquot orbits backward: find exact predecessors, inspect their divisors, and build a chosen reverse path. Searches have explicit bounds.">
+<title>Reverse orbits — Aliquot</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/reverse.css">
+<script src="/vendor/katex/katex.min.js" defer></script>
+<script src="/latex.js" defer></script>
+<script src="/math.js" defer></script>
+<script src="/point-info.js" defer></script>
+<script src="/reverse-math.js" defer></script>
+<script src="/reverse.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#reverse">Skip to reverse explorer</a>
+<header class="site shell">
+<div class="brand"><a href="/">aliquot<span>.q5m.ai</span></a></div>
+<nav class="site" aria-label="Main navigation"><a href="/">Explore</a><a href="/reverse/" aria-current="page">Reverse</a><a href="/research/">Research</a></nav>
+</header>
+<main id="reverse">
+<div class="explorer-heading">
+<h1>Reverse orbits</h1>
+<p class="formula-copy">Pick a target. Find its possible predecessors. Choose one, and keep walking backward.</p>
+<p class="formula-iteration reverse-formula"><span data-tex="m\longrightarrow n\quad\Longleftrightarrow\quad s(m)=n">m → n exactly when s(m) = n</span></p>
+<p class="formula-example">Click any node for its information, then <strong>Follow predecessor</strong> to extend your path. All arrows point forward, toward the original target. Different predecessors are alternatives, not consecutive terms.</p>
+</div>
+<noscript><p>This interactive explorer needs JavaScript. No calculation is performed without it.</p></noscript>
+<form id="root-form" class="controls">
+<div class="seed-row">
+<div class="seed-control"><label for="root-input">Target n</label><input id="root-input" type="text" inputmode="numeric" value="16" autocomplete="off"><button type="submit" class="primary">Start new grid</button></div>
+<div class="presets" role="group" aria-label="Reverse examples">
+<button type="button" data-root="16">16 · branches</button><button type="button" data-root="6">6 · perfect</button><button type="button" data-root="220">220 · amicable</button><button type="button" data-root="1">1 · primes</button><button type="button" data-root="2">2 · no predecessors</button>
+</div>
+</div>
+<p id="input-status" class="point-help" role="status"></p>
+</form>
+<div class="reverse-search">
+<form id="search-form" class="bound-controls">
+<label for="source-bound">Search sources 1 ≤ m ≤</label><input id="source-bound" type="text" inputmode="numeric" value="10000" aria-describedby="bound-help"><button type="submit">Search</button><button id="search-stop" type="button" disabled>Stop</button>
+<progress id="search-progress" max="1" value="0" aria-label="Building exact divisor-sum table" hidden></progress>
+</form>
+<p id="bound-help" class="point-help">Inclusive source bound, up to 1,000,000 per sieve. Reused between steps. A partial search may miss predecessors above its bound.</p>
+<p id="search-status" class="search-status" role="status">Preparing the grid…</p>
+</div>
+<div class="reverse-actions"><button type="button" id="undo" disabled>Undo backward step</button><button type="button" id="download">Download exact chain</button><span id="cycle-status" role="status"></span></div>
+<div class="stats reverse-stats"><div><small>ORIGINAL TARGET</small><output id="root-value">16</output></div><div><small>BACKWARD STEPS</small><output id="depth-value">0</output></div><div><small>FORWARD GAIN · TARGET − EARLIEST</small><output id="gain-value">0</output></div></div>
+<div class="reverse-workspace">
+<section class="reverse-board" aria-labelledby="grid-title">
+<h2 id="grid-title" tabindex="-1">Choose a predecessor ←</h2>
+<p id="grid-help" class="point-help">Blue: chosen chain · outlined: candidates · amber ↺: repeated value. Rows are layout, not a numeric scale. Scroll sideways for the chain. Tab / Enter selects nodes.</p>
+<div id="reverse-scroll" class="reverse-scroll" tabindex="0" aria-label="Scrollable reverse orbit grid" aria-describedby="grid-help">
+<div id="reverse-surface" class="reverse-surface">
+<svg id="reverse-edges" aria-hidden="true" focusable="false"><defs><marker id="forward-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker></defs><g id="reverse-lines"></g></svg>
+<div id="reverse-nodes"></div>
+</div>
+</div>
+<div class="candidate-pages"><button type="button" id="page-previous" disabled>← Candidates</button><span id="page-info"></span><button type="button" id="page-next" disabled>Candidates →</button></div>
+<p id="path-window" class="point-help"></p>
+</section>
+<aside class="reverse-inspector" aria-label="Selected point">
+<p id="inspect-help" class="point-help">Click a node to inspect its exact value and divisors.</p>
+<section id="point-details" class="point-details" data-pinned="true" aria-labelledby="point-title" hidden>
+<div class="point-details-heading"><h2 id="point-title">Point details</h2><button type="button" id="point-close" aria-label="Close point details">×</button></div>
+<dl class="point-fields">
+<div class="point-value"><dt>Value</dt><dd id="point-value"></dd></div>
+<div><dt>Digits / parity</dt><dd id="point-size"></dd></div>
+<div><dt>Mod 12 / base 12</dt><dd id="point-residue"></dd></div>
+<div><dt>Chosen previous</dt><dd id="point-previous"></dd></div>
+<div><dt>Forward change s(m) − m</dt><dd id="point-change"></dd></div>
+<div><dt>Next (forward)</dt><dd id="point-next"></dd></div>
+<div><dt>Status</dt><dd id="point-status"></dd></div>
+<div class="point-wide"><dt>On this grid</dt><dd id="point-role"></dd></div>
+<div class="point-wide"><dt>Factorization</dt><dd id="point-factorization"></dd></div>
+<div class="point-wide"><dt>Proper divisors</dt><dd id="point-divisors"></dd></div>
+<div class="point-wide"><dt>Count / sum</dt><dd id="point-divisor-summary"></dd></div>
+</dl>
+<button type="button" id="point-compute">Compute divisors</button>
+<button type="button" id="point-follow" class="primary">← Follow predecessor</button>
+<p id="point-issue" class="point-help" role="status"></p>
+</section>
+</aside>
+</div>
+<details class="manual-test">
+<summary>Test a predecessor outside the scan</summary>
+<p>Enter any positive integer m (up to 1,000 digits). It becomes a selectable candidate only after an exact check that s(m) equals the current frontier. Factorization has a 2,000,000-work-unit budget; exhaustion is unresolved, never a rejection or a probable-prime shortcut.</p>
+<form id="verify-form" class="bound-controls"><label for="verify-input">Possible predecessor m</label><input id="verify-input" type="text" inputmode="numeric" autocomplete="off"><button type="submit" id="verify-button">Verify</button><button type="button" id="verify-stop" disabled>Stop verification</button></form>
+<p id="verify-status" role="status"></p>
+</details>
+<details class="reverse-limits">
+<summary>What does this search establish?</summary>
+<p>The sieve checks every positive source m up to the displayed bound using exact integer divisor sums. For n &gt; 1, a predecessor m must be composite. It has a proper divisor d ≥ √m, so n = s(m) ≥ 1 + d, giving <strong>m ≤ (n − 1)²</strong>. A search covering that ceiling is complete; otherwise, “none found” applies only to the checked range.</p>
+<p>For target 0, the only predecessor is 1. For target 1, the predecessors are all primes: every finite search is partial. Zero is never a predecessor, because s(0) is undefined.</p>
+<p>There is no preset backward-depth limit. The grid displays the latest five chosen nodes and eight candidates per page; the full chosen chain stays in this tab and can be downloaded as exact decimal strings. Reloading starts a new chain. Search bounds and browser resources still apply.</p>
+<p><strong>A backward path is not a proof of an unbounded forward orbit.</strong> Extending it changes the earliest starting value. Finite gains and an unbounded collection of ancestors are not the same as one unbounded forward orbit.</p>
+</details>
+</main>
+<footer class="sitefoot shell"><span>Aliquot · A q5m research project</span><span class="right"><a href="https://www.q5m.ai">q5m</a><a href="https://github.com/q5m-ai/aliquot">GitHub</a></span></footer>
+</body>
+</html>

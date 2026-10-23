@@ -67,6 +67,20 @@ Divisor displays are limited to **200 entries / 8,000 characters** and wrap at t
 
 Browser Python is **not included in this change**: Pyodide would add a sizeable runtime, assets, startup cost, and CSP/worker requirements without itself making factorization faster. The isolated adapter leaves room for a future self-hosted Python/WASM worker. A stronger proven factorization/certificate pipeline, rather than a language change alone, is the next step for difficult large terms.
 
+### Reverse-orbit grid
+
+Open **Reverse** (`/reverse/`) to search for exact positive predecessors `m` satisfying `s(m)=n`. The default target 16 branches to 12 and 26. Candidates appear on the left, the chosen chain on the right, and every arrow points **forward**. Rows are layout, not a numeric scale. Click a node for the shared home-page information fields (exact value, parity, base 12, next term, classification, proven factors and bounded divisor list), then **Follow predecessor** to extend backward. Undo or branch from an earlier chosen node to try another route. Repeated values are marked as cycle links, not growth.
+
+The browser exhaustively sieves sources `1 ≤ m ≤ B`, initially `B=10,000`, with a resource cap of 1,000,000. A completed table is reused; work yields to the UI and can be stopped. The sieve uses Float64 integers exactly: even the loose sum bound `m(m−1)/2 < 5×10¹¹` is below `2⁵³`. Targets and selected values use `BigInt`, and downloaded values use decimal strings. Python independently checks every sum through 10,000 by divisor-pair enumeration and upper-cap samples by both divisor pairs and factorization.
+
+For `n>1`, any predecessor is composite and has a proper divisor `d ≥ √m`, so `n=s(m) ≥ 1+d` implies **`m ≤ (n−1)²`**. The UI reports a complete predecessor set only when the scan covers this ceiling. Otherwise, absence is only within the searched range. The only positive predecessor of 0 is 1; the predecessors of 1 are all primes, so every finite search for 1 is partial. Zero is never a source: `s(0)` remains undefined.
+
+**Test a predecessor outside the scan** checks an explicitly entered integer using the existing exact factorization adapter and its 1,000-digit / 2,000,000-work-unit budgets. Only a verified match becomes selectable. Cancellation and budget exhaustion are unresolved, not rejection; a single manual check does not enlarge exhaustive coverage. Closing a card or changing the path cancels stale inspection work. Resetting also cancels obsolete search/verification jobs.
+
+There is no preset backward-depth cap. Eight candidates are shown per page and the latest five chosen nodes are drawn, while the whole chosen path remains in tab memory. **Download exact chain** saves the target-first path, signed target-minus-earliest gain, current search coverage, and manually verified candidates as JSON. Reloading starts over. Deep links such as `/reverse/?n=220` work, including **Explore backward** on a pinned home-page point. Browser memory and computation budgets remain finite, and extending an incoming path does **not** prove an unbounded forward orbit.
+
+Run the reverse UI regressions with `node --test tests/reverse.test.mjs` or the full Python suite. Both explorers use `site/point-info.js` for their shared exact card formatting. The reverse view uses `site/reverse.js`, `site/reverse-math.js`, and `site/reverse.css`; no backend, external dependency, or CSP relaxation is introduced.
+
 ### Formula rendering
 
 The definition and iteration rule sit directly below the title. Explicit `data-tex` fields and point-card factorizations use **self-hosted KaTeX 0.19.0**, with native MathML output and readable text fallbacks. There are no CDN requests, extra font downloads, or relaxed CSP rules. Unchanged formulas are cached rather than re-typeset on hover.
