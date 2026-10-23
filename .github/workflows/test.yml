@@ -20,6 +20,9 @@ jobs:
       - run: node --check site/point-info.js
       - run: node --check site/reverse-math.js
       - run: node --check site/reverse.js
+      - run: node --check site/orbit-data.js
+      - run: node --check site/orbit-graph.js
+      - run: node --check site/orbits.js
   container:
     runs-on: ubuntu-latest
     steps:
@@ -38,11 +41,11 @@ jobs:
           done
           grep -q 'Aliquot' /tmp/aliquot-page
           test "$(curl -fsS http://127.0.0.1:18080/.q5m-release)" = "$GITHUB_SHA"
-          for asset in math.js explorer.js latex.js point-info.js reverse-math.js reverse.js reverse.css reverse/index.html vendor/katex/katex.min.js site.css favicon.svg; do
+          for asset in math.js explorer.js latex.js point-info.js reverse-math.js reverse.js reverse.css reverse/index.html orbit-data.js orbit-graph.js orbits.js orbits.css orbits/index.html vendor/katex/katex.min.js site.css favicon.svg; do
             curl -fsS "http://127.0.0.1:18080/$asset" -o /tmp/aliquot-asset
             cmp "site/$asset" /tmp/aliquot-asset
           done
-          for private in /.git/config /q5m/app.env /README.md /package.json /pyproject.toml /aliquot/__init__.py /aliquot/research.py /research/README.md /research/driver-six.mjs /research/results/driver-six-100000.json; do
+          for private in /.git/config /q5m/app.env /README.md /package.json /pyproject.toml /aliquot/__init__.py /aliquot/research.py /aliquot/orbit_graph.py /scripts/build_orbit_graph.py /research/README.md /research/driver-six.mjs /research/results/driver-six-100000.json; do
             status=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:18080$private")
             test "$status" = 403 || test "$status" = 404
           done

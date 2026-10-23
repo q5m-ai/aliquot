@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="All aliquot orbits starting from 1–100 as a directed graph. Explore shared tails, primes, perfect numbers, and proved no-predecessor nodes.">
+<title>Orbit graph — Aliquot</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css?v=330fcddeb41c5c71">
+<link rel="stylesheet" href="/orbits.css?v=03a5a3254110d1a7">
+<script src="/vendor/katex/katex.min.js?v=103a53763cc033bb" defer></script>
+<script src="/latex.js?v=9f835ebcef4900f0" defer></script>
+<script src="/math.js?v=9fd40b9534e07736" defer></script>
+<script src="/point-info.js?v=eb3a0ddde1079dfa" defer></script>
+<script src="/orbit-data.js?v=86fd0ed731e4a68e" defer></script>
+<script src="/orbit-graph.js?v=7a1076ad3dddfc38" defer></script>
+<script src="/orbits.js?v=71a7bd553804df45" defer></script>
+</head>
+<body class="orbits-page">
+<a class="skip" href="#orbits">Skip to orbit graph</a>
+<header class="site shell">
+<div class="brand"><a href="/">aliquot<span>.q5m.ai</span></a></div>
+<nav class="site" aria-label="Main navigation"><a href="/">Explore</a><a href="/orbits/" aria-current="page">Graph</a><a href="/reverse/">Reverse</a><a href="/research/">Research</a></nav>
+</header>
+<main id="orbits">
+<div class="explorer-heading">
+<h1>Orbit graph</h1>
+<p class="formula-copy">All starts 1–100, overlaid. Shared tails merge; arrows follow n → s(n). Hover to inspect, click to trace an orbit.</p>
+</div>
+<noscript><p>This interactive graph needs JavaScript. The exact dataset includes all starts 1–100: 96 terminate at 0, three reach the perfect number 6, and 28 stays fixed. The numbers 2, 5, 52, 88, and 96 have no positive predecessors, proved using complete finite inverse searches.</p></noscript>
+<div class="graph-controls">
+<form id="find-form"><label for="find-node">Node</label><input id="find-node" type="text" inputmode="numeric" value="52" autocomplete="off"><button type="submit">Trace ↵</button></form>
+<button type="button" id="clear-trace" disabled>All orbits</button>
+<div class="graph-zoom" role="group" aria-label="Graph view"><button type="button" id="zoom-out" aria-label="Zoom out">−</button><button type="button" id="fit">Fit</button><button type="button" id="zoom-in" aria-label="Zoom in">+</button></div>
+</div>
+<p id="input-status" class="point-help" role="status"></p>
+<div class="graph-legend" aria-label="Graph legend"><span><i class="legend-dot composite"></i>Composite</span><span><i class="legend-dot prime"></i>Prime</span><span><i class="legend-dot perfect"></i>Perfect</span><span><i class="legend-dot terminal"></i>0 / 1</span><span><i class="legend-ring"></i>No predecessor · proved</span></div>
+<div id="chart" class="chart">
+<svg id="graph" xmlns="http://www.w3.org/2000/svg" role="group" tabindex="0" aria-labelledby="graph-title" aria-describedby="graph-help">
+<title id="graph-title">Directed aliquot orbits from all starts 1–100</title>
+<defs><marker id="arrow" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="7" markerHeight="6" orient="auto"><path d="M 0 0 L 10 4 L 0 8 Z"></path></marker><marker id="arrow-active" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="7" markerHeight="6" orient="auto"><path d="M 0 0 L 10 4 L 0 8 Z"></path></marker></defs>
+<g id="graph-world"><g id="graph-bands"></g><g id="graph-edges"></g><g id="graph-nodes"></g></g>
+</svg>
+<section id="point-details" class="point-details" aria-labelledby="point-title" hidden>
+<div class="point-details-heading"><h2 id="point-title">Node details</h2><span id="point-mode" class="point-mode"></span><button type="button" id="point-close" aria-label="Close node details">×</button></div>
+<dl class="point-fields">
+<div class="point-value"><dt>Value</dt><dd id="point-value"></dd></div>
+<div><dt>Classification</dt><dd id="point-status"></dd></div>
+<div><dt>Next · s(n)</dt><dd id="point-next"></dd></div>
+<div><dt>Digits / parity</dt><dd id="point-size"></dd></div>
+<div><dt>Mod 12 / base 12</dt><dd id="point-residue"></dd></div>
+<div class="point-wide"><dt>Predecessors shown here</dt><dd id="point-incoming"></dd></div>
+<div class="point-wide"><dt>Predecessors anywhere</dt><dd id="point-predecessors"></dd></div>
+<div class="point-wide point-extra"><dt>Starts reaching this node</dt><dd id="point-starts"></dd></div>
+<div class="point-wide"><dt>Factorization</dt><dd id="point-factorization"></dd></div>
+<div class="point-wide point-extra"><dt>Proper divisors</dt><dd id="point-divisors"></dd></div>
+<div class="point-wide point-extra"><dt>Count / sum</dt><dd id="point-divisor-summary"></dd></div>
+</dl>
+<p id="point-proof" class="point-help point-extra"></p>
+<a id="point-reverse" href="/reverse/">Explore predecessors →</a>
+</section>
+</div>
+<p id="graph-help" class="point-help">Drag to pan · scroll / pinch or + / − to zoom · Fit shows everything. Tab to inspect a node, Enter to pin, Esc to clear. Layout groups steps to the endpoint, not numeric size.</p>
+<p id="graph-summary" class="graph-summary"></p>
+<p id="route-status" class="note" role="status">Loading the verified graph…</p>
+<details class="graph-notes">
+<summary>Leaves, patterns &amp; exact bounds</summary>
+<p>A <strong>displayed leaf</strong> has no incoming arrow in this graph. It need not lack a predecessor elsewhere: 12 is a displayed leaf, but 121 → 12 is outside these starting orbits. A pink ring means the stronger statement: <strong>no positive predecessor exists</strong> (an untouchable number). Among starts 1–100, these are exactly 2, 5, 52, 88, and 96.</p>
+<p>For a target n &gt; 1, every solution of s(m) = n satisfies m ≤ (n − 1)²: m is composite and has a proper divisor d ≥ √m, so n ≥ 1 + d. The independent source sieve covers 1–100,000, enough to cover this ceiling for every displayed target other than 1. In particular, all sources through 2,601 are checked for 52. For 1 the predecessor set is infinite: exactly all primes. For 0 the only predecessor is 1; <strong>s(0) is undefined</strong>, so there is no outgoing arrow from 0.</p>
+<p>Each positive starting integer from 1 through 100 is included, not just the leaves. Shared values and arrows are drawn once; values above 100 remain visible when an orbit reaches them. All these orbits are resolved: 96 starts terminate at 0, 1–100 contains three starts reaching 6 (6, 25, 95), and 28 is already fixed. The self-loops at 6 and 28 are genuine cycles.</p>
+<p>Look for the prime fan into 1, shared tails, and the contrast between abundant steps and the small perfect-number components. The flow is left-to-right on wide screens and top-to-bottom on narrow screens. Larger dots have more incoming arrows <em>in this graph</em>, not necessarily more global predecessors. Placement within a layer is only layout. Selection highlights the forward orbit, not all ancestors. Closing the details card leaves the highlighted path visible; All orbits clears it.</p>
+<p>The public dataset is reproducibly generated by exact Python integer factorization, with 64 steps per starting value, a 1,000,000 source-value cap, and 2,000,000 factorization work units per call. None of these forward limits is reached here: the largest value is 259. A separate additive divisor sieve checks predecessors; tests independently verify it by divisor-pair enumeration. Layout never determines arithmetic or primality. Integer values in the download are decimal strings.</p>
+<p>This finite graph suggests questions, not a proof of the aliquot conjecture or evidence of divergence. The 45 displayed leaves describe only this chosen family of starts; the five no-predecessor certificates are global statements for those individual targets.</p>
+<button type="button" id="download">Download exact graph</button>
+</details>
+</main>
+<footer class="sitefoot shell"><span>Aliquot · A q5m research project</span><span class="right"><a href="https://www.q5m.ai">q5m</a><a href="https://github.com/q5m-ai/aliquot">GitHub</a></span></footer>
+</body>
+</html>

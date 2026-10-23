@@ -85,6 +85,27 @@ Search settings, presets, manual verification, the proof of the search ceiling, 
 
 Run the reverse UI regressions with `node --test tests/reverse.test.mjs` or the full Python suite. Both explorers use `site/point-info.js` for their shared exact card formatting. The reverse view uses `site/reverse.js`, `site/reverse-math.js`, and `site/reverse.css`; no backend, external dependency, or CSP relaxation is introduced.
 
+### Directed orbit graph
+
+Open **Graph** (`/orbits/`) to overlay **every start 1–100** as a directed graph, merging shared values and edges. Its 117 nodes and 116 arrows include values above 100 reached along the way (maximum 259). All starting orbits are resolved: 96 terminate at 0, three reach 6 (6, 25, 95), and 28 is fixed. Genuine self-loops are retained; zero has no outgoing edge because `s(0)` is undefined. Layers group distance to the terminal/cycle, not numeric size: left-to-right on wide screens, top-to-bottom on narrow ones. Placement within a layer is only layout. There is no force simulation or idle animation loop.
+
+Primes are green, perfect numbers amber, and a pink ring marks **proved absence of any positive predecessor**. This is stronger than being one of the 45 leaves in the displayed graph. Among starts 1–100, exactly **2, 5, 52, 88, 96** have no predecessor. In particular, every possible source for 52 lies at or below `(52−1)² = 2601`, and the complete scan finds none. In contrast, the displayed leaf 12 has predecessor 121, which is outside these starting orbits. Node cards distinguish shown predecessors from the complete global inverse set; 1 is characterized separately as having infinitely many prime predecessors.
+
+Hover to inspect the shared floating exact-value card; click/tap or use Tab/Enter to pin it and highlight that node's forward orbit. **Node → Trace** finds a displayed value (pre-filled with 52); `/orbits/?n=52` also works. Drag to pan, scroll/pinch or use ± to zoom, and Fit to recover the overview. Closing the card leaves its highlighted path visible; click the node again to reopen details. **All orbits** clears the trace and refits. Keyboard focus brings offscreen/small nodes into view. Divisor lists and the inverse-search certificate are available on the pinned card, with a link to Reverse. **Download exact graph** saves all nodes, edges, starting paths, bounds, inverse certificates, and the optional selection as JSON with decimal-string integer values.
+
+The math is precomputed by authoritative Python, not approximated by the SVG renderer. `aliquot/orbit_graph.py` follows exact factorization-derived sums with a 64-step-per-start limit, a 1,000,000 source cap, and the core's 2,000,000-work-unit factorization budget. The merged known edges can resolve a frontier previously left by another seed's step limit. Remaining frontiers are explicitly unresolved, never probable primes or divergence. A separate exact additive divisor sieve checks positive sources through 100,000. That covers the proven inverse ceiling for every displayed target except 1, whose prime-predecessor set is infinite. Independent divisor-pair tests verify **every source sum through the largest required ceiling, 66,564**, every graph edge, primality, and the five no-predecessor certificates.
+
+Only the deliberately public generated artifact `site/orbit-data.js` is served; the generator and source research remain outside `site/`. No runtime dependencies, backend, external assets, or CSP changes are needed. Reproduce/check the artifact with:
+
+```sh
+python3 scripts/build_orbit_graph.py
+python3 scripts/build_orbit_graph.py --check
+python3 scripts/version_assets.py
+node --test tests/orbits.test.mjs
+```
+
+The test suite rejects stale data and assets. This small graph is for pattern discovery; it does not resolve the aliquot conjecture or establish any divergent orbit.
+
 ### Formula rendering
 
 The definition and iteration rule sit directly below the title. Explicit `data-tex` fields and point-card factorizations use **self-hosted KaTeX 0.19.0**, with native MathML output and readable text fallbacks. There are no CDN requests, extra font downloads, or relaxed CSP rules. Unchanged formulas are cached rather than re-typeset on hover.
@@ -100,7 +121,7 @@ For managed LAN testing, let the platform allocate the port:
 q5m-lab serve --directory ./site --json
 ```
 
-Only `site/` is served. Website sequence computation happens in the browser; no backend, account, external script, or build step is required. Local Python code and research reports are never served. The explorer UI is `site/explorer.js`, with its presentation in `site/index.html` and `site/site.css`. The dedicated `/research/` timeline lives in `site/research/index.html` and `site/research.css`, with dated findings, explicit limitations, and pinned links to the source notes. It loads only the shared formula renderer, not the explorer runtime. The header follows Erdős 193's brand/navigation pattern; the footer uses Causal Sets' q5m/GitHub markup. Shared chrome uses a system-font fallback without requiring Google Fonts.
+Only `site/` is served. Explore and Reverse compute in the browser; Graph uses a committed, Python-verified public dataset. Serving the committed site requires no backend, account, external script, or build step. Local Python code and research reports are never served. The explorer UI is `site/explorer.js`, with its presentation in `site/index.html` and `site/site.css`. The dedicated `/research/` timeline lives in `site/research/index.html` and `site/research.css`, with dated findings, explicit limitations, and pinned links to the source notes. It loads only the shared formula renderer, not the explorer runtime. The header follows Erdős 193's brand/navigation pattern; the footer uses Causal Sets' q5m/GitHub markup. Shared chrome uses a system-font fallback without requiring Google Fonts.
 
 Python's `unittest` runner covers exact sums, independent sieve/divisor-pair verification, census reproduction, CLI failures, hosting boundaries, and Python/browser parity. It also invokes Node's UI harness for cycle marking, zero/perfect states, invalid inputs, cancellation, step control, budget exhaustion, finite canvas coordinates for hundreds-digit values, and hover/pin/keyboard inspection (including high-DPI hit testing, overlay bounds at desktop/mobile sizes and after resize, reset/eviction, exact long values, base-12 conversion, bounded divisor lists, explicit computation and cancellation). Browser factorization, divisor counts/sums, and small complete divisor lists are also checked against Python. These are mocked canvas checks, not a real-browser visual or phone test.
 
