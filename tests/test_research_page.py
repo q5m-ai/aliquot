@@ -76,7 +76,7 @@ class ResearchPageTests(unittest.TestCase):
         self.assertNotIn("scrollbar-width: none", css, "wide mobile formulas must remain scrollable")
 
     def test_local_links_assets_and_accessible_references_resolve_on_all_pages(self):
-        for relative in ["index.html", "research/index.html", "reverse/index.html"]:
+        for relative in ["index.html", "research/index.html", "reverse/index.html", "orbits/index.html"]:
             path = SITE / relative
             page = PageParser(path.read_text())
             with self.subTest(page=relative):

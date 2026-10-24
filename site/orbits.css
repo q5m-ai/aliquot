@@ -1,0 +1,65 @@
+/* A full-width directed graph, with the shared floating point cards. */
+.orbits-page { --prime: #008675; --untouchable: #bd3272; }
+.orbits-page main, .orbits-page .shell { max-width: none; padding-inline: clamp(16px, 2.5vw, 40px); }
+.orbits-page .explorer-heading { padding-bottom: 14px; }
+.graph-controls, #find-form, .graph-zoom { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.graph-controls { margin: 16px 0 12px; }
+.graph-zoom { margin-left: auto; gap: 5px; }
+#find-node { width: 120px; }
+.point-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.source-setting { flex-wrap: wrap; margin-top: 14px; }
+#source-bound { width: 115px; }
+#input-status { overflow-wrap: anywhere; }
+#stop-work[hidden] { display: none; }
+#point-compute { margin-top: 0; }
+#orbits .point-details button:disabled { opacity: .55; cursor: default; }
+#point-value { max-height: none; }
+#orbits .point-details:not([data-pinned=true]) .point-actions { display: none; }
+#input-status:empty { display: none; }
+.graph-controls button:disabled { opacity: .45; cursor: default; }
+.graph-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin: 10px 0; font-size: 11px; color: #58646c; }
+.graph-legend > span { display: inline-flex; align-items: center; gap: 6px; }
+.legend-dot, .legend-ring { display: inline-block; width: 9px; height: 9px; border-radius: 50%; }
+.legend-dot.composite { background: var(--blue); }
+.legend-dot.prime { background: var(--prime); }
+.legend-dot.perfect { background: var(--amber); }
+.legend-dot.terminal { background: var(--ink); }
+.legend-ring { width: 13px; height: 13px; border: 2px solid var(--untouchable); }
+#orbits #graph { display: block; width: 100%; height: clamp(500px, 69vh, 900px); border: 1px solid var(--line); border-radius: 6px; touch-action: none; user-select: none; cursor: grab; }
+#orbits #graph.dragging { cursor: grabbing; }
+#orbits #graph:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.graph-band { font: 11px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #68747e; pointer-events: none; }
+.graph-edge { fill: none; stroke: #aab8c2; stroke-width: .8; vector-effect: non-scaling-stroke; opacity: .85; pointer-events: none; }
+#arrow path { fill: #aab8c2; }
+#arrow-active path { fill: var(--blue); }
+.graph-node { cursor: pointer; outline: none; }
+.node-hit { fill: transparent; }
+.node-core { fill: var(--blue); stroke: white; stroke-width: 1; }
+.graph-node.prime .node-core { fill: var(--prime); }
+.graph-node.perfect .node-core { fill: var(--amber); }
+.graph-node.terminal .node-core { fill: var(--ink); }
+.graph-node.unresolved .node-core { fill: white; stroke: var(--amber); stroke-dasharray: 2 2; }
+.node-ring { fill: none; stroke: var(--untouchable); stroke-width: 1.7; pointer-events: none; }
+.node-label { fill: #35434d; font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; paint-order: stroke; stroke: white; stroke-width: 3px; stroke-linejoin: round; }
+.node-more { fill: #58646c; font: 10px ui-monospace, SFMono-Regular, Consolas, monospace; pointer-events: none; }
+.graph-node:focus-visible .node-core, .graph-node.selected .node-core { stroke: var(--ink); stroke-width: 2; }
+.graph-node.active .node-label { fill: var(--ink); font-weight: 700; }
+.has-trace .graph-node:not(.active) { opacity: .16; }
+.has-trace .graph-edge:not(.active) { opacity: .1; }
+.graph-edge.active { stroke: var(--blue); stroke-width: 2; opacity: 1; }
+.graph-summary { font-size: 12px; color: #58646c; line-height: 1.6; margin: 12px 0 6px; }
+#route-status { overflow-wrap: anywhere; margin-top: 0; }
+.graph-notes { border-top: 1px solid var(--line); padding-top: 14px; font: 13px/1.65 ui-sans-serif, system-ui, sans-serif; color: #58646c; }
+.graph-notes summary { cursor: pointer; }
+.graph-notes p { max-width: 100ch; }
+#point-proof { margin-bottom: 0; }
+@media (max-width: 500px) {
+  .graph-controls { gap: 6px; }
+  .graph-controls input, .graph-controls button { padding: 9px; }
+  .graph-zoom { gap: 3px; }
+  #find-node { width: 58px; }
+  #find-form { gap: 5px; }
+  #find-form label { font-size: 12px; }
+  .graph-legend { gap: 8px 12px; font-size: 10px; }
+  #orbits #graph { height: clamp(480px, 68vh, 650px); }
+}
