@@ -4,7 +4,7 @@ import vm from 'node:vm';
 import { readFileSync } from 'node:fs';
 
 const root = new URL('../', import.meta.url);
-const source = ['site/vendor/katex/katex.min.js','site/latex.js','site/math.js','site/explorer.js']
+const source = ['site/vendor/katex/katex.min.js','site/latex.js','site/math.js','site/point-info.js','site/explorer.js']
   .map(path=>readFileSync(new URL(path,root),'utf8')).join('\n');
 function browser({dpr=1,chartWidth=900,chartHeight=400,cardHeight=Math.min(300,chartHeight-16)}={}) {
   const elements = new Map();
@@ -163,6 +163,7 @@ test('click toggles a pin, switches points, and empty space or Close dismisses',
   assert.match(element('point-mode').textContent,/Pinned/);
   assert.equal(element('point-next').textContent,'16');
   assert.match(element('point-status').textContent,/Abundant/);
+  assert.equal(element('point-reverse').href,'/reverse/?n=12');
   graph.onpointerleave();
   assert.equal(element('point-details').hidden,false);
   graph.onpointermove(second);

@@ -97,6 +97,13 @@ class LatexTests(unittest.TestCase):
         for tex in expected:
             self.assertIn(tex, [f["tex"] for f in parser.formulas])
 
+    def test_reverse_relation_renders_with_the_shared_formula_renderer(self):
+        parser = FormulaParser()
+        parser.feed((ROOT / "site/reverse/index.html").read_text())
+        self.assertEqual(len(parser.formulas), 1)
+        self.assertEqual(parser.formulas[0]["tex"], r"m\longrightarrow n\quad\Longleftrightarrow\quad s(m)=n")
+        self.assert_mathml(parser.formulas)
+
     def test_plain_text_example_matches_exact_arithmetic(self):
         from aliquot import aliquot_sum
         html = (ROOT / "site/index.html").read_text()

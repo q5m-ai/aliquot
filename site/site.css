@@ -25,6 +25,8 @@ math{font-family:math,"Cambria Math","STIX Two Math",serif}
 .point-fields .point-value,.point-fields .point-wide{grid-column:1/-1}
 #point-divisors{overflow:visible}
 #point-compute{margin-top:8px}
+#point-reverse{display:inline-block;margin-top:10px;color:var(--blue)}
+.point-details:not([data-pinned=true]) #point-reverse{display:none}
 #point-compute[hidden]{display:none}
 #point-compute:disabled{cursor:default;opacity:.65}
 .point-fields dt{font-size:10px;color:#68747e;margin-bottom:2px}

@@ -44,7 +44,7 @@ class AssetVersionTests(unittest.TestCase):
                     expected = hashlib.sha256(asset.read_bytes()).hexdigest()[:16]
                     self.assertEqual(parse_qs(parsed.query), {"v": [expected]})
                     self.assertEqual(shared.setdefault(parsed.path, url), url)
-        self.assertEqual(counts, {"index.html": 5, "research/index.html": 4})
+        self.assertEqual(counts, {"index.html": 6, "research/index.html": 4, "reverse/index.html": 8})
 
     def test_refresh_is_idempotent_and_asset_changes_update_the_url(self):
         with tempfile.TemporaryDirectory() as directory:

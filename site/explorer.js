@@ -42,39 +42,15 @@ function divisorDetails(p){
     factorization:'Not computed',divisors:'Not computed',
     'divisor-summary':p.divisorIssue?`Unresolved: ${p.divisorIssue}`:inspectionJob?.point===p?'Computing…':'—',canCompute:true,
   };
-  const info=AliquotMath.properDivisorsFromFactors(p.n,factors);
-  const shown=[];let characters=0;
-  for(const d of info.values){const text=fmt(d);if(characters+text.length+2>8000)break;shown.push(text);characters+=text.length+2;}
-  const truncated=BigInt(shown.length)<info.count;
-  p.divisorCard={
-    factorization:factors.length?factors.map(({prime,exponent})=>fmt(prime)+(exponent>1?`^${exponent}`:'')).join(' × '):'—',
-    factorizationTex:factors.length?factors.map(({prime,exponent})=>prime.toString()+(exponent>1?`^{${exponent}}`:'')).join(' \\times '):null,
-    divisors:shown.length?shown.join(', '):'None',
-    'divisor-summary':`${fmt(info.count)} divisor${info.count===1n?'':'s'} · sum ${fmt(info.sum)}${truncated?` · ${shown.length} shown (sample)`:''}`,
-    canCompute:false,
-  };
+  p.divisorCard=AliquotPointInfo.divisors(p.n,factors);
   return p.divisorCard;
 }
 function pointDetails(p){
   const next=p.n===0n?null:(p.next??(p.n===1n?0n:cache.get(p.n.toString())));
-  const delta=p.previous===undefined?null:p.n-p.previous;
-  let status='Next term not computed';
-  if(p.n===0n)status='Terminated · s(0) is undefined';
-  else if(p.n===1n)status='Terminal · 1 → 0';
-  else if(next!==undefined)status=next===p.n?'Perfect':next>p.n?'Abundant':'Deficient';
-  if(p.issue)status+=` Calculation stopped: ${p.issue}`;
-  if(p.n>0n&&p.firstSeen!==undefined&&p.firstSeen!==null)status+=` · period ${fmt(p.period)} · first seen at ${fmt(p.firstSeen)}`;
-  return {
-    title:`Point · step ${fmt(p.k)}`,
-    value:fmt(p.n),
-    size:`${fmt(p.n.toString().length)} digit${p.n.toString().length===1?'':'s'} · ${p.n%2n===0n?'even':'odd'}`,
-    residue:`${p.n%12n} · ${p.n.toString(12).toUpperCase()}₁₂`,
-    previous:p.previous===undefined?'—':fmt(p.previous),
-    change:delta===null?'—':`${delta>0n?'+':''}${fmt(delta)}`,
-    next:p.n===0n?'Undefined':next===undefined?'Not computed':fmt(next),
-    status,
-    ...divisorDetails(p),
-  };
+  const info=AliquotPointInfo.basic(p.n,next,p.previous);
+  if(p.issue)info.status+=` Calculation stopped: ${p.issue}`;
+  if(p.n>0n&&p.firstSeen!==undefined&&p.firstSeen!==null)info.status+=` · period ${fmt(p.period)} · first seen at ${fmt(p.firstSeen)}`;
+  return {title:`Point · step ${fmt(p.k)}`,...info,...divisorDetails(p)};
 }
 function showPointDetails(){
   const p=pinnedPoint||hoveredPoint;
@@ -88,6 +64,7 @@ function showPointDetails(){
   $('point-compute').disabled=!pinnedPoint||busy;
   $('point-compute').textContent=inspectionJob?.point===p?'Computing…':!pinnedPoint?'Pin to compute divisors':busy?'Computing…':'Compute divisors';
   $('point-mode').textContent=pinnedPoint?'Pinned':'Click to pin';
+  $('point-reverse').href='/reverse/?n='+p.n.toString();
   positionPointDetails();
 }
 function clearPointDetails(){

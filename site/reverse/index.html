@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Explore aliquot orbits backward on an exact-value point graph. Hover to inspect; click a predecessor to step backward. Searches have explicit bounds.">
+<title>Reverse orbits — Aliquot</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css?v=330fcddeb41c5c71">
+<link rel="stylesheet" href="/reverse.css?v=123a096bc0412c29">
+<script src="/vendor/katex/katex.min.js?v=103a53763cc033bb" defer></script>
+<script src="/latex.js?v=9f835ebcef4900f0" defer></script>
+<script src="/math.js?v=9fd40b9534e07736" defer></script>
+<script src="/point-info.js?v=eb3a0ddde1079dfa" defer></script>
+<script src="/reverse-math.js?v=ac43d570562280a6" defer></script>
+<script src="/reverse.js?v=78c75b2589e4dd9e" defer></script>
+</head>
+<body class="reverse-page">
+<a class="skip" href="#reverse">Skip to reverse explorer</a>
+<header class="site shell">
+<div class="brand"><a href="/">aliquot<span>.q5m.ai</span></a></div>
+<nav class="site" aria-label="Main navigation"><a href="/">Explore</a><a href="/reverse/" aria-current="page">Reverse</a><a href="/research/">Research</a></nav>
+</header>
+<main id="reverse">
+<div class="explorer-heading">
+<h1>Reverse orbits</h1>
+<p class="formula-copy">Hover to inspect. Click a predecessor to step backward.</p>
+<p class="formula-iteration reverse-formula"><span data-tex="m\longrightarrow n\quad\Longleftrightarrow\quad s(m)=n">m → n exactly when s(m) = n</span></p>
+</div>
+<noscript><p>This interactive explorer needs JavaScript. No calculation is performed without it.</p></noscript>
+<div class="reverse-controls">
+<form id="root-form" class="seed-control">
+<label for="root-input">Target</label><button type="button" id="root-decrement" aria-label="Decrease target by 1">−</button><input id="root-input" type="text" inputmode="numeric" value="16" autocomplete="off"><button type="button" id="root-increment" aria-label="Increase target by 1">+</button><button type="submit">Set ↵</button>
+</form>
+<button type="button" id="undo" disabled>Undo</button>
+<select id="scale" aria-label="Vertical scale"><option value="linear" selected>linear y</option><option value="log">log y</option></select>
+</div>
+<p id="input-status" class="point-help" role="status"></p>
+<div id="chart" class="chart">
+<canvas id="graph" tabindex="0" aria-label="Reverse aliquot sequence; use arrow keys to inspect points" aria-describedby="point-help"></canvas>
+<section id="point-details" class="point-details" aria-labelledby="point-title" hidden>
+<div class="point-details-heading"><h2 id="point-title">Point details</h2><span id="point-mode" class="point-mode"></span><button type="button" id="point-close" aria-label="Close point details">×</button></div>
+<dl class="point-fields">
+<div class="point-value"><dt>Value</dt><dd id="point-value"></dd></div>
+<div><dt>Digits / parity</dt><dd id="point-size"></dd></div>
+<div><dt>Mod 12 / base 12</dt><dd id="point-residue"></dd></div>
+<div class="point-extra"><dt>Chosen previous</dt><dd id="point-previous"></dd></div>
+<div><dt>Forward change</dt><dd id="point-change"></dd></div>
+<div><dt>Next (forward)</dt><dd id="point-next"></dd></div>
+<div><dt>Status</dt><dd id="point-status"></dd></div>
+<div class="point-wide"><dt>Factorization</dt><dd id="point-factorization"></dd></div>
+<div class="point-wide"><dt>Proper divisors</dt><dd id="point-divisors"></dd></div>
+<div class="point-wide"><dt>Count / sum</dt><dd id="point-divisor-summary"></dd></div>
+</dl>
+<button type="button" id="point-compute" hidden>Compute divisors</button>
+<button type="button" id="point-branch" hidden>Branch backward here</button>
+<p id="point-issue" class="point-help" role="status"></p>
+</section>
+</div>
+<p id="point-help" class="point-help">Hollow points: predecessors · click to step back. Solid points: chosen chain · click to pin. Arrow keys inspect · Enter selects · Space pins · Esc closes.</p>
+<p id="keyboard-status" class="visually-hidden" role="status"></p>
+<div class="stats"><div><small>BACKWARD STEPS</small><output id="depth-value">0</output></div><div><small>CURRENT VALUE</small><output id="frontier-value">16</output></div><div><small>GAIN · TARGET − CURRENT</small><output id="gain-value">0</output></div></div>
+<div class="note"><span id="search-status" role="status">Finding predecessors…</span> <span id="cycle-status" role="status"></span> <span id="path-window"></span></div>
+<details id="search-options" class="reverse-options">
+<summary>Search options &amp; limits</summary>
+<form id="search-form" class="bound-controls">
+<label for="source-bound">Search sources 1 ≤ m ≤</label><input id="source-bound" type="text" inputmode="numeric" value="10000" aria-describedby="bound-help"><button type="submit">Search</button><button id="search-stop" type="button" disabled>Stop</button>
+<progress id="search-progress" max="1" value="0" aria-label="Building exact divisor-sum table" hidden></progress>
+</form>
+<p id="bound-help">Inclusive source bound, up to 1,000,000 per sieve. A completed table is reused between steps. A partial search may miss predecessors above its bound.</p>
+<div class="presets" role="group" aria-label="Reverse examples"><button type="button" data-root="16">16 · branches</button><button type="button" data-root="6">6 · perfect</button><button type="button" data-root="220">220 · amicable</button><button type="button" data-root="1">1 · primes</button><button type="button" data-root="2">2 · no predecessors</button></div>
+<details class="manual-test">
+<summary>Test a predecessor outside the scan</summary>
+<p>Enter a positive integer m (up to 1,000 digits). Only an exact match s(m) = current value becomes selectable. Factorization has a 2,000,000-work-unit budget; exhaustion is unresolved, never a rejection or a probable-prime shortcut.</p>
+<form id="verify-form" class="bound-controls"><label for="verify-input">Possible predecessor m</label><input id="verify-input" type="text" inputmode="numeric" autocomplete="off"><button type="submit" id="verify-button">Verify</button><button type="button" id="verify-stop" disabled>Stop verification</button></form>
+<p id="verify-status" role="status"></p>
+</details>
+<button type="button" id="download">Download exact chain</button>
+<details class="reverse-limits">
+<summary>How to read the graph</summary>
+<p>The x-axis is the forward step k, with the original target at 0. Going backward adds negative steps to the left. The y-axis is the numeric value (linear or logarithmic). The graph automatically fits the displayed chain and all found predecessors after every choice. Predecessors at the leftmost step are alternatives, not consecutive terms; only your chosen chain is connected. Hovering a candidate previews its forward edge.</p>
+<p>All found predecessors are plotted, without pagination. Close values can overlap on screen: hover near them and use ↑/↓ to inspect neighboring values individually. Enter follows the inspected predecessor. Space or Shift-click pins any point for divisor computation without advancing; clicking a chosen point also pins it. On touch screens, tap a predecessor to step back, then tap the chosen point for details.</p>
+<p>The latest 180 chosen points are displayed, matching Explore’s rolling window. There is no preset backward-depth limit; the full chosen chain stays in this tab and downloads as exact decimal strings. Reloading starts over. Plot coordinates are approximate, never used in sequence arithmetic.</p>
+<p>For n &gt; 1, any predecessor m is composite and has a proper divisor d ≥ √m. Thus n = s(m) ≥ 1 + d and <strong>m ≤ (n − 1)²</strong>. A search covering this ceiling is complete; otherwise, absence is only within the checked range. For target 0 the only predecessor is 1. For target 1 every finite search is partial, because every prime maps to 1. Zero is never a source: s(0) is undefined.</p>
+<p><strong>A backward path is not a proof of an unbounded forward orbit.</strong> Extending it changes the earliest starting value. Search bounds and browser resources remain finite.</p>
+</details>
+</details>
+</main>
+<footer class="sitefoot shell"><span>Aliquot · A q5m research project</span><span class="right"><a href="https://www.q5m.ai">q5m</a><a href="https://github.com/q5m-ai/aliquot">GitHub</a></span></footer>
+</body>
+</html>

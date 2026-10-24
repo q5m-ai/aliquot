@@ -1,0 +1,38 @@
+/* The same canvas and floating point cards as Explore, without a sidebar. */
+.reverse-page main, .reverse-page .shell { max-width: none; padding-inline: clamp(16px, 2.5vw, 40px); }
+.reverse-page .explorer-heading { padding-bottom: 14px; }
+.reverse-formula { margin-top: 10px; font-size: 18px; }
+.reverse-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 16px 0; }
+.reverse-controls .seed-control { margin-right: 8px; }
+#root-input { width: 130px; }
+#input-status:empty { display: none; }
+#reverse #graph { height: clamp(320px, 58vh, 760px); }
+#reverse button:disabled { cursor: default; opacity: .5; }
+#reverse .stats { margin-top: 18px; }
+#reverse .note { overflow-wrap: anywhere; }
+#cycle-status { color: var(--amber); }
+#point-issue { overflow-wrap: anywhere; margin-bottom: 0; }
+#point-issue:empty { display: none; }
+#point-branch { margin-top: 8px; }
+#point-branch[hidden], .point-details:not([data-pinned=true]) #point-branch { display: none; }
+.reverse-options { border-top: 1px solid var(--line); padding-top: 14px; font: 13px/1.65 ui-sans-serif, system-ui, sans-serif; }
+.reverse-options summary { cursor: pointer; color: #58646c; }
+.reverse-options p { max-width: 95ch; color: #58646c; overflow-wrap: anywhere; }
+.reverse-options .presets { margin: 12px 0; }
+.reverse-options > details { margin: 16px 0; }
+.bound-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; }
+.bound-controls label { color: #58646c; }
+.bound-controls input { max-width: 100%; }
+#source-bound { width: 120px; }
+#verify-input { width: 220px; }
+#search-progress { width: 120px; accent-color: var(--blue); }
+#download { font-size: 12px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 500px) {
+  .reverse-controls .seed-control { margin-right: 0; }
+  .reverse-controls label { font-size: 12px; }
+  #root-input { width: 105px; }
+  .reverse-controls input, .reverse-controls button, .reverse-controls select { padding: 9px; }
+  #reverse #graph { height: clamp(320px, 52vh, 520px); }
+  #reverse .stats small { font-size: 10px; line-height: 1.5; }
+}
