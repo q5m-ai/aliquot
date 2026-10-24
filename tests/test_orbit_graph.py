@@ -259,7 +259,9 @@ class OrbitGraphTests(unittest.TestCase):
     def test_public_page_keeps_facts_scope_and_navigation_visible(self):
         page = (ROOT / "site/orbits/index.html").read_text()
         for text in ["All starts 1–1,000", "s(0) is undefined", "121 → 12", "2, 5, 52, 88, and 96",
-                     "2,601", "1,000,000", "64 steps", "2,000,000", "not a proof", "514 displayed leaves"]:
+                     "2,601", "1,000,000", "64 steps", "2,000,000", "not a proof", "514 leaves",
+                     "80-node", "42 nodes", "left-to-right on every screen", "Show next +16",
+                     "known successor is outside the window", "not just this window"]:
             self.assertIn(text, page)
         for name in ["index.html", "reverse/index.html", "research/index.html"]:
             self.assertIn('href="/orbits/"', (ROOT / "site" / name).read_text())

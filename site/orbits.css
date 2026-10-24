@@ -41,7 +41,7 @@
 .graph-node.unresolved .node-core { fill: white; stroke: var(--amber); stroke-dasharray: 2 2; }
 .node-ring { fill: none; stroke: var(--untouchable); stroke-width: 1.7; pointer-events: none; }
 .node-label { fill: #35434d; font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; paint-order: stroke; stroke: white; stroke-width: 3px; stroke-linejoin: round; }
-.vertical .node-label { font-size: 15px; }
+.node-more { fill: #58646c; font: 10px ui-monospace, SFMono-Regular, Consolas, monospace; pointer-events: none; }
 .graph-node:focus-visible .node-core, .graph-node.selected .node-core { stroke: var(--ink); stroke-width: 2; }
 .graph-node.active .node-label { fill: var(--ink); font-weight: 700; }
 .has-trace .graph-node:not(.active) { opacity: .16; }

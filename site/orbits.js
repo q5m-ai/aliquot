@@ -4,6 +4,8 @@
   const svg = $('graph'), world = $('graph-world'), card = $('point-details');
   const session = AliquotOrbitSession.create(AliquotOrbitData);
   let model = session.model, layout;
+  const windowView = AliquotOrbitGraph.createWindow(model), actionHistory = [];
+  let visible = windowView.ids;
   const nodeElements = new Map(), edgeElements = new Map(), pointers = new Map(), manualPositions = new Map();
   const revealed = new Set();
   let selected = null, hovered = null, detailsHidden = false, camera, width = svg.clientWidth, height = svg.clientHeight;
@@ -17,19 +19,22 @@
   };
   function edgeCurve(source) {
     const target = model.nodes.get(source).next;
-    return AliquotOrbitGraph.curve(layout.positions.get(source), layout.positions.get(target), source === target, layout.vertical);
+    return AliquotOrbitGraph.curve(layout.positions.get(source), layout.positions.get(target), source === target);
   }
   function drawNode(node) {
     const position = layout.positions.get(node.id);
     const type = node.id === '0' || node.id === '1' ? 'terminal' : node.next === node.id ? 'perfect' : node.prime ? 'prime' : node.unresolved ? 'unresolved' : 'composite';
     const element = svgElement('g', {class: `graph-node ${type}`, 'data-node': node.id,
       transform: `translate(${position.x} ${position.y})`, tabindex: 0, role: 'button', 'aria-pressed': 'false',
-      'aria-label': `${fmt(node.id)}, ${type}${node.untouchable ? ', proved no predecessor' : node.leaf ? ', leaf in this graph' : ''}. Inspect and trace forward.`});
+      'aria-label': `${fmt(node.id)}, ${type}${node.untouchable ? ', proved no predecessor' : node.leaf ? ', leaf in the loaded graph' : ''}${node.next !== null && !visible.has(node.next) ? ', known continuation outside window' : ''}. Inspect and trace forward.`});
     element.append(svgElement('circle', {r: Math.max(11, position.r + 4), class: 'node-hit'}));
     if (node.untouchable) element.append(svgElement('circle', {r: position.r + 4, class: 'node-ring'}));
     element.append(svgElement('circle', {r: position.r, class: 'node-core'}));
-    element.append(svgElement('text', {x: layout.vertical ? 0 : position.r + 5, y: layout.vertical ? position.r + 16 : 4,
-      'text-anchor': layout.vertical ? 'middle' : 'start', class: 'node-label'}, AliquotOrbitGraph.label(node.id)));
+    element.append(svgElement('text', {x: position.r + 5, y: 4,
+      'text-anchor': 'start', class: 'node-label'}, AliquotOrbitGraph.label(node.id)));
+    if (node.next !== null && !visible.has(node.next)) {
+      element.append(svgElement('text', {x: position.r + 5, y: 18, class: 'node-more', 'aria-hidden': 'true'}, '→ …'));
+    }
     element.addEventListener('pointerenter', event => {
       if (event.pointerType !== 'touch' && !pointers.size && !selected) { hovered = node.id; inspect(); }
     });
@@ -37,35 +42,38 @@
     element.addEventListener('focus', () => { if (!selected && !pointers.size && element.matches(':focus-visible')) { hovered = node.id; center(node.id, false); inspect(); } });
     element.addEventListener('blur', () => { if (!selected) { hovered = null; inspect(); } });
     element.addEventListener('keydown', event => {
-      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); event.stopPropagation(); choose(node.id); }
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); event.stopPropagation(); choose(node.id, true); }
     });
     // Assistive technologies can synthesize a click without pointer events.
-    element.addEventListener('click', event => { if (event.detail === 0) choose(node.id); });
+    element.addEventListener('click', event => { if (event.detail === 0) choose(node.id, true); });
     nodeElements.set(node.id, element);
     $('graph-nodes').append(element);
   }
-  function rebuild({arrange = false} = {}) {
-    model = session.model;
-    if (!model.nodes.has(selected)) selected = null;
+  function rebuild({arrange = false, focus = null, overview = false} = {}) {
+    model = session.model; visible = windowView.ids;
+    if (!visible.has(selected)) selected = null;
     hovered = null;
     if (arrange) manualPositions.clear();
-    layout = AliquotOrbitGraph.layout(model, {vertical: width < 760});
+    layout = AliquotOrbitGraph.layout(model, {visible});
     for (const [id, position] of manualPositions) {
       if (layout.positions.has(id)) Object.assign(layout.positions.get(id), position);
-      else manualPositions.delete(id);
+      else if (!model.nodes.has(id)) manualPositions.delete(id);
     }
     nodeElements.clear(); edgeElements.clear();
     $('graph-bands').replaceChildren(); $('graph-edges').replaceChildren(); $('graph-nodes').replaceChildren();
     for (const band of layout.bands) $('graph-bands').append(svgElement('text', {x: 22, y: band.top + 15, class: 'graph-band'}, band.label));
     for (const edge of model.data.edges) {
+      if (!visible.has(edge.from) || !visible.has(edge.to)) continue;
       const element = svgElement('path', {class: 'graph-edge', 'data-source': edge.from, d: edgeCurve(edge.from), 'marker-end': 'url(#arrow)'});
       edgeElements.set(edge.from, element); $('graph-edges').append(element);
     }
-    for (const node of model.nodes.values()) drawNode(node);
-    world.classList.toggle('vertical', layout.vertical);
+    for (const id of visible) drawNode(model.nodes.get(id));
     svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-    $('graph-summary').textContent = `${model.data.orbits.length} starts · ${model.nodes.size}/${session.limits.maxNodes} values · ${model.data.edges.length} arrows · ${model.data.nodes.filter(n => n.leaf).length} leaves in this graph · ${model.data.nodes.filter(n => n.untouchable).length} proved no-predecessor nodes`;
-    fit(); inspect();
+    $('graph-summary').textContent = `${visible.size}/${windowView.limits.maxNodes} nodes in window · ${edgeElements.size} arrows shown · ${fmt(model.nodes.size)} values available from ${fmt(model.data.orbits.length)} starts · ${[...visible].filter(id => model.nodes.get(id).untouchable).length} proved no-predecessor nodes shown`;
+    fit();
+    if (focus !== null && visible.has(focus)) center(focus, true);
+    else if (overview && camera.scale < .75 && visible.has('12')) center('12', true);
+    inspect();
   }
   function bounds() {
     const points = [...layout.positions.values()];
@@ -89,6 +97,11 @@
     world.setAttribute('transform', `translate(${camera.x} ${camera.y}) scale(${camera.scale})`);
     paintCard();
   }
+  function needsForwardReveal(trace) {
+    // A long orbit can exceed the display cap. Once its actual computation
+    // frontier is visible, older hidden terms must not block further work.
+    return trace.path.some(id => !visible.has(id)) && !(trace.status === 'unresolved' && visible.has(trace.path.at(-1)));
+  }
   function inspect() {
     const id = selected ?? hovered, trace = id === null ? null : model.trace(id);
     const active = new Set(trace?.path ?? []);
@@ -106,17 +119,17 @@
       element.classList.toggle('active', on);
       element.setAttribute('marker-end', on ? 'url(#arrow-active)' : 'url(#arrow)');
     }
-    $('clear-trace').disabled = id === null;
-    $('undo').disabled = !session.canUndo;
+    $('clear-trace').disabled = false;
+    $('undo').disabled = actionHistory.length === 0;
     $('find-button').disabled = job !== null;
     $('stop-work').hidden = job === null;
     svg.setAttribute('aria-busy', String(job !== null));
-    const overview = model.data.complete_orbits ? 'Every included starting orbit is resolved. Zero has no outgoing edge.'
-      : 'Some orbits have unresolved frontiers. Extend explicitly; a missing edge is not termination or evidence of divergence.';
+    const hiddenForward = trace ? [...new Set(trace.path)].filter(value => !visible.has(value)).length : 0;
+    const overview = `Showing a rolling window, not the entire graph. Explore any start or expand a node; older branches leave the window, not the loaded data. ${model.data.complete_orbits ? 'Every included starting orbit is resolved.' : 'Some loaded orbits have unresolved computation frontiers.'}`;
     $('route-status').textContent = trace
-      ? `${trace.path.slice(0, 32).map(AliquotOrbitGraph.label).join(' → ')}${trace.path.length > 32 ? ` → … (${trace.path.length - 32} further terms retained)` : ''} · ${trace.status === 'cycle' ? 'cycle repeats' : trace.status === 'terminated' ? 'terminated' : 'unresolved within limits'}${revealed.size ? ' · new incoming branches highlighted' : ''}` : overview;
+      ? `${trace.path.slice(0, 32).map(AliquotOrbitGraph.label).join(' → ')}${trace.path.length > 32 ? ` → … (${trace.path.length - 32} further terms retained)` : ''} · ${trace.status === 'cycle' ? 'cycle repeats' : trace.status === 'terminated' ? 'terminated' : 'unresolved within limits'}${hiddenForward ? ` · ${hiddenForward} known terms outside window (not a computation limit)` : ''}${revealed.size ? ' · incoming branches highlighted' : ''}` : overview;
     if (id !== null) {
-      const node = model.nodes.get(id), details = model.info(id);
+      const node = model.nodes.get(id), details = model.info(id, visible);
       const knownSum = node.sum ?? node.next;
       const basic = AliquotPointInfo.basic(BigInt(id), knownSum === null ? undefined : BigInt(knownSum));
       if (node.prime) basic.status = 'Prime · deficient';
@@ -130,11 +143,13 @@
       card.dataset.pinned = String(selected !== null);
       $('point-mode').textContent = selected !== null ? 'Pinned · orbit' : 'Click to pin';
       $('point-reverse').href = `/reverse/?n=${id}`;
-      const allShown = node.predecessors.status === 'complete' && node.predecessors.values.every(source => model.nodes.get(source)?.next === id);
+      const allShown = node.predecessors.status === 'complete' && node.predecessors.values.every(source => visible.has(source) && model.nodes.get(source)?.next === id);
       $('point-expand').disabled = job !== null || allShown;
-      $('point-expand').textContent = node.untouchable ? 'No predecessors · proved' : allShown ? 'All predecessors shown' : 'Add predecessors';
-      $('point-forward').disabled = job !== null || trace.status !== 'unresolved';
-      $('point-forward').textContent = trace.status === 'unresolved' ? 'Extend forward +64' : 'Forward complete';
+      $('point-expand').textContent = node.untouchable ? 'No predecessors · proved' : allShown ? 'All predecessors shown'
+        : node.incoming.some(source => !visible.has(source)) ? 'Show / add predecessors' : 'Add predecessors';
+      const showForward = needsForwardReveal(trace);
+      $('point-forward').disabled = job !== null || (!showForward && trace.status !== 'unresolved');
+      $('point-forward').textContent = showForward ? 'Show next +16' : trace.status === 'unresolved' ? 'Extend forward +64' : 'Forward complete';
       $('point-compute').hidden = !divisorInfo.canCompute;
       $('point-compute').disabled = job !== null;
     } else {
@@ -148,12 +163,29 @@
     $('input-status').textContent = message;
     inspect();
   }
-  function choose(id) {
+  function checkpoint() { return {data: session.data, view: windowView.save(), selected, detailsHidden}; }
+  function remember(before) {
+    const ids = windowView.ids;
+    if (before.data === session.data && before.view.visible.length === ids.size && before.view.visible.every(id => ids.has(id))) return;
+    actionHistory.push({view: before.view, selected: before.selected, detailsHidden: before.detailsHidden, math: before.data !== session.data});
+    if (actionHistory.length > session.limits.history) actionHistory.shift();
+  }
+  function choose(id, keyboard = false) {
     if (!model.nodes.has(id)) return;
     cancelJob(); revealed.clear();
+    const before = checkpoint();
     selected = selected === id && !detailsHidden ? null : id;
     hovered = null; detailsHidden = false;
-    if (selected) $('find-node').value = selected;
+    if (selected) {
+      $('find-node').value = selected;
+      const added = windowView.forward(model, selected, true);
+      remember(before);
+      if (added.length) {
+        rebuild({focus: selected});
+        if (keyboard) nodeElements.get(selected).focus({preventScroll: true});
+        return;
+      }
+    }
     inspect();
   }
   function clear() { cancelJob(); revealed.clear(); selected = hovered = null; detailsHidden = false; inspect(); }
@@ -171,17 +203,26 @@
     if (width === svg.clientWidth && height === svg.clientHeight) return;
     cancelJob('Stopped because the graph view changed; unfinished changes discarded.');
     width = svg.clientWidth; height = svg.clientHeight;
-    if (layout.vertical !== (width < 760)) rebuild({arrange: true});
-    else { svg.setAttribute('viewBox', `0 0 ${width} ${height}`); fit(); }
+    svg.setAttribute('viewBox', `0 0 ${width} ${height}`); fit();
     if (selected) center(selected, true);
+    else if (camera.scale < .75 && visible.has('12')) center('12', true);
   }
   function zoom(factor, point = {x: width / 2, y: height / 2}) {
     camera = AliquotOrbitGraph.zoom(camera, factor, point, Math.min(.1, AliquotOrbitGraph.fit(width, height, bounds()).scale / 2));
     hovered = null; inspect(); paintCamera();
   }
+  function forward() {
+    if (job || selected === null) return;
+    if (needsForwardReveal(model.trace(selected))) {
+      const before = checkpoint(), added = windowView.forward(model, selected);
+      remember(before); detailsHidden = false;
+      $('input-status').textContent = `Revealed ${added.length} known forward terms. The ${windowView.limits.maxNodes}-node window rolls forward; hidden terms remain in the full graph.`;
+      rebuild({focus: added.at(-1) ?? selected});
+    } else return act('extend', selected);
+  }
   async function act(kind, id) {
     if (job || id === null) return;
-    const task = {cancelled: false};
+    const before = checkpoint(), task = {cancelled: false};
     job = task; inspect();
     $('input-status').textContent = kind === 'expand' ? 'Finding exact predecessors…' : kind === 'divisors' ? 'Computing exact divisors…' : 'Extending the orbit…';
     try {
@@ -196,17 +237,21 @@
       job = null; revealed.clear(); selected = id; hovered = null;
       $('find-node').value = id;
       detailsHidden = kind === 'expand';
+      model = session.model;
+      let focus = id;
       if (kind === 'expand') {
-        for (const source of result.revealed) revealed.add(source);
+        for (const source of windowView.incoming(model, id, result.revealed)) revealed.add(source);
         const coverage = result.complete ? 'Complete predecessor set' : result.infinite
           ? `Infinite predecessor set; finite scan through ${fmt(result.checked)} is partial`
           : `Partial search through ${fmt(result.checked)}; larger sources remain unchecked`;
-        $('input-status').textContent = `Added ${result.edges} predecessor arrow${result.edges === 1 ? '' : 's'} into ${fmt(id)} (${result.added.length} new nodes). ${coverage}. ${result.remaining ? `${result.remaining.toLocaleString('en-CA')} found predecessors are not drawn yet; add another batch.` : 'All matches from this search are shown.'}${result.limited ? ` Graph node limit reached; undo or reset to make room.` : ''}`;
+        $('input-status').textContent = `Added ${result.edges} predecessor arrow${result.edges === 1 ? '' : 's'} to the full graph (${result.added.length} new nodes); revealed ${revealed.size} incoming branches at ${fmt(id)}. ${coverage}. ${result.remaining ? `${result.remaining.toLocaleString('en-CA')} found predecessors are not in the loaded graph yet; add another batch.` : 'All matches from this search are in the loaded graph.'} The window shows at most ${windowView.limits.maxNodes} nodes; other branches remain available.${result.limited ? ' Full graph node limit reached; undo or reset to make room.' : ''}`;
       } else if (kind === 'extend') {
-        $('input-status').textContent = `Added ${result.added.length} nodes and ${result.edges} exact arrows. ${result.status === 'unresolved' ? `Unresolved frontier: ${result.reason}. Extend explicitly to try further.` : result.status === 'cycle' ? 'A repeated value closes a cycle.' : 'This orbit terminates at 0.'}`;
+        const added = windowView.forward(model, id, !visible.has(id));
+        if (visible.has(id)) focus = added.at(-1) ?? id;
+        $('input-status').textContent = `Added ${result.added.length} nodes and ${result.edges} exact arrows to the full graph. ${result.status === 'unresolved' ? `Unresolved frontier: ${result.reason}. Extend explicitly to try further.` : result.status === 'cycle' ? 'A repeated value closes a cycle.' : 'This orbit terminates at 0.'} Show next reveals cached terms in batches of 16.`;
       } else $('input-status').textContent = `Exact divisors of ${fmt(id)} computed; the graph edges are unchanged.`;
-      rebuild();
-      if (kind === 'extend') center(id, true);
+      remember(before);
+      rebuild({focus});
     } catch (error) {
       if (job === task) $('input-status').textContent = error.message === 'cancelled' ? 'Stopped; unfinished changes discarded.' : error.message;
     } finally {
@@ -219,26 +264,38 @@
     try { id = session.parse(raw); } catch (error) { $('input-status').textContent = error.message; return; }
     cancelJob(); revealed.clear();
     if (!model.nodes.has(id)) return act('extend', id);
+    const before = checkpoint();
     selected = id; hovered = null; detailsHidden = false;
+    windowView.forward(model, id, true); remember(before);
     $('find-node').value = id; $('input-status').textContent = '';
-    center(id, true); inspect();
+    rebuild({focus: id});
   }
   $('find-form').addEventListener('submit', event => { event.preventDefault(); return find($('find-node').value); });
   $('point-expand').addEventListener('click', () => act('expand', selected));
-  $('point-forward').addEventListener('click', () => act('extend', selected));
+  $('point-forward').addEventListener('click', forward);
   $('point-compute').addEventListener('click', () => act('divisors', selected));
   $('stop-work').addEventListener('click', () => cancelJob());
   $('undo').addEventListener('click', () => {
     cancelJob(); revealed.clear();
-    if (session.undo()) { rebuild(); $('input-status').textContent = 'Undid the last graph action.'; }
+    const previous = actionHistory.pop();
+    if (previous) {
+      if (previous.math) session.undo();
+      windowView.restore(previous.view, session.model);
+      selected = previous.selected; detailsHidden = previous.detailsHidden;
+      rebuild(); $('input-status').textContent = 'Undid the last graph/window action.';
+    }
   });
   $('reset-graph').addEventListener('click', () => {
-    cancelJob(); session.reset(); revealed.clear(); selected = hovered = null; detailsHidden = false;
-    $('find-node').value = '52'; rebuild({arrange: true});
-    $('input-status').textContent = `Reset to the original starts 1–${fmt(session.data.initial_limits.seed_max)}.`;
+    cancelJob(); session.reset(); actionHistory.length = 0; revealed.clear(); selected = hovered = null; detailsHidden = false;
+    windowView.reset(session.model);
+    $('find-node').value = '12'; rebuild({arrange: true, overview: true});
+    $('input-status').textContent = `Reset to the original starts 1–${fmt(session.data.initial_limits.seed_max)} and the small starting window.`;
   });
   $('arrange').addEventListener('click', () => { cancelJob(); rebuild({arrange: true}); });
-  $('clear-trace').addEventListener('click', () => { clear(); fit(); });
+  $('clear-trace').addEventListener('click', () => {
+    const before = checkpoint(); clear(); windowView.reset(model); remember(before); rebuild({arrange: true, overview: true});
+    $('input-status').textContent = 'Small overview restored. All loaded values and completed computations are still available.';
+  });
   $('point-close').addEventListener('click', () => { detailsHidden = true; paintCard(); });
   $('fit').addEventListener('click', fit);
   $('zoom-in').addEventListener('click', () => zoom(1.4));
@@ -317,14 +374,15 @@
     }
   });
   $('download').addEventListener('click', () => {
-    const content = {...model.data, selection: selected === null ? null : {start: selected, ...model.trace(selected)}};
+    const content = {...model.data, selection: selected === null ? null : {start: selected, ...model.trace(selected)},
+      window: {limits: windowView.limits, visible: [...visible]}};
     const url = URL.createObjectURL(new Blob([JSON.stringify(content, null, 2)], {type: 'application/json'}));
     const link = document.createElement('a');
     link.href = url; link.download = 'aliquot-orbit-graph.json';
     document.body.append(link); link.click(); link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   });
-  rebuild();
+  rebuild({overview: true});
   new ResizeObserver(resize).observe(svg);
   const initial = new URLSearchParams(location.search).get('n');
   if (initial !== null) find(initial);

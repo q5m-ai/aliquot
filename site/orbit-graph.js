@@ -8,7 +8,7 @@ const AliquotOrbitGraph = (() => {
   const label = id => id.length > 7 ? `${id.slice(0, 3)}…${id.slice(-3)}` : fmt(id);
   function create(data) {
     const nodes = new Map(data.nodes.map(node => [node.id, node]));
-    function trace(id) {
+    function trace(id, visible = null) {
       if (!nodes.has(id)) throw new Error('This value is not in the displayed graph.');
       const path = [], seen = new Map();
       while (!seen.has(id)) {
@@ -17,6 +17,7 @@ const AliquotOrbitGraph = (() => {
         const node = nodes.get(id);
         if (id === '0') return {path, cycle: [], status: 'terminated'};
         if (node.next === null) return {path, cycle: [], status: 'unresolved'};
+        if (visible && !visible.has(node.next)) return {path, cycle: [], status: 'hidden'};
         id = node.next;
         if (!nodes.has(id)) throw new Error('Graph edge has no target node.');
       }
@@ -24,9 +25,13 @@ const AliquotOrbitGraph = (() => {
       path.push(id);
       return {path, cycle, status: 'cycle'};
     }
-    function info(id) {
+    function info(id, visible = null) {
       const node = nodes.get(id), inverse = node.predecessors;
-      const incoming = node.incoming.length ? `${node.incoming.length}: ${node.incoming.slice(0, 10).map(fmt).join(', ')}${node.incoming.length > 10 ? ', …' : ''}` : 'None · a leaf in this graph';
+      const shown = node.incoming.filter(source => !visible || visible.has(source));
+      const hidden = node.incoming.length - shown.length;
+      const incoming = (shown.length ? `${shown.length}: ${shown.slice(0, 10).map(fmt).join(', ')}${shown.length > 10 ? ', …' : ''}`
+        : hidden ? 'None in this window' : 'None · a leaf in the loaded graph')
+        + (hidden ? ` · ${hidden} known outside this window` : '');
       let predecessors, proof;
       if (inverse.status === 'infinite') {
         predecessors = 'All primes · infinitely many';
@@ -51,17 +56,69 @@ const AliquotOrbitGraph = (() => {
     }
     return {data, nodes, trace, info};
   }
+  // A display-only rolling window. Nothing here changes exact edges, inverse
+  // certificates, forward statuses, or the full graph retained by the session.
+  const WINDOW_LIMITS = {maxNodes: 80, initialSeeds: 30, forwardBatch: 16, incomingBatch: 25};
+  function createWindow(model, options = {}) {
+    const limits = {...WINDOW_LIMITS, ...options};
+    for (const [key, maximum] of Object.entries(WINDOW_LIMITS)) {
+      if (!Number.isSafeInteger(limits[key]) || limits[key] < 1 || limits[key] > maximum) throw new Error(`Invalid window ${key} limit.`);
+    }
+    let visible = new Set(), recent = new Map(), clock = 0;
+    function reveal(model, ids, anchor = null) {
+      const before = new Set(visible);
+      const wanted = [...new Set(ids)].filter(id => model.nodes.has(id) && id !== anchor)
+        .slice(0, limits.maxNodes - (anchor === null ? 0 : 1));
+      if (anchor !== null && model.nodes.has(anchor)) wanted.push(anchor);
+      for (const id of wanted) {
+        visible.delete(id); visible.add(id); recent.set(id, ++clock);
+      }
+      while (visible.size > limits.maxNodes) visible.delete(visible.values().next().value);
+      return wanted.filter(id => !before.has(id));
+    }
+    function reset(model) {
+      visible = new Set(); recent = new Map(); clock = 0;
+      reveal(model, model.data.orbits.filter(o => BigInt(o.seed) <= BigInt(limits.initialSeeds)).flatMap(o => o.path));
+    }
+    function forward(model, id, initial = false) {
+      const path = [...new Set(model.trace(id).path)];
+      let start = initial || !visible.has(id) ? 0 : path.findIndex(value => !visible.has(value));
+      if (start < 0) return [];
+      // Follow the furthest visible cut, so a long orbit can roll forward even
+      // after its older terms have left the window. The selected root stays.
+      if (!initial) for (let i = start + 1; i < path.length; i++) {
+        if (visible.has(path[i - 1]) && !visible.has(path[i])) start = i;
+      }
+      return reveal(model, [...(start ? [path[start - 1]] : []), ...path.slice(start, start + limits.forwardBatch)], id);
+    }
+    function incoming(model, id, added = []) {
+      const hidden = model.nodes.get(id).incoming.filter(source => !visible.has(source))
+        .sort((a, b) => (recent.get(a) ?? -1) - (recent.get(b) ?? -1) || compare(a, b));
+      const sources = [...new Set([...added, ...hidden])].slice(0, Math.min(limits.incomingBatch, limits.maxNodes - 1));
+      reveal(model, sources, id);
+      return sources;
+    }
+    reset(model);
+    return {limits, reveal, reset, forward, incoming,
+      get ids() { return new Set(visible); },
+      save() { return {visible: [...visible], recent: [...recent], clock}; },
+      restore(state, model) {
+        visible = new Set(state.visible.filter(id => model.nodes.has(id)));
+        recent = new Map(state.recent.filter(([id]) => model.nodes.has(id))); clock = state.clock;
+      }};
+  }
   function basin(trace) {
     return trace.status === 'cycle' ? `cycle:${[...trace.cycle].sort(compare).join(',')}`
       : `${trace.status}:${trace.path.at(-1)}`;
   }
-  // A deterministic layered forest: rightward on wide screens, downward on
-  // narrow screens. This is not a value axis or a force simulation.
-  function layout(model, {vertical = false} = {}) {
+  // Deterministic left-to-right layers on every screen, using only the visible
+  // subgraph. A hidden continuation is not an unresolved mathematical frontier.
+  function layout(model, {visible = new Set(model.nodes.keys())} = {}) {
     const groups = new Map(), positions = new Map();
     let maxDepth = 0;
     for (const node of model.nodes.values()) {
-      const trace = model.trace(node.id), key = basin(trace);
+      if (!visible.has(node.id)) continue;
+      const trace = model.trace(node.id, visible), key = basin(trace);
       const depth = trace.path.length - 1 - trace.cycle.length;
       maxDepth = Math.max(maxDepth, depth);
       if (!groups.has(key)) groups.set(key, {key, trace, layers: new Map(), starts: 0});
@@ -70,10 +127,8 @@ const AliquotOrbitGraph = (() => {
       group.layers.get(depth).push(node.id);
       if (node.seed) group.starts++;
     }
-    const spacing = Math.max(78, ...[...model.nodes.keys()].map(id => label(id).length * 8 + 28));
-    const widest = Math.max(...[...groups.values()].flatMap(group => [...group.layers.values()]
-      .map(ids => ids.length * Math.max(22, ...ids.map(id => label(id).length * 9 + 4)))));
-    const width = vertical ? widest + 56 : 180 + maxDepth * spacing;
+    const spacing = Math.max(78, ...[...visible].map(id => label(id).length * 8 + 28));
+    const width = 180 + maxDepth * spacing;
     let top = 16;
     const bands = [];
     const balanced = ids => {
@@ -84,8 +139,7 @@ const AliquotOrbitGraph = (() => {
     };
     for (const group of groups.values()) {
       const layers = [...group.layers.keys()].sort((a, b) => a - b);
-      const height = vertical ? layers.at(-1) * 40 + 80
-        : Math.max(72, Math.max(...[...group.layers.values()].map(ids => ids.length)) * 22 + 28);
+      const height = Math.max(72, Math.max(...[...group.layers.values()].map(ids => ids.length)) * 22 + 28);
       for (const depth of layers) {
         const siblings = new Map();
         for (const id of group.layers.get(depth)) {
@@ -94,33 +148,24 @@ const AliquotOrbitGraph = (() => {
           siblings.get(parent).push(id);
         }
         const ordered = [...siblings.entries()]
-          .sort(([a], [b]) => (positions.get(a)?.[vertical ? 'x' : 'y'] ?? 0) - (positions.get(b)?.[vertical ? 'x' : 'y'] ?? 0))
+          .sort(([a], [b]) => (positions.get(a)?.y ?? 0) - (positions.get(b)?.y ?? 0))
           .flatMap(([, ids]) => balanced(ids));
         ordered.forEach((id, index) => positions.set(id, {
-          x: vertical ? 28 + (index + .5) * (width - 56) / ordered.length : width - 56 - depth * spacing,
-          y: vertical ? top + 52 + (layers.at(-1) - depth) * 40 : top + 28 + (index + .5) * (height - 28) / ordered.length,
-          r: 5 + Math.min(5, Math.sqrt(model.nodes.get(id).incoming.length)), depth, basin: group.key,
+          x: width - 56 - depth * spacing,
+          y: top + 28 + (index + .5) * (height - 28) / ordered.length,
+          r: 5 + Math.min(5, Math.sqrt(model.nodes.get(id).incoming.filter(source => visible.has(source)).length)), depth, basin: group.key,
         }));
       }
       const label = group.trace.status === 'cycle'
         ? `${group.trace.cycle.length === 1 ? 'Fixed point' : 'Cycle'} ${[...group.trace.cycle].sort(compare).map(fmt).join(' ↔ ')}`
-        : group.trace.status === 'terminated' ? 'Terminates at 0' : 'Unresolved frontier';
-      bands.push({top, height, label: `${label} · ${group.starts} starting value${group.starts === 1 ? '' : 's'}`});
+        : group.trace.status === 'terminated' ? 'Terminates at 0'
+          : group.trace.status === 'hidden' ? 'Known continuation outside window' : 'Unresolved frontier';
+      bands.push({top, height, label: `${label} · ${group.starts} starting value${group.starts === 1 ? '' : 's'} in window`});
       top += height + 16;
     }
-    return {width, height: top, positions, bands, vertical};
+    return {width, height: top, positions, bands};
   }
-  function curve(a, b, same = false, vertical = false) {
-    if (vertical) {
-      if (same) return `M ${a.x + a.r} ${a.y - 3} C ${a.x + 40} ${a.y - 35}, ${a.x + 40} ${a.y + 35}, ${a.x + a.r} ${a.y + 3}`;
-      if (a.y === b.y) {
-        const side = a.x < b.x ? 1 : -1;
-        return `M ${a.x} ${a.y + side * a.r} C ${a.x} ${a.y + side * 40}, ${b.x} ${b.y + side * 40}, ${b.x} ${b.y + side * b.r}`;
-      }
-      const middle = (a.y + b.y) / 2;
-      const direction = Math.sign(b.y - a.y);
-      return `M ${a.x} ${a.y + direction * a.r} C ${a.x} ${middle}, ${b.x} ${middle}, ${b.x} ${b.y - direction * (b.r + 2)}`;
-    }
+  function curve(a, b, same = false) {
     if (same) return `M ${a.x - 3} ${a.y - a.r} C ${a.x - 35} ${a.y - 40}, ${a.x + 35} ${a.y - 40}, ${a.x + 3} ${a.y - a.r}`;
     if (a.x === b.x) {
       const side = a.y < b.y ? 1 : -1;
@@ -140,5 +185,5 @@ const AliquotOrbitGraph = (() => {
     const ratio = scale / camera.scale;
     return {scale, x: point.x - (point.x - camera.x) * ratio, y: point.y - (point.y - camera.y) * ratio};
   }
-  return {create, layout, curve, fit, zoom, label};
+  return {create, createWindow, WINDOW_LIMITS, layout, curve, fit, zoom, label};
 })();
