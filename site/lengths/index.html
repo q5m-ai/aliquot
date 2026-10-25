@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Aliquot orbit length versus starting number: an exact bounded survey of seeds 1–1,000, on a logarithmic y-axis capped at 100+ steps.">
+<title>Orbit lengths — Aliquot</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css?v=330fcddeb41c5c71">
+<link rel="stylesheet" href="/lengths.css?v=52460951e5d48c2b">
+<script src="/length-data.js?v=e65d7ab90a5733e7" defer></script>
+<script src="/lengths.js?v=000dd1ec2d9412a6" defer></script>
+</head>
+<body class="lengths-page">
+<a class="skip" href="#lengths">Skip to orbit lengths</a>
+<header class="site shell">
+<div class="brand"><a href="/">aliquot<span>.q5m.ai</span></a></div>
+<nav class="site" aria-label="Main navigation"><a href="/">Explore</a><a href="/lengths/" aria-current="page">Lengths</a><a href="/orbits/">Graph</a><a href="/reverse/">Reverse</a><a href="/research/">Research</a></nav>
+</header>
+<main id="lengths">
+<div class="explorer-heading">
+<h1>Orbit length by starting number</h1>
+<p class="formula-copy">How long until 0 or the first repeated value? Logarithmic y-axis, capped at <strong>100+ steps</strong>. Each point is one starting number—not one independent orbit.</p>
+</div>
+<div class="length-controls">
+<label for="seed-range">Starts <select id="seed-range"><option value="100">1–100</option><option value="300">1–300</option><option value="1000" selected>1–1,000</option></select></label>
+<span class="length-shortcuts">Inspect <button type="button" data-seed="138">138</button><button type="button" data-seed="276">276</button></span>
+<button type="button" id="download-lengths">Download exact data</button>
+</div>
+<div class="length-legend" aria-label="Chart legend">
+<span><i class="length-dot terminated"></i>Reaches 0</span>
+<span><i class="length-dot cycle"></i>First repeat</span>
+<span><i class="length-arrow">↑</i>Unresolved · lower bound only</span>
+<span>100+ clips height, not the stored length</span>
+</div>
+<svg id="length-chart" xmlns="http://www.w3.org/2000/svg" tabindex="0" role="group" aria-labelledby="length-title" aria-describedby="length-help"></svg>
+<p id="length-help" class="point-help">Hover or tap a point; ← / → inspect adjacent seeds, Home / End jump to the edges. Upward ranges start at a proved lower bound and continue beyond the cap: their top is not a measured length. Unresolved does not mean divergent.</p>
+<section class="length-selection" aria-labelledby="selected-title">
+<div><h2 id="selected-title">Seed 138</h2><a id="open-orbit" href="/orbits/?n=138">Open orbit graph →</a></div>
+<p id="selected-result" role="status">Loading exact data…</p>
+<p id="selected-detail" class="point-help"></p>
+</section>
+<p id="length-summary" class="point-help"></p>
+<details class="length-notes">
+<summary>What is counted &amp; computation bounds</summary>
+<p>A step is one application of s(n), the sum of the proper positive divisors. Count through the transition to 0 or the first repeated value. Thus 1 → 0 takes 1 step; a prime → 1 → 0 takes 2; 6 → 6 takes 1; and 220 → 284 → 220 takes 2. Zero has no outgoing step: s(0) is undefined. The axis measures steps, not term values or the number of displayed terms.</p>
+<p>Blue points have exact termination times; amber points have exact first-repeat times. Both are clipped at 100 on this logarithmic chart. Seed 138 takes 178 steps to 0 (177 to 1), so it appears at 100+ while its card retains 178. A perfect number or cycle is a resolved outcome, not an escaping orbit.</p>
+<p>Hollow upward markers are unresolved computations. If k steps have been checked without termination or repetition, resolution requires at least k + 1 steps. A dashed range starts at that lower bound, when below 100, and extends to the top with an upward arrow. The true length could be finite or infinite; no point is assigned infinity. In particular, the factorization budget stops this dataset’s run from 276 after 79 verified steps: the marker certifies at least 80 steps, not a measured 100-step orbit.</p>
+<p>Python’s exact integer arithmetic computes all starts 1–1,000, with at most 256 transitions per start, a 10³⁰ inclusive source-value ceiling, and 2,000,000 trial-factorization work units per new source. Known exact edges are reused across starts. A work-limit failure remains unresolved; no probable-prime result is accepted. Source ceilings and step caps are independent of the 100-step display cap. The browser only plots the precomputed data; changing the range or selecting a point does not launch a calculation.</p>
+<p>The download includes every starting record, computation bounds, and the verified edges with proven prime factors. Integer values are decimal strings. Reproduce it with <code>python3 scripts/build_orbit_lengths.py</code>; independent tests check the certificates, paths, and counts. This finite chart does not establish that most integers terminate, or prove a divergent orbit. Different seeds can share the same tail.</p>
+</details>
+<noscript><p>This chart needs JavaScript. For seeds 1–1,000, the exact bounded dataset resolves 961 at 0 and 22 at cycles or fixed points; 17 remain unresolved. Seed 138 takes 178 steps to 0 and is clipped at 100+.</p></noscript>
+</main>
+<footer class="sitefoot shell"><span>Aliquot · A q5m research project</span><span class="right"><a href="https://www.q5m.ai">q5m</a><a href="https://github.com/q5m-ai/aliquot">GitHub</a></span></footer>
+</body>
+</html>

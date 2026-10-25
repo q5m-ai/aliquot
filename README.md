@@ -110,6 +110,21 @@ node --test tests/orbits.test.mjs tests/orbit-session.test.mjs
 
 The generator also reproduces `tests/fixtures/orbit-data-100.js`, a small, independently checked fixture for interaction and resource-limit regressions. It is outside the served directory. The test suite rejects stale data and assets. This bounded graph is for pattern discovery; it does not resolve the aliquot conjecture or establish any divergent orbit.
 
+### Orbit-length chart
+
+Open **Lengths** (`/lengths/`) for starting number versus steps to 0 or the first repeated value. The y-axis is logarithmic with ticks 1, 2, 5, 10, 20, 50, **100+**. Resolved lengths at or above 100 are clipped visually, not altered in the data. Seed 138 retains its exact 178 steps to 0 (177 to 1). The range selector shows starts 1–100, 1–300, or all 1–1,000. Hover/tap, keyboard arrows and named 138/276 shortcuts inspect exact counts, maximum verified terms, and frontiers, with a link to the existing orbit graph. There is no idle animation or browser-side factorization.
+
+The exact Python dataset has 961 terminated starts, 22 reaching a cycle/fixed point, and 17 unresolved within its bounds: 256 steps per seed, an inclusive source-value ceiling of 10³⁰, and 2,000,000 trial-factorization work units per new source. A failure is not treated as a probable prime. Unresolved runs use hollow upward arrows; below the display cap, a dashed range starts at the proved lower bound (verified steps + 1). For example, 276's 79 verified steps establish a resolution time of at least 80, **not** a measured 100-step run or divergence. Its range extends upward through the cap rather than inventing a length. Shared tails mean these are not independent trials.
+
+Only the deliberately public `site/length-data.js` is served. Its download contains all seed records, bounds, exact edges and prime factorizations, with integer values as decimal strings. Tests independently verify primality, enumerate divisors from the certificates, replay every path, and reproduce the artifact. Generator and verifier stay outside `site/`:
+
+```sh
+python3 scripts/build_orbit_lengths.py
+python3 scripts/build_orbit_lengths.py --check
+python3 scripts/version_assets.py
+node --test tests/lengths.test.mjs
+```
+
 ### Formula rendering
 
 The definition and iteration rule sit directly below the title. Explicit `data-tex` fields and point-card factorizations use **self-hosted KaTeX 0.19.0**, with native MathML output and readable text fallbacks. There are no CDN requests, extra font downloads, or relaxed CSP rules. Unchanged formulas are cached rather than re-typeset on hover.
