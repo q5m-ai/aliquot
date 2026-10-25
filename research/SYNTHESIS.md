@@ -7,7 +7,7 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–07 and the literature audit. It
+This is the reading guide for notebooks 01–08 and the literature audit. It
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
 does not present them as new changes in PR #6. PR #5 was site presentation only.
@@ -80,6 +80,7 @@ not a replacement for those hypotheses.
 | [07, P](RECOVERY.md) | An eventually periodic schedule of arbitrary fixed cores with coprime prime cofactors cannot escape, even through deficient steps. | Aperiodic switching and composite cofactors remain. Periodic aliquot cycles are allowed. |
 | [07, Q](RECOVERY.md) | An escaping finite-core prime itinerary needs an expansive cycle in its recurrent transition graph. | The graph cycle need not occur consecutively, be repeatable, or be sufficient for escape. |
 | [07, supporting constraints](RECOVERY.md) | A least escaping seed is abundant and has no smaller abundant predecessor. Large primes must be sufficiently numerous to overcome a fixed deficiency margin in the small-prime part. | Neither a predecessor-covering theorem nor the required deficiency margin is established along every orbit. |
+| [08, coalescence attempt](COALESCENCE.md) | A smaller coalescing seed would permit induction. CRT and Dirichlet exclude universal fixed-finite-palette prime-cofactor shared-successor coverage. Infinitely many abundant aliquot records have no smaller shared-successor predecessor at all. | These obstruct blanket one-step collisions, not multistep mergers or escape itself. No universal merger mechanism, decreasing height, or escaping class is obtained; the attempt stops for input. |
 
 ## 3. The strongest statements, with their quantifiers
 
@@ -325,6 +326,24 @@ insufficient: actual transitions, all necessary exits, and finite returns
 must be controlled. Defining X by demanding successful future iterations
 would simply restate the missing theorem.
 
+### Network follow-up: stop at the missing merger mechanism
+
+[Note 08](COALESCENCE.md) tries descent through coalescence rather than requiring
+the starting orbit itself to decrease first. Any least escaping seed N has no
+smaller seed anywhere in its coalescence component. A proposed smaller
+shared-successor construction, 6p versus 18(2p-9)/7, fails on an infinite prime
+progression because the alternative cofactor is composite. CRT and Dirichlet
+generalize that failure to every fixed finite palette of one-step coprime
+prime-cofactor inverse templates. Earliest aliquot-sum records independently
+provide infinitely many abundant sources with no smaller shared-successor
+predecessor, even without any factorization restriction.
+
+This does not rule out a network approach. It identifies why that particular
+covering strategy cannot be universal. Causal order and the fixed-prime-support
+constraint do not force an orbit to meet the finite union of the smaller seeds'
+resolved futures. The attempt stops at this arithmetic barrier for user input;
+more restricted merger statistics or geometry alone would not remove it.
+
 ## 7. Attribution, verification, and what counts as advancement
 
 ### Known inputs and related work
@@ -366,6 +385,7 @@ rational components are exact decimal strings.
 | [Factor-transport tests](../tests/test_block_transport.py) | Bounded identity checks, prime-parameter cases, and independently checked named handoffs. |
 | [Recovery tests](../tests/test_recovery.py) | Exact rebounds, failed closure, affine obstructions, composite corrections, and CRT-gap illustrations. |
 | [Synthesis tests](../tests/test_synthesis.py) | Supporting constraints, the 34-step handoff continuation, and the previously discussed bounded perfect-target searches. |
+| [Coalescence tests](../tests/test_coalescence.py) | Exact merger paths, the failed composite cofactor, its correction on bounded inputs, finite examples of the CRT obstruction, and abundant records through source 1200. These do not prove Dirichlet's theorem or a universal merger cover. |
 
 Source caps apply to **sources**, not already known successors. Crossing a cap
 is unresolved continuation, not divergence. The census frequencies are not
