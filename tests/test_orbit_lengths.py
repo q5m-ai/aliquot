@@ -34,8 +34,11 @@ class OrbitLengthTests(unittest.TestCase):
         text = (ROOT / 'site/length-data.js').read_text()
         self.assertEqual(text, render(self.data))
         self.assertEqual(json.loads(text[text.index('{'):text.rindex('}') + 1]), self.data)
-        self.assertEqual(set(self.rows), set(range(1, 1001)))
+        self.assertEqual(set(self.rows), set(range(1, 10_001)))
+        self.assertEqual(self.data['limits']['seed_bound'], 10_000)
         self.assertEqual(Counter(row['status'] for row in self.rows.values()),
+                         {'terminated': 8951, 'cycle': 224, 'factorization_limit': 818, 'step_limit': 7})
+        self.assertEqual(Counter(self.rows[n]['status'] for n in range(1, 1001)),
                          {'terminated': 961, 'cycle': 22, 'factorization_limit': 17})
         for row in self.rows.values():
             for key in ('seed', 'end', 'peak'):
@@ -55,7 +58,11 @@ class OrbitLengthTests(unittest.TestCase):
             for p, e in factors:
                 divisors = [d * p**k for d in divisors for k in range(e + 1)]
             self.assertEqual(sum(d for d in divisors if d < n), int(edge['to']), n)
-        self.assertNotIn('0', {edge['from'] for edge in self.data['edges']})
+        sources = {edge['from'] for edge in self.data['edges']}
+        self.assertNotIn('0', sources)
+        # Every chart seed has certified factors and a successor for the shared
+        # info panel. No hover-time factorization or probable-prime fallback.
+        self.assertTrue({str(n) for n in self.rows}.issubset(sources))
 
     def test_every_record_replays_to_its_exact_first_stop_or_lower_bound(self):
         edges = {int(edge['from']): int(edge['to']) for edge in self.data['edges']}
@@ -81,7 +88,15 @@ class OrbitLengthTests(unittest.TestCase):
             else:
                 self.assertNotEqual(n, 0)
                 self.assertNotIn(n, path)
-                self.assertNotIn(n, edges)
+                if row['status'] == 'factorization_limit':
+                    self.assertNotIn(n, edges)
+                elif row['status'] == 'step_limit':
+                    # Another start may have computed this edge; the per-start
+                    # transition bound still makes this a lower bound only.
+                    self.assertEqual(row['steps'], limits['max_steps'])
+                else:
+                    self.assertEqual(row['status'], 'source_limit')
+                    self.assertGreater(n, int(limits['max_source']))
                 self.assertEqual(row['lower_bound'], row['steps'] + 1)
 
     def test_138_is_resolved_beyond_display_cap_but_276_is_only_a_lower_bound(self):
@@ -92,7 +107,8 @@ class OrbitLengthTests(unittest.TestCase):
         self.assertEqual(self.rows[276]['lower_bound'], 80)
         self.assertEqual(self.rows[276]['status'], 'factorization_limit')
         self.assertEqual(self.rows[276]['end'], '2556878765995204')
-        for seed, steps in [(1, 1), (6, 1), (28, 1), (137, 2), (139, 2), (220, 2), (275, 3), (277, 2)]:
+        for seed, steps in [(1, 1), (6, 1), (28, 1), (137, 2), (139, 2), (220, 2), (275, 3), (277, 2),
+                            (1184, 2), (8128, 1), (10_000, 4)]:
             self.assertEqual(self.rows[seed]['steps'], steps)
 
     def test_resolution_at_exact_step_cap_is_not_censored(self):
@@ -120,7 +136,10 @@ class OrbitLengthTests(unittest.TestCase):
     def test_page_navigation_bounds_and_browser_regressions(self):
         page = (ROOT / 'site/lengths/index.html').read_text()
         for text in ('100+ steps', 'logarithmic', '79 verified steps', 'at least 80 steps',
-                     '256 transitions', '2,000,000', 'not a measured length', 's(0)'):
+                     '256 transitions', '2,000,000', 'not a measured length', 's(0)',
+                     '1–10,000', 'value="5000"', 'value="10000"', 'point-info.js',
+                     'id="chart" class="chart"', 'id="point-details" class="point-details"',
+                     'id="point-factorization"', 'id="point-divisors"', 'id="point-close"'):
             self.assertIn(text.lower(), page.lower())
         for page in (ROOT / 'site').rglob('index.html'):
             self.assertIn('href="/lengths/"', page.read_text())

@@ -3,7 +3,7 @@
 from aliquot import ComputationLimit, DEFAULT_MAX_WORK, factorize, positive_integer
 
 
-def build_orbit_lengths(*, seed_bound=1000, max_steps=256,
+def build_orbit_lengths(*, seed_bound=10_000, max_steps=256,
                         max_source=10**30, max_work=DEFAULT_MAX_WORK):
     """Count transitions to 0 or the first repeat; limits give lower bounds only.
 

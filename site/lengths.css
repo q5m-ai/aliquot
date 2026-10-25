@@ -18,18 +18,13 @@
 .length-point.cycle .length-mark{fill:var(--amber)}
 .length-point.unresolved .length-mark{fill:white;stroke:#bd3272;stroke-width:1.5}
 .length-range{stroke:#bd3272;stroke-width:1;stroke-dasharray:3 3;vector-effect:non-scaling-stroke}
-.length-hit{fill:transparent;stroke:none}
-.length-halo{fill:none;stroke:var(--ink);stroke-width:2;display:none;vector-effect:non-scaling-stroke}
-.length-point.selected .length-halo{display:block}
+.length-halo{fill:none;stroke:var(--ink);stroke-width:2;pointer-events:none;vector-effect:non-scaling-stroke}
 .length-annotation{font:600 11px ui-monospace,SFMono-Regular,Consolas,monospace;fill:var(--blue);pointer-events:none}
 .length-annotation.unresolved{fill:#bd3272}
-.length-selection{border:1px solid var(--line);border-radius:6px;padding:14px 16px;min-height:132px;margin-top:18px}
-.length-selection>div{display:flex;align-items:baseline;flex-wrap:wrap;gap:10px 24px}
-.length-selection h2{margin:0;font:600 22px Georgia,serif}
-.length-selection a{font-size:12px;color:var(--blue)}
-#selected-result{font-size:14px;line-height:1.6;margin:10px 0 4px;overflow-wrap:anywhere}
-#selected-detail{margin-bottom:0;overflow-wrap:anywhere}
+.length-point-links{display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:10px}
+.length-point-links a{color:var(--blue)}
+.length-point-links #point-reverse{margin-top:0}
 .length-notes{margin-top:20px;padding-top:14px;border-top:1px solid var(--line);font:13px/1.65 ui-sans-serif,system-ui,sans-serif;color:#58646c}
 .length-notes summary{cursor:pointer}
 .length-notes p{max-width:105ch}
-@media(max-width:500px){.length-controls{gap:10px 16px}.length-controls button,.length-controls select{padding:8px}#download-lengths{margin-left:0;font-size:11px}.length-legend{gap:9px 13px;font-size:10px}.length-selection{padding:12px}.length-annotation{font-size:10px}}
+@media(max-width:500px){.length-controls{gap:10px 16px}.length-controls button,.length-controls select{padding:8px}#download-lengths{margin-left:0;font-size:11px}.length-legend{gap:9px 13px;font-size:10px}.length-annotation{font-size:10px}}
