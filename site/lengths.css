@@ -27,4 +27,29 @@
 .length-notes{margin-top:20px;padding-top:14px;border-top:1px solid var(--line);font:13px/1.65 ui-sans-serif,system-ui,sans-serif;color:#58646c}
 .length-notes summary{cursor:pointer}
 .length-notes p{max-width:105ch}
+.frequency-section{border-top:1px solid var(--line);margin-top:32px;padding-top:26px;scroll-margin-top:18px}
+.frequency-section h2{font:600 30px Georgia,serif;margin:0}
+.frequency-formula{font-size:18px;max-width:100%;overflow-x:auto;overflow-y:hidden;padding-block:3px;margin:14px 0 8px}
+.frequency-controls{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin:18px 0}
+.frequency-controls label{font-size:12px}
+.frequency-controls select{max-width:100%;font-size:12px;padding:9px}
+#frequency-download{font-size:12px;margin-left:auto}
+.frequency-line{display:inline-block;width:19px;border-top:2px solid var(--blue)}
+.frequency-line.upper{border-color:#bd3272;border-top-style:dashed}
+.frequency-swatch{width:15px;height:10px;background:#e8e8ff;display:inline-block}
+#frequency-chart{display:block;width:100%;height:clamp(340px,43vh,500px);border:1px solid var(--line);border-radius:6px;touch-action:pan-y}
+#frequency-chart:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.frequency-band{fill:#7779ea;fill-opacity:.15;stroke:none}
+.frequency-upper,.frequency-lower{fill:none;stroke:#bd3272;stroke-width:1.5;stroke-dasharray:5 4;vector-effect:non-scaling-stroke}
+.frequency-lower{stroke:var(--blue);stroke-dasharray:none;stroke-width:2}
+.frequency-end{fill:var(--blue)}
+.frequency-cursor{stroke:#84909a;stroke-width:1;stroke-dasharray:3 3;pointer-events:none}
+.frequency-focus{fill:white;stroke:var(--ink);stroke-width:1.5;pointer-events:none}
+.frequency-summary{font:14px/1.6 ui-sans-serif,system-ui,sans-serif;margin:14px 0}
+.frequency-table{font-size:12px;margin:16px 0;color:#58646c}
+.frequency-table summary{cursor:pointer}
+.frequency-table-scroll{max-width:100%;overflow-x:auto;margin-top:12px}
+.frequency-table table{border-collapse:collapse;min-width:460px;width:min(100%,850px);font-variant-numeric:tabular-nums}
+.frequency-table th,.frequency-table td{padding:9px 12px;text-align:right;border-bottom:1px solid var(--line)}
+.frequency-table th:first-child,.frequency-table td:first-child{text-align:left}
 @media(max-width:500px){.length-controls{gap:10px 16px}.length-controls button,.length-controls select{padding:8px}#download-lengths{margin-left:0;font-size:11px}.length-legend{gap:9px 13px;font-size:10px}.length-annotation{font-size:10px}}

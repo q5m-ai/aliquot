@@ -127,6 +127,16 @@ python3 scripts/version_assets.py
 node --test tests/lengths.test.mjs
 ```
 
+#### Long-orbit counting function and frequency
+
+Below the scatter plot, **How common are long orbits?** (`/lengths/#frequency`) defines `L_t(x)` as the number of selected seeds through `x` whose resolution time is at least `t`. Thresholds are 10, 25, 50, 100 (default), and 200 steps. Compare the cumulative counting function (like π(x)), cumulative share, or the share in the last 1,000 seed values. The frequency chart has a separate linear y-axis with a zero baseline; the scatter remains logarithmic/capped at 100+. All/even/odd filters use the actual number of eligible seeds as denominator, including for the recent window. Recent curves start at the first complete window, x = 1,000. Range options extend to 10,000.
+
+The solid lower curve counts resolved long orbits plus unfinished runs whose verified lower bound already meets the threshold. The dashed upper curve also counts unfinished runs still uncertain at that threshold. The shaded band is **computation uncertainty, not a confidence interval**; unresolved is not synonymous with long or divergent. Percentages with uncertainty are rounded outward to two decimal places. Counts and denominators are exact integers, and there is no independence assumption: merging seeds are counted separately.
+
+For 100+ steps, seeds 1–1,000 contain 22–30 qualifying starts (2.20–3.00%), while 9,001–10,000 contain 58–133 (5.80–13.30%). Thus the last block has a higher frequency even under the most conservative classification of uncertain cases. Across all 10,000 starts the count is 581–1,056 (5.81–10.56%). This is a finite-range comparison, not monotonicity or an asymptotic statement. A rising cumulative count alone would not demonstrate increasing frequency.
+
+Hover/pin the shared-style aggregate card to inspect any integer bound, or use arrows/Home/End/Enter/Escape. A table compares consecutive 1,000-seed blocks under the same threshold/population filters. Download exact counts saves cumulative, recent-window, and block bounds with source computation limits; percentages and interpolated chart coordinates are not stored as exact data. `site/length-frequency.js` derives these counts without any new orbit computations. Python independently checks every cumulative/recent/block result against direct classified-seed sets and binary searches; Node covers threshold boundaries, zero denominators, controls, cards, and exports.
+
 ### Formula rendering
 
 The definition and iteration rule sit directly below the title. Explicit `data-tex` fields and point-card factorizations use **self-hosted KaTeX 0.19.0**, with native MathML output and readable text fallbacks. There are no CDN requests, extra font downloads, or relaxed CSP rules. Unchanged formulas are cached rather than re-typeset on hover.
