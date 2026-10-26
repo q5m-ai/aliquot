@@ -6,6 +6,8 @@ rank fails. Even retaining the complete Hilbert terminal state together with
 arbitrarily many low base-four digits does not determine successor parity.
 **No proof/disproof, escaping seed, or novelty is claimed.**
 
+For an accessible introduction, see the [plain-English visual walkthrough](HILBERT-EXPLAINED.md).
+
 This follows the user's Hilbert/base-four suggestion rather than enlarging the
 previous censuses. References consulted were the [aliquot synthesis](SYNTHESIS.md),
 [2-adic attempt](TWO-ADIC.md), [base-four/core-restoration attempt](FOUR-ADIC.md),
