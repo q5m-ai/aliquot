@@ -7,7 +7,11 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–07 and the literature audit. It
+This is the reading guide for notebooks 01–08 and the literature audit.
+[Notebook 08](EXPONENT-VECTORS.md) adds an exponent-vector research program:
+convex growth regions, cancellation orthogonality, exact obstructions to simple
+energies, modular divisor-box combinatorics, and certified Lehmer/control traces.
+It does not close the remaining return/renewal obligations. It
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
 does not present them as new changes in PR #6. PR #5 was site presentation only.
@@ -80,6 +84,15 @@ not a replacement for those hypotheses.
 | [07, P](RECOVERY.md) | An eventually periodic schedule of arbitrary fixed cores with coprime prime cofactors cannot escape, even through deficient steps. | Aperiodic switching and composite cofactors remain. Periodic aliquot cycles are allowed. |
 | [07, Q](RECOVERY.md) | An escaping finite-core prime itinerary needs an expansive cycle in its recurrent transition graph. | The graph cycle need not occur consecutively, be repeatable, or be sufficient for escape. |
 | [07, supporting constraints](RECOVERY.md) | A least escaping seed is abundant and has no smaller abundant predecessor. Large primes must be sufficiently numerous to overcome a fixed deficiency margin in the small-prime part. | Neither a predecessor-covering theorem nor the required deficiency margin is established along every orbit. |
+
+The [exponent-vector follow-up](EXPONENT-VECTORS.md) adds:
+
+| Track | Established finding | Boundary that remains |
+| --- | --- | --- |
+| Geometry | Abundant vectors are integer points in a convex superlevel region; the extra successor-exponent vector is orthogonal to the absolute supply deficit. Exact small paths exclude global positive linear nonincrease and global convex strict stepwise descent. | The growth region is not invariant; piecewise proper return heights are unproved. |
+| Combinatorics | Proper divisors form a weighted exponent box; modular convolution and binary geometric sums compute exact residues without expanding the source. | Prime identities and cancellation matter; residue/shape projections are not autonomous. |
+| Lehmer/control patterns | Default prefixes of 126,130,206,162,160 steps extend to 348,130,231,167,189 under a larger budget. The latter certify 276's 28-driver loss at edge 169 and 966's at edge 172. | All frontiers are factorization-limited, not divergent. Permanent 28-driver retention is false for those two seeds; terminating controls exhibit long growth too. |
+| Computational scale | A Lucas-certified Pollard--Brent engine extends this repository's old prefixes; symbolic trillion-exponent modular calculations avoid enormous expanded integers. | Sparse factoring is slightly more work in the paired Lehmer aggregate; encoding alone does not remove factorization complexity. |
 
 ## 3. The strongest statements, with their quantifiers
 
@@ -351,9 +364,11 @@ would simply restate the missing theorem.
 
 ### Reproducible evidence, not proof premises
 
-Python 3.11+ exact integers and proven trial factorization are authoritative.
-Additive divisor sieves and divisor-pair enumeration provide algorithmically
-independent checks. Factorization budget failure remains unresolved; it is
+Python 3.11+ exact integers and proven factorizations are authoritative.
+The original engine uses trial division; notebook 08 adds bounded Pollard--Brent
+with complete n-1 Lucas primality certificates. Passing a Miller--Rabin screen
+alone never certifies a prime. Additive divisor sieves, divisor-pair/divisor-box
+enumeration, and separate certificate replay provide independent checks. Factorization budget failure remains unresolved; it is
 never replaced by a probable-prime assumption. Persisted report integers and
 rational components are exact decimal strings.
 
@@ -366,6 +381,7 @@ rational components are exact decimal strings.
 | [Factor-transport tests](../tests/test_block_transport.py) | Bounded identity checks, prime-parameter cases, and independently checked named handoffs. |
 | [Recovery tests](../tests/test_recovery.py) | Exact rebounds, failed closure, affine obstructions, composite corrections, and CRT-gap illustrations. |
 | [Synthesis tests](../tests/test_synthesis.py) | Supporting constraints, the 34-step handoff continuation, and the previously discussed bounded perfect-target searches. |
+| [Exponent-vector reports](EXPONENT-VECTORS.md#5-reproduction-and-prioritized-next-work) | Census through 10000; five Lehmer seeds and six controls, default 256-step and extended 512-step caps; separate work budgets. Both artifacts have full prime/edge certificates and deterministic reproduction tests. |
 
 Source caps apply to **sources**, not already known successors. Crossing a cap
 is unresolved continuation, not divergence. The census frequencies are not

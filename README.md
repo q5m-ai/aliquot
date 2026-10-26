@@ -4,7 +4,7 @@ A [q5m research](https://www.q5m.ai) project exploring aliquot sequences and the
 
 For positive integers, s(n) is the sum of the proper positive divisors of n. The conjecture asks whether every aliquot sequence eventually reaches 1 (then terminates at 0) or enters a cycle. Numerical experiments alone do not establish a proof or a divergent counterexample.
 
-**Start here:** [Research synthesis](research/SYNTHESIS.md) — the complete result map for notes 01–07, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
+**Start here:** [Research synthesis](research/SYNTHESIS.md) — the result map for notes 01–08, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
 
 ## Milestones
 
@@ -16,6 +16,8 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 6. **Research note 05 — global reset:** [a finiteness deduction from the classical S-unit theorem](research/GLOBAL.md). For any fixed finite prime set, only finitely many adjacent aliquot pairs use that set alone. This constrains every hypothetical escaping orbit, but does not exclude changing prime support. Lenstra's earlier arbitrary-length finite growth theorem is the benchmark; the local notes are not a demonstrated breakthrough.
 7. **Research note 06 — factor transport:** [an exact conditional handoff to composite supplying blocks](research/BLOCK-TRANSPORT.md), together with correction identities and obstructions to simpler renewal rules. The output does not regenerate the input hypotheses: no closed return family or whole-orbit control is obtained.
 8. **Research note 07 — deficient recovery:** [guaranteed finite rebounds and scoped template obstructions](research/RECOVERY.md). Any fixed deficient core D>1 admits arbitrarily large two-step recovery for infinitely many coprime prime cofactors; periodic prime-cofactor schedules cannot escape, and finite-core prime schedules need an expansive graph cycle. Composite entry conditions still fail to renew. No closed return class, resolution, or novelty is claimed.
+
+9. **Research notebook 08 — exponent-vector dynamics:** [four-track geometry, combinatorics, Lehmer-five analysis, and computational scaling](research/EXPONENT-VECTORS.md). Convex abundance regions, cancellation orthogonality, and exact energy obstructions guide guarded-return research. New bounded prefixes carry replayable Lucas prime certificates; paired measurements distinguish factorization improvements from sparse-encoding claims. Modular divisor-box calculations handle symbolic trillion-sized exponents without expanding the integer. No infinite closure or solution is claimed.
 
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
@@ -37,6 +39,10 @@ python3 -m aliquot scan-two-adic --bound 100000
 # Named finite return certificates and counterexamples (not another census):
 python3 -m aliquot regeneration
 python3 -m aliquot core-returns
+
+# Four-track exponent-vector report and independent orbit/prime-proof replay:
+python3 -m aliquot vectors --compact > /tmp/exponent-vectors.json
+python3 -m aliquot verify-vectors /tmp/exponent-vectors.json
 
 # Full verification, including browser-JS parity and UI checks (needs Node.js 22+):
 python3 -m unittest discover -s tests -v
