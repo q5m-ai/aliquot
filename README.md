@@ -110,6 +110,33 @@ node --test tests/orbits.test.mjs tests/orbit-session.test.mjs
 
 The generator also reproduces `tests/fixtures/orbit-data-100.js`, a small, independently checked fixture for interaction and resource-limit regressions. It is outside the served directory. The test suite rejects stale data and assets. This bounded graph is for pattern discovery; it does not resolve the aliquot conjecture or establish any divergent orbit.
 
+### Orbit-length chart
+
+Open **Lengths** (`/lengths/`) for starting number versus steps to 0 or the first repeated value. The y-axis is logarithmic with ticks 1, 2, 5, 10, 20, 50, **100+**. Resolved lengths at or above 100 are clipped visually, not altered in the data. Seed 138 retains its exact 178 steps to 0 (177 to 1). The range selector shows starts 1–100, 1–300, 1–1,000 (default), 1–5,000, or all **1–10,000**. The SVG uses compact marks and x-bucket hit testing, so dense points are selected by proximity rather than paint order; every seed is also available with the keyboard.
+
+Hover uses the **same floating point card** as Explore, Reverse, and Graph: exact seed value, classification, next value, digit count/parity, mod 12/base 12, self-hosted TeX factorization, proper divisors, and their count/sum. All seed factorizations are precomputed and certified; shared `AliquotPointInfo` formatting never launches factorization on hover. The card additionally shows exact orbit length or its lower bound. Click/tap or Enter to pin; a pin keeps its seed while the pointer moves, reveals full details and the peak/frontier, and links to Graph and Reverse. Close/Escape dismiss; keyboard arrows and Home/End inspect seeds; 138/276 shortcuts pin those examples. Cards flip/clamp inside the chart horizontally and follow resize; tall pinned cards can extend below the chart without internal scrollbars. The former static selection box is removed. There is no idle animation or browser-side orbit computation.
+
+The exact Python dataset has 8,951 terminated starts, 224 reaching a cycle/fixed point, and 825 unresolved within its bounds (818 factorization limits, 7 step limits): 256 steps per seed, an inclusive source-value ceiling of 10³⁰, and 2,000,000 trial-factorization work units per new source. A failure is not treated as a probable prime. Unresolved runs use hollow upward arrows; below the display cap, a dashed range starts at the proved lower bound (verified steps + 1). For example, 276's 79 verified steps establish a resolution time of at least 80, **not** a measured 100-step run or divergence. Its range extends upward through the cap rather than inventing a length. Shared tails mean these are not independent trials.
+
+Only the deliberately public `site/length-data.js` is served. Its download contains all seed records, bounds, exact edges and prime factorizations, with integer values as decimal strings. Tests independently verify primality, enumerate divisors from the certificates, replay every path, and reproduce the artifact. Generator and verifier stay outside `site/`:
+
+```sh
+python3 scripts/build_orbit_lengths.py
+python3 scripts/build_orbit_lengths.py --check
+python3 scripts/version_assets.py
+node --test tests/lengths.test.mjs
+```
+
+#### Long-orbit counting function and frequency
+
+Below the scatter plot, **How common are long orbits?** (`/lengths/#frequency`) defines `L_t(x)` as the number of selected seeds through `x` whose resolution time is at least `t`. Thresholds are 10, 25, 50, 100 (default), and 200 steps. Compare the cumulative counting function (like π(x)), cumulative share, or the share in the last 1,000 seed values. The frequency chart has a separate linear y-axis with a zero baseline; the scatter remains logarithmic/capped at 100+. All/even/odd filters use the actual number of eligible seeds as denominator, including for the recent window. Recent curves start at the first complete window, x = 1,000. Range options extend to 10,000.
+
+The solid lower curve counts resolved long orbits plus unfinished runs whose verified lower bound already meets the threshold. The dashed upper curve also counts unfinished runs still uncertain at that threshold. The shaded band is **computation uncertainty, not a confidence interval**; unresolved is not synonymous with long or divergent. Percentages with uncertainty are rounded outward to two decimal places. Counts and denominators are exact integers, and there is no independence assumption: merging seeds are counted separately.
+
+For 100+ steps, seeds 1–1,000 contain 22–30 qualifying starts (2.20–3.00%), while 9,001–10,000 contain 58–133 (5.80–13.30%). Thus the last block has a higher frequency even under the most conservative classification of uncertain cases. Across all 10,000 starts the count is 581–1,056 (5.81–10.56%). This is a finite-range comparison, not monotonicity or an asymptotic statement. A rising cumulative count alone would not demonstrate increasing frequency.
+
+Hover/pin the shared-style aggregate card to inspect any integer bound, or use arrows/Home/End/Enter/Escape. A table compares consecutive 1,000-seed blocks under the same threshold/population filters. Download exact counts saves cumulative, recent-window, and block bounds with source computation limits; percentages and interpolated chart coordinates are not stored as exact data. `site/length-frequency.js` derives these counts without any new orbit computations. Python independently checks every cumulative/recent/block result against direct classified-seed sets and binary searches; Node covers threshold boundaries, zero denominators, controls, cards, and exports.
+
 ### Formula rendering
 
 The definition and iteration rule sit directly below the title. Explicit `data-tex` fields and point-card factorizations use **self-hosted KaTeX 0.19.0**, with native MathML output and readable text fallbacks. There are no CDN requests, extra font downloads, or relaxed CSP rules. Unchanged formulas are cached rather than re-typeset on hover.
