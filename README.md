@@ -4,7 +4,7 @@ A [q5m research](https://www.q5m.ai) project exploring aliquot sequences and the
 
 For positive integers, s(n) is the sum of the proper positive divisors of n. The conjecture asks whether every aliquot sequence eventually reaches 1 (then terminates at 0) or enters a cycle. Numerical experiments alone do not establish a proof or a divergent counterexample.
 
-**Start here:** [Research synthesis](research/SYNTHESIS.md) — the result map for notes 01–09, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
+**Start here:** [Research synthesis](research/SYNTHESIS.md) — the result map for notes 01–10, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
 
 ## Milestones
 
@@ -20,6 +20,8 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 9. **Research notebook 08 — exponent-vector dynamics:** [four-track geometry, combinatorics, Lehmer-five analysis, and computational scaling](research/EXPONENT-VECTORS.md). Convex abundance regions, cancellation orthogonality, and exact energy obstructions guide guarded-return research. New bounded prefixes carry replayable Lucas prime certificates; paired measurements distinguish factorization improvements from sparse-encoding claims. Modular divisor-box calculations handle symbolic trillion-sized exponents without expanding the integer. No infinite closure or solution is claimed.
 
 10. **Research notebook 09 — supplier renewal:** [a precise guarded return lemma and exact nonclosure](research/SUPPLIER-RENEWAL.md). A two-step 28-core return gains more than 15/13, but cancellation can retain a supplier while changing its exponent and destroying its supply. A sharp residue-supplier theorem, full return-block diagnostics, and a 100000-source census preserve losing returns and censored cases. No perpetual regeneration is proved.
+
+11. **Research notebook 10 — parity-aware supplier handoff:** [controlled replacement and a genuine supplier round trip](research/PARITY-HANDOFF.md). A fresh 181 can replace a disabled 13 and restore its useful exponent after two steps. Exact counterexamples show that the full guard still fails, even with composite cofactors. A scoped theorem rules out finite congruence refinements as a universal repair of old-supplier restoration. No closed infinite-return class is established.
 
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
@@ -50,6 +52,9 @@ python3 -m aliquot verify-vectors /tmp/exponent-vectors.json
 python3 -m aliquot renewal --compact > /tmp/supplier-renewal.json
 python3 -m aliquot verify-renewal /tmp/supplier-renewal.json
 # Installed copies outside this checkout need --source /path/to/exponent-vectors-extended.json.
+
+# Exact supplier handoffs and failed renewal, without extending Lehmer traces:
+python3 -m aliquot handoff --compact > /tmp/supplier-handoff.json
 
 # Full verification, including browser-JS parity and UI checks (needs Node.js 22+):
 python3 -m unittest discover -s tests -v

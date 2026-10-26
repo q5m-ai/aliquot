@@ -417,6 +417,10 @@ second implementation of the return classifier. Tests additionally check the
 small-prime phase criterion, cancellation identities, nonclosure witnesses,
 corrupted evidence, terminal/cycle behavior, atomic CLI failure, and budgets.
 
+**Follow-up:** [note10](PARITY-HANDOFF.md) constructs such a finite replacement
+and a 13→181→13 supplier round trip, with exact counterexamples to full-guard
+renewal. It does not turn the following obligation into an iterable mechanism.
+
 The next mathematical obligation is narrower now: **prove a handoff that
 survives cancellation at the supplying primes themselves**, or gives a finite
 return through a specified alternative phase when a supplier's exponent changes

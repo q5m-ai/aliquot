@@ -7,13 +7,17 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–09 and the literature audit.
+This is the reading guide for notebooks 01–10 and the literature audit.
 [Notebook 08](EXPONENT-VECTORS.md) adds an exponent-vector research program:
 convex growth regions, cancellation orthogonality, exact obstructions to simple
 energies, modular divisor-box combinatorics, and certified Lehmer/control traces.
 [Notebook 09](SUPPLIER-RENEWAL.md) proves a guarded two-step 28-core return,
 then exhibits exact guard failure when a retained supplier's exponent changes
-parity. Neither closes the remaining return/renewal obligations. This synthesis
+parity. [Notebook 10](PARITY-HANDOFF.md) supplies a controlled replacement and
+an actual return of the original supplying exponent, then shows that the full
+handoff guard still fails. It also excludes a congruence-only repair of the
+specified old-supplier return, while preserving actual prime predecessors.
+None closes the remaining whole-orbit obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
 does not present them as new changes in PR #6. PR #5 was site presentation only.
@@ -103,6 +107,15 @@ The [supplier-renewal follow-up](SUPPLIER-RENEWAL.md) adds:
 | 09, R | For M>2, the universal implication R≡−1 mod M ⇒ M divides σ(R) holds exactly when M divides 24. The proof imports Dirichlet for necessity. | This classifies one residue template, not all possible modular/factorization guards; 7-supply is not automatic. |
 | 09, S | If u is odd, u≡−1 mod7, 7 divides σ(u), and 13 exactly divides T(u), then 28u has a two-step first return to that clean-28 residue phase with gain >15/13. | 1987→1989→4563 under T retains supplier 13 but changes its exponent 1→2, losing 7-supply. The returned guard is not invariant. |
 | 09, bounded return tests | Supply columns and complete first-return blocks retain losses and censoring. At index 171 in the 276 trace, the first A7 return loses value after 56 steps; no profitable checkpoint exists within 64. | That source actually recovers above its checkpoint after 142 steps. Neither a universal recovery bound nor universal recovery is established. |
+
+The [parity-aware handoff follow-up](PARITY-HANDOFF.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 10, T | For a fixed coprime core and one prime parameter, CRT/Dirichlet force specified valuations at finitely many primes not dividing the affine coefficients. | This controls one image, not its divisor sums or subsequent images; excluded core-overlapping primes and composite corrections matter. |
+| 10, U | A fresh unitary41 can replace13 when cancellation changes its exponent1→2; the guarded two-step residue return has gain >126645/90077. | At the displayed parameter77141, the endpoint loses both13 and7-supply. |
+| 10, V | A fresh181 supplies both7 and13. With the explicit tail condition13∤σ(R), the two-step return restores the old13 exponent to1 and gains >41565/30589. Composite cofactors are allowed. | The restored supplier does not restore the entire guard; the next middle cofactor can be a prime supplying no7. Infinitely many entries to this stronger tail-guarded class are not asserted. |
+| 10, W | In any reduced prime-parameter refinement fixing finitely many first-image exponents, a fresh unitary supplier can force all those exponents to remain unchanged at the next image. | This rules out a finite congruence-only guarantee of the old13 restoration, not factorization-aware guards or a different supplier/return phase. |
 
 ## 3. The strongest statements, with their quantifiers
 
@@ -401,6 +414,14 @@ within 64 edges, and separate 8/32/64-edge recovery tests. Its small census cove
 sources and guarded-family cofactors through 100000, with independent divisor
 sums. Reproduce with `python3 -m aliquot renewal --compact`; reconstruct every
 field with `python3 -m aliquot verify-renewal research/results/supplier-renewal.json`.
+
+The [parity-handoff report](results/supplier-handoff.json) has independently
+checked named replacement/round-trip blocks and all 21 necessary congruence
+candidates with prime parameter at most1000000. Three are admitted prime
+parameters; none renews the full41 guard. Named controls are separate from
+that bounded cohort. An extra CRT construction illustrates the saturation
+obstruction without claiming its least residue is prime. Reproduce with
+`python3 -m aliquot handoff --compact`.
 
 Source caps apply to **sources**, not already known successors. Crossing a cap
 is unresolved continuation, not divergence. The census frequencies are not
