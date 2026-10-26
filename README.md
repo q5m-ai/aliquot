@@ -4,7 +4,7 @@ A [q5m research](https://www.q5m.ai) project exploring aliquot sequences and the
 
 For positive integers, s(n) is the sum of the proper positive divisors of n. The conjecture asks whether every aliquot sequence eventually reaches 1 (then terminates at 0) or enters a cycle. Numerical experiments alone do not establish a proof or a divergent counterexample.
 
-**Start here:** [Research synthesis](research/SYNTHESIS.md) — the result map for notes 01–10, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
+**Start here:** [Research synthesis](research/SYNTHESIS.md) — the result map for notes 01–11, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
 
 ## Milestones
 
@@ -22,6 +22,8 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 10. **Research notebook 09 — supplier renewal:** [a precise guarded return lemma and exact nonclosure](research/SUPPLIER-RENEWAL.md). A two-step 28-core return gains more than 15/13, but cancellation can retain a supplier while changing its exponent and destroying its supply. A sharp residue-supplier theorem, full return-block diagnostics, and a 100000-source census preserve losing returns and censored cases. No perpetual regeneration is proved.
 
 11. **Research notebook 10 — parity-aware supplier handoff:** [controlled replacement and a genuine supplier round trip](research/PARITY-HANDOFF.md). A fresh 181 can replace a disabled 13 and restore its useful exponent after two steps. Exact counterexamples show that the full guard still fails, even with composite cofactors. A scoped theorem rules out finite congruence refinements as a universal repair of old-supplier restoration. No closed infinite-return class is established.
+
+12. **Research notebook 11 — backward coverage:** [a literature-backed density argument and one exact target census](research/BACKWARD-COVERAGE.md). Adapting Luca–Pomerance's collision bounds gives positive-density coverage by smaller abundant-core predecessors, not universal coverage. Through 1000000, the proposed family covers 58896 of 247545 abundant targets; even all smaller predecessors leave every Lehmer-five seed unexcluded. The remaining least-seed obligation is explicit; further census expansion is parked.
 
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
@@ -56,6 +58,9 @@ python3 -m aliquot verify-renewal /tmp/supplier-renewal.json
 # Exact supplier handoffs and failed renewal, without extending Lehmer traces:
 python3 -m aliquot handoff --compact > /tmp/supplier-handoff.json
 
+# Distinct abundant targets with smaller predecessors; inclusive target cap 1000000:
+python3 -m aliquot backward --compact > /tmp/backward-coverage.json
+
 # Full verification, including browser-JS parity and UI checks (needs Node.js 22+):
 python3 -m unittest discover -s tests -v
 # npm test is a convenience alias for the same Python runner.
@@ -66,6 +71,8 @@ python3 -m unittest discover -s tests -p test_research.py -v
 ```
 
 `aliquot/` uses arbitrary-precision Python `int`, exact division, and exhaustive trial factorization. The default per-call work budget is 2,000,000 candidate tests/successful divisions. A budget failure raises `ComputationLimit`; the CLI exits nonzero with no partial JSON. This is **unresolved**, not a probable-prime result or evidence of divergence. The one-step C6 census retains its separate inclusive source-bound cap of 1,000,000; the two-adic/two-step census is capped at 100,000. Named regeneration/core-restoration traces use 64 steps and a 1,000,000 source-term cap, with explicit unresolved statuses for limits. A driver exit settles only that driver's retention, not the full orbit's fate. Large integer values and rational numerators/denominators in JSON use decimal strings. Python's default decimal text-conversion safety limit remains enabled; the integer API is not restricted by that text limit.
+
+The backward census has a separate **target** cap of 1,000,000. Multiplicative least-factor and independent additive sieves exhaust every smaller predecessor, and a second core/prime enumeration verifies the complete family representation set. It does not classify larger predecessors, extend orbits, or derive asymptotic claims from finite frequencies.
 
 ## Browser architecture and larger values
 

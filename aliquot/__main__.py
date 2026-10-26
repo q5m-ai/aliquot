@@ -13,6 +13,7 @@ from .exponent_vectors import MAX_REPORT_BYTES, vector_report, verify_report
 from .certified import DEFAULT_WORK
 from .renewal import DEFAULT_SOURCE, renewal_report, verify_renewal_report
 from .handoff import handoff_report
+from .backward import DEFAULT_BOUND as BACKWARD_BOUND, backward_report
 
 
 def decimal_integer(raw):
@@ -54,6 +55,10 @@ def main(argv=None):
                          help="prime-parameter cohort bound; named controls are separate")
     handoff.add_argument("--max-work", type=decimal_integer, default=DEFAULT_MAX_WORK)
     handoff.add_argument("--compact", action="store_true")
+    backward = commands.add_parser("backward", help="distinct abundant targets with smaller predecessors")
+    backward.add_argument("--bound", type=decimal_integer, default=BACKWARD_BOUND,
+                          help="inclusive target bound, at most 1000000; all smaller sources included")
+    backward.add_argument("--compact", action="store_true")
     total = commands.add_parser("sum", help="compute one exact proper-divisor sum")
     total.add_argument("n", type=decimal_integer)
     total.add_argument("--max-work", type=decimal_integer, default=DEFAULT_MAX_WORK)
@@ -75,6 +80,8 @@ def main(argv=None):
             result = renewal_report(args.source, bound=args.bound)
         elif args.command == "handoff":
             result = handoff_report(bound=args.bound, max_work=args.max_work)
+        elif args.command == "backward":
+            result = backward_report(bound=args.bound)
         elif args.command == "verify-renewal":
             with open(args.path, "rb") as source:
                 data = source.read(MAX_REPORT_BYTES + 1)
@@ -96,7 +103,7 @@ def main(argv=None):
         compact = getattr(args, "compact", False)
         output = json.dumps(result, ensure_ascii=False, indent=None if compact else 2,
                             separators=(",", ":") if compact else None)
-        if args.command in ("vectors", "renewal", "handoff") and len(output.encode("utf-8")) > MAX_REPORT_BYTES:
+        if args.command in ("vectors", "renewal", "handoff", "backward") and len(output.encode("utf-8")) > MAX_REPORT_BYTES:
             raise ValueError("Report exceeds the 16 MiB output budget")
     except (ValueError, ComputationLimit, ArithmeticError, OSError, KeyError, TypeError, RecursionError) as error:
         print(str(error), file=sys.stderr)

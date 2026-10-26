@@ -106,10 +106,16 @@ application.
   [Primary text](https://arxiv.org/html/1405.3587v3).
   Normal-order results for ω(s(n)) and Ω(s(n)) concern almost all inputs,
   not every term of an exceptional individual orbit.
-- **The range of the sum-of-proper-divisors function.**
-  [Primary text](https://www.math.dartmouth.edu/~carlp/rangeofs6.pdf).
-  Its density-one lemma about small primes of σ(n) and prime factors of
-  s(n)/gcd(n,σ(n)) is statistical, not a universal fixed-support theorem.
+- **Florian Luca and Carl Pomerance, *The range of the sum-of-proper-divisors
+  function*, Acta Arith.168 (2015), 187–199.**
+  [Later author-hosted text](https://www.math.dartmouth.edu/~carlp/LucaPomeranceAA2.pdf).
+  Theorem1.2 proves positive lower density of even aliquot values; the following
+  paragraph states a fixed-arithmetic-progression extension. Lemmas2.1–2.5 and
+  section3 control small-prime parts and distinct-image collisions. These are
+  statistical results, not universal fixed-support or orbit theorems. The
+  [earlier draft](https://www.math.dartmouth.edu/~carlp/rangeofs6.pdf) previously
+  cited here lacks the later rough-squarefreeness Lemma2.2 needed in the
+  collision proof; use the later version for the backward adaptation below.
 
 ## 5. Search scope, negative findings, and remaining work
 
@@ -128,6 +134,30 @@ review, an exhaustive forward-citation search, or a full inspection of older
 German/Russian sources. Luca's exact theorem remains a specific unchecked
 lead. Expert consultation and those bibliographic checks are still needed.
 
-**Current attribution:** an independently derived application of classical
+**Current attribution of K:** an independently derived application of classical
 S-unit finiteness, with historical novelty unverified and explicit related
 fixed-support cycle finiteness already published by Pollack (2012).
+
+## 6. Subsequent backward-coverage feasibility pass
+
+[Notebook11](BACKWARD-COVERAGE.md) revisits the distinct-image problem, not
+fixed prime support. Both complete LP versions above and the publication-list
+entry were consulted. The main published proof uses deficient sources, whereas
+excluding a least escaping seed needs smaller, hence abundant, predecessors.
+The notebook supplies an explicit **LP-method adaptation** on bounded-abundancy
+sources, using their normal-order lemma to bound the needed totient/divisor
+weights and their later squarefreeness lemma for rough gcds. It gives positive
+lower density for the specified abundant-core/square-root family. That exact
+restriction was not located as a theorem statement in the inspected texts;
+this is neither a novelty claim nor an unqualified quotation of Theorem1.2.
+
+Pomerance's [*The first function and its iterates*](https://www.math.dartmouth.edu/~carlp/aliquot8.pdf),
+in *Connections in Discrete Mathematics* (2018), pp.125–138, was also read.
+Its section2 explains the almost-all ratio relation s²(n)/s(n)∼s(n)/n, and
+section3 bounds inverse-image sizes. Density-one assertions still leave room
+for an exceptional orbit. Its extension s(0)=0 is not adopted here.
+
+The one million-target census is independent finite evidence, not a proof of
+the analytic bounds. The remaining gap is forcing a hypothetical least escaping
+seed into a covered class, not merely obtaining positive density. This bounded
+pass is not an exhaustive modern citation or novelty review.

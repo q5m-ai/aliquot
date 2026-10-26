@@ -7,7 +7,7 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–10 and the literature audit.
+This is the reading guide for notebooks 01–11 and the literature audit.
 [Notebook 08](EXPONENT-VECTORS.md) adds an exponent-vector research program:
 convex growth regions, cancellation orthogonality, exact obstructions to simple
 energies, modular divisor-box combinatorics, and certified Lehmer/control traces.
@@ -17,6 +17,10 @@ parity. [Notebook 10](PARITY-HANDOFF.md) supplies a controlled replacement and
 an actual return of the original supplying exponent, then shows that the full
 handoff guard still fails. It also excludes a congruence-only repair of the
 specified old-supplier return, while preserving actual prime predecessors.
+[Notebook 11](BACKWARD-COVERAGE.md) tests backward exclusions: an explicit
+adaptation of Luca–Pomerance's collision method supplies positive-density
+coverage by smaller predecessors, but neither that argument nor the complete
+million-target census forces a least escaping seed into a covered class.
 None closes the remaining whole-orbit obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
@@ -89,7 +93,7 @@ not a replacement for those hypotheses.
 | [07, recovery refinements](RECOVERY.md) | Recovery can land in a proper multiple of perfect 28, guaranteeing another growing step. An enlarged composite input class has exact corrected transport. | The perfect-core endpoint is outside its entry class; the composite class also fails renewal. |
 | [07, P](RECOVERY.md) | An eventually periodic schedule of arbitrary fixed cores with coprime prime cofactors cannot escape, even through deficient steps. | Aperiodic switching and composite cofactors remain. Periodic aliquot cycles are allowed. |
 | [07, Q](RECOVERY.md) | An escaping finite-core prime itinerary needs an expansive cycle in its recurrent transition graph. | The graph cycle need not occur consecutively, be repeatable, or be sufficient for escape. |
-| [07, supporting constraints](RECOVERY.md) | A least escaping seed is abundant and has no smaller abundant predecessor. Large primes must be sufficiently numerous to overcome a fixed deficiency margin in the small-prime part. | Neither a predecessor-covering theorem nor the required deficiency margin is established along every orbit. |
+| [07, supporting constraints](RECOVERY.md) | A least escaping seed is abundant and has no smaller abundant predecessor. Large primes must be sufficiently numerous to overcome a fixed deficiency margin in the small-prime part. | Neither universal predecessor coverage nor the required deficiency margin is established along every orbit. |
 
 The [exponent-vector follow-up](EXPONENT-VECTORS.md) adds:
 
@@ -116,6 +120,13 @@ The [parity-aware handoff follow-up](PARITY-HANDOFF.md) adds:
 | 10, U | A fresh unitary41 can replace13 when cancellation changes its exponent1→2; the guarded two-step residue return has gain >126645/90077. | At the displayed parameter77141, the endpoint loses both13 and7-supply. |
 | 10, V | A fresh181 supplies both7 and13. With the explicit tail condition13∤σ(R), the two-step return restores the old13 exponent to1 and gains >41565/30589. Composite cofactors are allowed. | The restored supplier does not restore the entire guard; the next middle cofactor can be a prime supplying no7. Infinitely many entries to this stronger tail-guarded class are not asserted. |
 | 10, W | In any reduced prime-parameter refinement fixing finitely many first-image exponents, a fresh unitary supplier can force all those exponents to remain unchanged at the next image. | This rules out a finite congruence-only guarantee of the old13 restoration, not factorization-aware guards or a different supplier/return phase. |
+
+The [backward-coverage feasibility pass](BACKWARD-COVERAGE.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 11, X | Adapting Luca–Pomerance's smooth-stratified collision estimate to bounded-abundancy sources gives positive lower density of abundant N=s(Cp)>Cp with abundant C≤√N and coprime prime p. | This is an adaptation of existing analytic machinery, not a novelty claim; no exceptional least seed is forced into the covered set. |
+| 11, bounded census | Through target1000000, the square-root-core family covers58896 of247545 abundant targets; all smaller predecessors cover104107. Representations and distinct sources are checked separately. | Every Lehmer-five seed has no smaller direct predecessor. The same is true of terminating/cyclic controls; uncovered is not escape. No larger-predecessor or multistep exclusion is inferred. |
 
 ## 3. The strongest statements, with their quantifiers
 
@@ -308,17 +319,20 @@ sources; infinitely many deficient runs has not been proved.
 The supporting constraints now written in [note 07](RECOVERY.md) add:
 
 1. N cannot have the form s(C)p+σ(C) for abundant C and prime p coprime to C,
-   because Cp would be a smaller escaping predecessor. No covering theorem
-   makes this a contradiction.
+   because Cp would be a smaller escaping predecessor. The positive-density
+   covering argument in note11 is not universal and does not give a contradiction.
 2. If the small-prime part d has σ(d)/d≤2−ε, then abundance of n=dr, with
    t distinct remaining primes all exceeding B, requires
    `(2−ε)(1+1/B)^t>2`. The fixed deficiency margin is essential and is not
    supplied by prime-support escape.
 
-The concrete narrower target is to exclude **all** finite-core coprime-prime
+An earlier narrower target was to exclude **all** finite-core coprime-prime
 tails. J, P, and Q settle restricted cases; aperiodic switching with expansive
 cycles remains. Even a proof of that narrower target would leave unbounded
-cores and more general composite factorizations outside it.
+cores and more general composite factorizations outside it. Supplier-circuit
+expansion is now parked. The subsequent backward feasibility pass clears the
+distinct-image density gate using established machinery, but stops at the
+missing least-seed coverage implication rather than enlarging the census.
 
 A complete proof still needs an orbit-wise bound, a well-founded decreasing
 quantity, or another contradiction that covers arbitrary actual trajectories.
@@ -383,6 +397,11 @@ would simply restate the missing theorem.
   ruled out. The [literature audit](LITERATURE.md) records this distinction,
   different hypotheses in related work, and unchecked leads such as Luca's
   exact theorem.
+- Luca–Pomerance (2015) already prove positive-density even aliquot values and
+  state a fixed-progression extension. Note11 adapts their collision proof,
+  explicitly replacing its deficiency bounds; the later squarefreeness lemma
+  and normal-order inputs are essential. The census does not prove these
+  analytic estimates or establish novelty.
 - The Erdős 193 Gaussian-walk proof motivated exact valuation bookkeeping,
   not a transferable aliquot contradiction. Its all-pairs identity is absent
   here; its separate Lean build was not rerun by this project.
@@ -423,7 +442,14 @@ that bounded cohort. An extra CRT construction illustrates the saturation
 obstruction without claiming its least residue is prime. Reproduce with
 `python3 -m aliquot handoff --compact`.
 
-Source caps apply to **sources**, not already known successors. Crossing a cap
+The [backward-coverage report](results/backward-coverage.json) instead fixes a
+**target** cap1000000, exhausts all smaller sources, and independently verifies
+the core/prime representation sets. It records exact moments, distinct targets,
+duplicate-source representations, nested coverage gaps, and unresolved-orbit
+controls without continuing those orbits. Reproduce with
+`python3 -m aliquot backward --compact`.
+
+In the forward experiments, source caps apply to **sources**, not already known successors. Crossing a cap
 is unresolved continuation, not divergence. The census frequencies are not
 orbit survival probabilities. A read-only AI consolidation audit checked this
 summary and the supporting constraints against the notes; its two scope/wording
