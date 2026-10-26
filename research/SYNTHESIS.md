@@ -7,11 +7,13 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–08 and the literature audit.
+This is the reading guide for notebooks 01–09 and the literature audit.
 [Notebook 08](EXPONENT-VECTORS.md) adds an exponent-vector research program:
 convex growth regions, cancellation orthogonality, exact obstructions to simple
 energies, modular divisor-box combinatorics, and certified Lehmer/control traces.
-It does not close the remaining return/renewal obligations. It
+[Notebook 09](SUPPLIER-RENEWAL.md) proves a guarded two-step 28-core return,
+then exhibits exact guard failure when a retained supplier's exponent changes
+parity. Neither closes the remaining return/renewal obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
 does not present them as new changes in PR #6. PR #5 was site presentation only.
@@ -93,6 +95,14 @@ The [exponent-vector follow-up](EXPONENT-VECTORS.md) adds:
 | Combinatorics | Proper divisors form a weighted exponent box; modular convolution and binary geometric sums compute exact residues without expanding the source. | Prime identities and cancellation matter; residue/shape projections are not autonomous. |
 | Lehmer/control patterns | Default prefixes of 126,130,206,162,160 steps extend to 348,130,231,167,189 under a larger budget. The latter certify 276's 28-driver loss at edge 169 and 966's at edge 172. | All frontiers are factorization-limited, not divergent. Permanent 28-driver retention is false for those two seeds; terminating controls exhibit long growth too. |
 | Computational scale | A Lucas-certified Pollard--Brent engine extends this repository's old prefixes; symbolic trillion-exponent modular calculations avoid enormous expanded integers. | Sparse factoring is slightly more work in the paired Lehmer aggregate; encoding alone does not remove factorization complexity. |
+
+The [supplier-renewal follow-up](SUPPLIER-RENEWAL.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 09, R | For M>2, the universal implication R≡−1 mod M ⇒ M divides σ(R) holds exactly when M divides 24. The proof imports Dirichlet for necessity. | This classifies one residue template, not all possible modular/factorization guards; 7-supply is not automatic. |
+| 09, S | If u is odd, u≡−1 mod7, 7 divides σ(u), and 13 exactly divides T(u), then 28u has a two-step first return to that clean-28 residue phase with gain >15/13. | 1987→1989→4563 under T retains supplier 13 but changes its exponent 1→2, losing 7-supply. The returned guard is not invariant. |
+| 09, bounded return tests | Supply columns and complete first-return blocks retain losses and censoring. At index 171 in the 276 trace, the first A7 return loses value after 56 steps; no profitable checkpoint exists within 64. | That source actually recovers above its checkpoint after 142 steps. Neither a universal recovery bound nor universal recovery is established. |
 
 ## 3. The strongest statements, with their quantifiers
 
@@ -197,6 +207,8 @@ arbitrary composites.
 | Keeping deficiency and the 4u shape is enough. | 2764→2080→3212→3004: 3212 is still deficient with v₂=2, but loses the required divisibility by 160 at its successor. |
 | Large primes themselves force decline. | s(6p)=6p+12 for every prime p>3. |
 | Primitive divisors of σ(n) enter s(n). | If q|σ(n) and q∤n, then q∤s(n), because s(n)≡−n modulo q. |
+| Retaining the supplying prime preserves its supply. | 1989=3²·13·17 maps under T to 4563=3³·13²: cancellation at 13 changes σ(13)=14 to σ(13²)=183 and destroys its 7-supply. |
+| Detailed small-prime supply columns determine future supply. | 860 and 1340 have identical tested supply-block states and no target-prime ties; their successors 988 and 1516 have different 2-surplus status. |
 
 The retained-prime handoff has a real positive conclusion: under its guards,
 composite output blocks replace supplying primes. The [exact formula and
@@ -382,6 +394,13 @@ rational components are exact decimal strings.
 | [Recovery tests](../tests/test_recovery.py) | Exact rebounds, failed closure, affine obstructions, composite corrections, and CRT-gap illustrations. |
 | [Synthesis tests](../tests/test_synthesis.py) | Supporting constraints, the 34-step handoff continuation, and the previously discussed bounded perfect-target searches. |
 | [Exponent-vector reports](EXPONENT-VECTORS.md#5-reproduction-and-prioritized-next-work) | Census through 10000; five Lehmer seeds and six controls, default 256-step and extended 512-step caps; separate work budgets. Both artifacts have full prime/edge certificates and deterministic reproduction tests. |
+
+The [supplier-renewal report](results/supplier-renewal.json) replays the extended
+vector artifact before deriving 1296 unique-source diagnostics, first returns
+within 64 edges, and separate 8/32/64-edge recovery tests. Its small census covers
+sources and guarded-family cofactors through 100000, with independent divisor
+sums. Reproduce with `python3 -m aliquot renewal --compact`; reconstruct every
+field with `python3 -m aliquot verify-renewal research/results/supplier-renewal.json`.
 
 Source caps apply to **sources**, not already known successors. Crossing a cap
 is unresolved continuation, not divergence. The census frequencies are not

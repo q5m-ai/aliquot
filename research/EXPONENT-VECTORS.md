@@ -457,6 +457,12 @@ claim, is eventual recovery above the earlier checkpoint within a predeclared
 8,32,64-step window. Fully checked failures and incomplete/censored windows
 must remain distinct.
 
+**Follow-up completed:** [notebook 09](SUPPLIER-RENEWAL.md) tests all three windows,
+records complete first-return blocks and supplier changes, and proves a guarded
+two-step 28-core return with an exact counterexample to guard regeneration.
+The 276 checkpoint at index 171 fails all three windows, although it eventually
+recovers after 142 steps. No infinite-return claim follows.
+
 ### 3.5 A sufficient infinite-orbit certificate, still missing
 
 Supply an explicit, decidable present-arithmetic class X and n_0 in X. Prove,
