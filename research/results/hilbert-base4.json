@@ -1,0 +1,456 @@
+{
+  "schema": "aliquot-hilbert-diagnostic-v1",
+  "convention": "Even-padded base-4, children S/I/I/T, value indices (not orbit time).",
+  "verification": {
+    "sums": "Exact trial factorization and independent divisor-pair enumeration.",
+    "maxWorkPerSum": 2000000,
+    "ambiguityExponents": [
+      3,
+      8
+    ],
+    "largestCheckedSource": "1179666"
+  },
+  "normExamples": [
+    {
+      "source": {
+        "n": "15",
+        "base4": "33",
+        "x": "3",
+        "y": "0",
+        "state": "I",
+        "normSquared": "9"
+      },
+      "successor": {
+        "n": "9",
+        "base4": "21",
+        "x": "2",
+        "y": "3",
+        "state": "I",
+        "normSquared": "13"
+      }
+    },
+    {
+      "source": {
+        "n": "24",
+        "base4": "0120",
+        "x": "6",
+        "y": "2",
+        "state": "I",
+        "normSquared": "40"
+      },
+      "successor": {
+        "n": "36",
+        "base4": "0210",
+        "x": "6",
+        "y": "4",
+        "state": "I",
+        "normSquared": "52"
+      }
+    },
+    {
+      "source": {
+        "n": "72",
+        "base4": "1020",
+        "x": "2",
+        "y": "10",
+        "state": "I",
+        "normSquared": "104"
+      },
+      "successor": {
+        "n": "123",
+        "base4": "1323",
+        "x": "5",
+        "y": "8",
+        "state": "I",
+        "normSquared": "89"
+      }
+    }
+  ],
+  "ambiguityAnchor": {
+    "source": {
+      "n": "18",
+      "base4": "0102",
+      "x": "5",
+      "y": "1",
+      "state": "I",
+      "normSquared": "26"
+    },
+    "successor": {
+      "n": "21",
+      "base4": "0111",
+      "x": "7",
+      "y": "0",
+      "state": "S",
+      "normSquared": "49"
+    }
+  },
+  "sameStateSuffixAmbiguity": [
+    {
+      "j": 3,
+      "source": {
+        "n": "1170",
+        "base4": "102102",
+        "x": "13",
+        "y": "41",
+        "state": "I",
+        "normSquared": "1850"
+      },
+      "successor": {
+        "n": "2106",
+        "base4": "200322",
+        "x": "36",
+        "y": "32",
+        "state": "T",
+        "normSquared": "2320"
+      },
+      "modulus": "64"
+    },
+    {
+      "j": 4,
+      "source": {
+        "n": "4626",
+        "base4": "01020102",
+        "x": "85",
+        "y": "17",
+        "state": "I",
+        "normSquared": "7514"
+      },
+      "successor": {
+        "n": "5436",
+        "base4": "01110330",
+        "x": "118",
+        "y": "0",
+        "state": "S",
+        "normSquared": "13924"
+      },
+      "modulus": "256"
+    },
+    {
+      "j": 5,
+      "source": {
+        "n": "18450",
+        "base4": "10200102",
+        "x": "37",
+        "y": "161",
+        "state": "I",
+        "normSquared": "27290"
+      },
+      "successor": {
+        "n": "32328",
+        "base4": "13321020",
+        "x": "114",
+        "y": "154",
+        "state": "I",
+        "normSquared": "36712"
+      },
+      "modulus": "1024"
+    },
+    {
+      "j": 6,
+      "source": {
+        "n": "73746",
+        "base4": "0102000102",
+        "x": "325",
+        "y": "65",
+        "state": "I",
+        "normSquared": "109850"
+      },
+      "successor": {
+        "n": "96138",
+        "base4": "0113132022",
+        "x": "427",
+        "y": "91",
+        "state": "I",
+        "normSquared": "190610"
+      },
+      "modulus": "4096"
+    },
+    {
+      "j": 7,
+      "source": {
+        "n": "294930",
+        "base4": "1020000102",
+        "x": "133",
+        "y": "641",
+        "state": "I",
+        "normSquared": "428570"
+      },
+      "successor": {
+        "n": "505350",
+        "base4": "1323120012",
+        "x": "337",
+        "y": "563",
+        "state": "I",
+        "normSquared": "430538"
+      },
+      "modulus": "16384"
+    },
+    {
+      "j": 8,
+      "source": {
+        "n": "1179666",
+        "base4": "010200000102",
+        "x": "1285",
+        "y": "257",
+        "state": "I",
+        "normSquared": "1717274"
+      },
+      "successor": {
+        "n": "1376316",
+        "base4": "011100000330",
+        "x": "1798",
+        "y": "0",
+        "state": "S",
+        "normSquared": "3232804"
+      },
+      "modulus": "65536"
+    }
+  ],
+  "traces": [
+    {
+      "seed": "12",
+      "status": "terminated",
+      "cycleStart": null,
+      "verifiedSteps": 7,
+      "limits": {
+        "maxSource": "4095",
+        "maxSteps": 32,
+        "maxWorkPerStep": 2000000
+      },
+      "points": [
+        {
+          "n": "12",
+          "base4": "30",
+          "x": "3",
+          "y": "1",
+          "state": "C",
+          "normSquared": "10"
+        },
+        {
+          "n": "16",
+          "base4": "0100",
+          "x": "4",
+          "y": "0",
+          "state": "S",
+          "normSquared": "16"
+        },
+        {
+          "n": "15",
+          "base4": "33",
+          "x": "3",
+          "y": "0",
+          "state": "I",
+          "normSquared": "9"
+        },
+        {
+          "n": "9",
+          "base4": "21",
+          "x": "2",
+          "y": "3",
+          "state": "I",
+          "normSquared": "13"
+        },
+        {
+          "n": "4",
+          "base4": "10",
+          "x": "0",
+          "y": "2",
+          "state": "S",
+          "normSquared": "4"
+        },
+        {
+          "n": "3",
+          "base4": "03",
+          "x": "0",
+          "y": "1",
+          "state": "C",
+          "normSquared": "1"
+        },
+        {
+          "n": "1",
+          "base4": "01",
+          "x": "1",
+          "y": "0",
+          "state": "S",
+          "normSquared": "1"
+        },
+        {
+          "n": "0",
+          "base4": "00",
+          "x": "0",
+          "y": "0",
+          "state": "I",
+          "normSquared": "0"
+        }
+      ]
+    },
+    {
+      "seed": "28",
+      "status": "cycle",
+      "cycleStart": 0,
+      "verifiedSteps": 1,
+      "limits": {
+        "maxSource": "4095",
+        "maxSteps": 32,
+        "maxWorkPerStep": 2000000
+      },
+      "points": [
+        {
+          "n": "28",
+          "base4": "0130",
+          "x": "5",
+          "y": "3",
+          "state": "T",
+          "normSquared": "34"
+        },
+        {
+          "n": "28",
+          "base4": "0130",
+          "x": "5",
+          "y": "3",
+          "state": "T",
+          "normSquared": "34"
+        }
+      ]
+    },
+    {
+      "seed": "220",
+      "status": "cycle",
+      "cycleStart": 0,
+      "verifiedSteps": 2,
+      "limits": {
+        "maxSource": "4095",
+        "maxSteps": 32,
+        "maxWorkPerStep": 2000000
+      },
+      "points": [
+        {
+          "n": "220",
+          "base4": "3130",
+          "x": "10",
+          "y": "4",
+          "state": "S",
+          "normSquared": "116"
+        },
+        {
+          "n": "284",
+          "base4": "010130",
+          "x": "19",
+          "y": "5",
+          "state": "C",
+          "normSquared": "386"
+        },
+        {
+          "n": "220",
+          "base4": "3130",
+          "x": "10",
+          "y": "4",
+          "state": "S",
+          "normSquared": "116"
+        }
+      ]
+    },
+    {
+      "seed": "276",
+      "status": "source_limit",
+      "cycleStart": null,
+      "verifiedSteps": 10,
+      "limits": {
+        "maxSource": "4095",
+        "maxSteps": 32,
+        "maxWorkPerStep": 2000000
+      },
+      "points": [
+        {
+          "n": "276",
+          "base4": "010110",
+          "x": "16",
+          "y": "6",
+          "state": "S",
+          "normSquared": "292"
+        },
+        {
+          "n": "396",
+          "base4": "012030",
+          "x": "27",
+          "y": "9",
+          "state": "C",
+          "normSquared": "810"
+        },
+        {
+          "n": "696",
+          "base4": "022320",
+          "x": "25",
+          "y": "29",
+          "state": "T",
+          "normSquared": "1466"
+        },
+        {
+          "n": "1104",
+          "base4": "101100",
+          "x": "12",
+          "y": "32",
+          "state": "S",
+          "normSquared": "1168"
+        },
+        {
+          "n": "1872",
+          "base4": "131100",
+          "x": "19",
+          "y": "47",
+          "state": "T",
+          "normSquared": "2570"
+        },
+        {
+          "n": "3770",
+          "base4": "322322",
+          "x": "39",
+          "y": "3",
+          "state": "I",
+          "normSquared": "1530"
+        },
+        {
+          "n": "3790",
+          "base4": "323032",
+          "x": "40",
+          "y": "2",
+          "state": "C",
+          "normSquared": "1604"
+        },
+        {
+          "n": "3050",
+          "base4": "233222",
+          "x": "63",
+          "y": "39",
+          "state": "I",
+          "normSquared": "5490"
+        },
+        {
+          "n": "2716",
+          "base4": "222130",
+          "x": "59",
+          "y": "61",
+          "state": "C",
+          "normSquared": "7202"
+        },
+        {
+          "n": "2772",
+          "base4": "223110",
+          "x": "57",
+          "y": "55",
+          "state": "C",
+          "normSquared": "6274"
+        },
+        {
+          "n": "5964",
+          "base4": "01131030",
+          "x": "110",
+          "y": "20",
+          "state": "S",
+          "normSquared": "12500"
+        }
+      ]
+    }
+  ],
+  "conclusion": "No orbit bound, closed escaping class, or conjecture solution. Limits are unresolved."
+}

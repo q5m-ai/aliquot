@@ -383,3 +383,16 @@ limits, and two missing whole-orbit obligations are now collected in one PR,
 without equating CI success with deployment. A separate presentation change now
 adds the dedicated website timeline; source notes and computation reports remain
 outside the served directory.
+
+## 8. Hilbert/base-four follow-up
+
+The separate [Hilbert proof attempt](HILBERT.md) reads the actual same-terminal
+Hilbert pair law and applies it to integer values along aliquot orbits. It
+supplies an exact coordinate diagnostic, not a new dynamical constraint.
+The proposed squared-radius rank fails even on same-state returns. The family
+18(1+4^j), j>=3, shares state I and arbitrarily long low suffixes with 18, but
+has even successors while s(18)=21 is odd. Thus orientation does not repair a
+fixed-suffix transition rule. A small [figure](results/hilbert-base4.svg) and
+[tests](../tests/test_hilbert.py) record the attempt without increasing the
+orbit census. A factor-aware descent/closure theorem remains missing; the
+attempt stops there. No solution or historical novelty is claimed.
