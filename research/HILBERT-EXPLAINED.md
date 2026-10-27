@@ -106,6 +106,22 @@ returns. It rules out this particular shortcut.
 **In one sentence: Hilbert gives us an exact divisibility ruler for the map,
 but not yet a rule telling us where the aliquot arrows must eventually go.**
 
+## 4. Is there a useful pattern in the Lehmer five?
+
+There are real **arithmetic drivers**, but no new Hilbert escape rule here.
+For example, 276 reaches 2716=28×97 and then has a long phase of odd multiples
+of 28. In base four these have endings `10` or `30`; divisibility by 7 is an
+additional condition, not information supplied by those two digits alone.
+
+The published trajectory leaves that driver at index 170 (counting 276 as
+index 0). Nor must a driver be perfect: 120 has proper-divisor sum 240, not
+120. The useful question is whether the conditions for growth can regenerate
+after a driver is lost—not whether a finite picture repeats.
+
+See the [bounded Lehmer-five comparison and driver-loss note](HILBERT-DRIVERS.md)
+for the exact arithmetic, terminating controls, source attribution, and the
+separate verification limits of our local and published data.
+
 ## Reproduce the illustration
 
 ```sh

@@ -7,6 +7,9 @@ arbitrarily many low base-four digits does not determine successor parity.
 **No proof/disproof, escaping seed, or novelty is claimed.**
 
 For an accessible introduction, see the [plain-English visual walkthrough](HILBERT-EXPLAINED.md).
+The [Lehmer-five/driver follow-up](HILBERT-DRIVERS.md) distinguishes local
+certificates from published continuation, records 276's reported driver loss,
+and explains why drivers need not be perfect.
 
 This follows the user's Hilbert/base-four suggestion rather than enlarging the
 previous censuses. References consulted were the [aliquot synthesis](SYNTHESIS.md),

@@ -396,3 +396,10 @@ fixed-suffix transition rule. A small [figure](results/hilbert-base4.svg) and
 [tests](../tests/test_hilbert.py) record the attempt without increasing the
 orbit census. A factor-aware descent/closure theorem remains missing; the
 attempt stops there. No solution or historical novelty is claimed.
+
+The [Lehmer-five/driver clarification](HILBERT-DRIVERS.md) replays only
+existing certified prefixes and records the published loss of 276's initial
+28-driver at index 170. That continuation remains attributed external data,
+not a locally certified extension. Drivers need not be perfect; a coprime
+multiperfect-core formula does not preserve its own hypotheses. The same
+factor-aware loss/recovery closure obligation remains.
