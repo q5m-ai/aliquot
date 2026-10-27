@@ -4,7 +4,7 @@ A [q5m research](https://www.q5m.ai) project exploring aliquot sequences and the
 
 For positive integers, s(n) is the sum of the proper positive divisors of n. The conjecture asks whether every aliquot sequence eventually reaches 1 (then terminates at 0) or enters a cycle. Numerical experiments alone do not establish a proof or a divergent counterexample.
 
-**Start here:** [Research synthesis](research/SYNTHESIS.md) — the result map for notes 01–12, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
+**Start here:** [Research synthesis](research/SYNTHESIS.md) — the result map for notes 01–13, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
 
 ## Milestones
 
@@ -26,6 +26,8 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 12. **Research notebook 11 — backward coverage:** [a literature-backed density argument and one exact target census](research/BACKWARD-COVERAGE.md). Adapting Luca–Pomerance's collision bounds gives positive-density coverage by smaller abundant-core predecessors, not universal coverage. Through 1000000, the proposed family covers 58896 of 247545 abundant targets; even all smaller predecessors leave every Lehmer-five seed unexcluded. The remaining least-seed obligation is explicit; further census expansion is parked.
 
 13. **Research notebook 12 — beyond density:** [a bounded-depth ancestry obstruction](research/ANCESTRY-BARRIER.md). For every fixed backward/forward depth, only a density-zero fraction of abundant direct roots is eliminated; at least X/48−o(X) candidates remain. The proof imports the valid Erdős growth theorem, not his withdrawn general decreasing claim. General forward coalescence is separate; explicit countermodels prevent inferring escape from growing test depths. No global merger mechanism or novelty is claimed, and no new large census is added.
+
+14. **Research notebook 13 — boundary outflow:** [a plain-language fence model and fixed-scale first-passage deduction](research/BOUNDARY-OUTFLOW.md). Almost all immediate exits reach any fixed multiple of a large fence before returning or cycling in the intervening band, by classical small-prime persistence and abundancy distribution. This does not control the same labels across indefinitely many fences. Semiprime sources alone eventually outnumber all outgoing edges, but need not lie on outgoing paths; merged paths require starting-label counts. Nine small regressions check the arithmetic and accounting, not infinite behavior. No whole-orbit return bound or novelty is claimed.
 
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 

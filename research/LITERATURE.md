@@ -185,3 +185,13 @@ zero-density exceptional set, assume the EGPS conjecture, or supply an
 explicit growing-depth rate. The ancestry theorem, diagonalization, and
 least-preimage corollary are scoped deductions from classical inputs, with
 historical novelty unverified—not claims of a new global strategy.
+
+[Notebook13](BOUNDARY-OUTFLOW.md) reuses only those valid inputs. Its fixed-scale
+first-passage corollary first removes a narrow abundancy band and a reciprocal-
+divisor tail, then applies Lemma2 with a fixed small-prime cutoff and fixed
+number of steps. These parameters may depend on a chosen error allowance but
+are fixed before the source bound tends to infinity. The complete primary
+paper was reinspected for this deduction. No effective growing-depth rate,
+inherited-cohort control, or novelty is claimed. The separate composite-inflow
+argument uses the standard prime number theorem only for asymptotic domination;
+its displayed finite semiprime bound is elementary.

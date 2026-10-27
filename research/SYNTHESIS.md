@@ -7,7 +7,7 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–12 and the literature audit.
+This is the reading guide for notebooks 01–13 and the literature audit.
 [Notebook 08](EXPONENT-VECTORS.md) adds an exponent-vector research program:
 convex growth regions, cancellation orthogonality, exact obstructions to simple
 energies, modular divisor-box combinatorics, and certified Lehmer/control traces.
@@ -24,6 +24,11 @@ million-target census forces a least escaping seed into a covered class.
 [Notebook 12](ANCESTRY-BARRIER.md) proves that every fixed-depth ancestry/forward
 extension eliminates only a density-zero part of the direct roots. It separates
 that limitation from genuine forward coalescence and from infinite survival.
+[Notebook 13](BOUNDARY-OUTFLOW.md) translates boundary outflow into exits,
+returns, and still-open excursions. It derives fixed-time and fixed-scale
+first-passage corollaries, separates unrelated all-source inflow from actual
+returning paths, and keeps starting labels when paths merge. It supplies no
+same-label bound across indefinitely many fences.
 None closes the remaining whole-orbit obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
@@ -138,6 +143,15 @@ The [ancestry-barrier follow-up](ANCESTRY-BARRIER.md) adds:
 | 12, root accounting | Boundary outflow and image collisions force at least floor(X/12)−floor(X/16) abundant targets through X to have no smaller direct predecessor. | The multiples of12 used in counting are unused sources, not identified root targets. Larger predecessors remain allowed. |
 | 12, Y | For every fixed ancestry depth h, newly excluded direct roots number at most the sum of fixed-prefix growth exceptions at depths2…h, hence o(X). Fixed forward checks still leave at least X/48−o(X) survivors. | Intermediates are unrestricted, but the theorem does not cover general forward coalescence. An unbounded-depth diagonal corollary assigns each seed only finitely many tests. |
 | 12, Z | Proposition X gives positive density of abundant least-preimage sources with no smaller shared successor, even after fixed forward growth tests. | This is an immediate corollary, not a new collision theorem; later or asynchronous mergers remain possible. No intersection with the ancestry-root class is proved. |
+
+The [boundary-outflow follow-up](BOUNDARY-OUTFLOW.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 13, excursion accounting | Immediate exits that return or repeat outside by step h are among the e_h(B) growth exceptions. For fixed h, the fraction of exits still open tends to 1 as B grows. | A direct corollary of the valid Erdős theorem, not uniform-in-time control; universal eventual termination/cycling is still compatible. |
+| 13, fixed-scale first passage | For each fixed enlargement factor, all but o(B) immediate exit starts reach the higher fence before returning or cycling in the band. | A deduction from small-prime persistence and Davenport continuity, with no effective rate. The inherited, merger-weighted cohort is not a fresh population at the next fence. |
+| 13, incoming sources | Removing target1 makes all-source inflow finite, with source ceiling (B−1)². Distinct semiprime sources give at least P(P−1)/2−B incoming edges, where P counts primes through floor((B−1)/2). | The prime number theorem makes this exceed every linear bound eventually, but these incoming sources need not be on outgoing paths. |
+| 13, labelled balance | Outward minus inward crossings equals currently-outside starting labels. Actual seeds126 and174 share one return edge at fence174. | Unique-edge counts lose merger multiplicity; remaining outside one fence may mean a cycle. No fixed finite cohort is proved to reach arbitrarily high fences. |
 
 ## 3. The strongest statements, with their quantifiers
 
@@ -347,6 +361,11 @@ missing least-seed coverage implication rather than enlarging the census.
 Note12 subsequently proves that any fixed-depth ancestry/forward extension
 still leaves positive-density candidates. This is a scoped limitation, not a
 ban on all finite certificates or on arithmetic coalescence arguments.
+Note13 makes the related boundary obstruction explicit: even fixed-scale
+first-passage success for almost all exits does not control the inherited
+cohort across infinitely many fences. All-source inflow is not returning
+traffic, and merging requires retained seed labels. No new same-seed mechanism
+is supplied by this accounting.
 
 A complete proof still needs an orbit-wise bound, a well-founded decreasing
 quantity, or another contradiction that covers arbitrary actual trajectories.
