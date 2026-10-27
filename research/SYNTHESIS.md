@@ -7,7 +7,7 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–11 and the literature audit.
+This is the reading guide for notebooks 01–12 and the literature audit.
 [Notebook 08](EXPONENT-VECTORS.md) adds an exponent-vector research program:
 convex growth regions, cancellation orthogonality, exact obstructions to simple
 energies, modular divisor-box combinatorics, and certified Lehmer/control traces.
@@ -21,6 +21,9 @@ specified old-supplier return, while preserving actual prime predecessors.
 adaptation of Luca–Pomerance's collision method supplies positive-density
 coverage by smaller predecessors, but neither that argument nor the complete
 million-target census forces a least escaping seed into a covered class.
+[Notebook 12](ANCESTRY-BARRIER.md) proves that every fixed-depth ancestry/forward
+extension eliminates only a density-zero part of the direct roots. It separates
+that limitation from genuine forward coalescence and from infinite survival.
 None closes the remaining whole-orbit obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
@@ -127,6 +130,14 @@ The [backward-coverage feasibility pass](BACKWARD-COVERAGE.md) adds:
 | --- | --- | --- |
 | 11, X | Adapting Luca–Pomerance's smooth-stratified collision estimate to bounded-abundancy sources gives positive lower density of abundant N=s(Cp)>Cp with abundant C≤√N and coprime prime p. | This is an adaptation of existing analytic machinery, not a novelty claim; no exceptional least seed is forced into the covered set. |
 | 11, bounded census | Through target1000000, the square-root-core family covers58896 of247545 abundant targets; all smaller predecessors cover104107. Representations and distinct sources are checked separately. | Every Lehmer-five seed has no smaller direct predecessor. The same is true of terminating/cyclic controls; uncovered is not escape. No larger-predecessor or multistep exclusion is inferred. |
+
+The [ancestry-barrier follow-up](ANCESTRY-BARRIER.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 12, root accounting | Boundary outflow and image collisions force at least floor(X/12)−floor(X/16) abundant targets through X to have no smaller direct predecessor. | The multiples of12 used in counting are unused sources, not identified root targets. Larger predecessors remain allowed. |
+| 12, Y | For every fixed ancestry depth h, newly excluded direct roots number at most the sum of fixed-prefix growth exceptions at depths2…h, hence o(X). Fixed forward checks still leave at least X/48−o(X) survivors. | Intermediates are unrestricted, but the theorem does not cover general forward coalescence. An unbounded-depth diagonal corollary assigns each seed only finitely many tests. |
+| 12, Z | Proposition X gives positive density of abundant least-preimage sources with no smaller shared successor, even after fixed forward growth tests. | This is an immediate corollary, not a new collision theorem; later or asynchronous mergers remain possible. No intersection with the ancestry-root class is proved. |
 
 ## 3. The strongest statements, with their quantifiers
 
@@ -333,6 +344,9 @@ cores and more general composite factorizations outside it. Supplier-circuit
 expansion is now parked. The subsequent backward feasibility pass clears the
 distinct-image density gate using established machinery, but stops at the
 missing least-seed coverage implication rather than enlarging the census.
+Note12 subsequently proves that any fixed-depth ancestry/forward extension
+still leaves positive-density candidates. This is a scoped limitation, not a
+ban on all finite certificates or on arithmetic coalescence arguments.
 
 A complete proof still needs an orbit-wise bound, a well-founded decreasing
 quantity, or another contradiction that covers arbitrary actual trajectories.
@@ -386,6 +400,10 @@ would simply restate the missing theorem.
   and [03](REGENERATION.md). The author is **D. Villamizar**.
 - Lenstra's arbitrary-length finite increasing prefixes, reproduced by Erdős
   (1976), already prevent treating long finite survival as a breakthrough.
+  Erdős's valid fixed-depth almost-all abundant-growth theorem supplies note12.
+  His general decreasing/upper-control claim must not be imported; Pomerance's
+  2020 lecture records its withdrawal. Note12 uses only the proved small-prime
+  persistence argument and the classical continuous abundancy distribution.
 - Euler-product divergence and Dirichlet's progression theorem supply the
   finite amplification families; they are imported, not computationally proved.
 - Classical S-unit finiteness supplies K. Evertse (1984) already provides
@@ -448,6 +466,12 @@ the core/prime representation sets. It records exact moments, distinct targets,
 duplicate-source representations, nested coverage gaps, and unresolved-orbit
 controls without continuing those orbits. Reproduce with
 `python3 -m aliquot backward --compact`.
+
+The [ancestry regressions](../tests/test_ancestry.py) check exact root accounting,
+all depth1–4 paths from seeds1–1000 (including excursions beyond1000), the
+minimum-path charging inequalities, named mergers, and abstract countermodels.
+They have a separate100000 encountered-source cap, no new report/CLI, and do
+not computationally prove any density statement.
 
 In the forward experiments, source caps apply to **sources**, not already known successors. Crossing a cap
 is unresolved continuation, not divergence. The census frequencies are not

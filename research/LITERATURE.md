@@ -161,3 +161,27 @@ The one million-target census is independent finite evidence, not a proof of
 the analytic bounds. The remaining gap is forcing a hypothetical least escaping
 seed into a covered class, not merely obtaining positive density. This bounded
 pass is not an exhaustive modern citation or novelty review.
+
+## 7. Fixed-depth growth and the ancestry obstruction
+
+[Notebook12](ANCESTRY-BARRIER.md) uses P. Erdős, [*On asymptotic properties of
+aliquot sequences*](https://users.renyi.hu/~p_erdos/1976-22.pdf), *Math. Comp.*30
+(1976), 641–645, [DOI](https://doi.org/10.1090/S0025-5718-1976-0404115-8).
+The complete primary paper was inspected. Its Lemma2 and lower-growth proof
+support the statement that, for each fixed h, almost every abundant seed has
+h strictly increasing steps. Pomerance's 2018 survey explicitly states this
+consequence. The notebook explains a safe derivation using small-prime
+persistence and Davenport's continuous abundancy distribution.
+
+The primary paper's broader statement must not be taken wholesale:
+[Pomerance's 2020 lecture, slides24–25](https://www.math.dartmouth.edu/~carlp/upintconf.pdf)
+explicitly says Erdős withdrew his claimed proof of the analogous general
+**decreasing** assertion. The two-step result and a conditional higher-iterate
+extension do not justify unconditional arbitrary-iterate upper control.
+
+The new minimum-path charging argument applies the valid fixed-depth growth
+result directly to small abundant path minima. It does not pull back a
+zero-density exceptional set, assume the EGPS conjecture, or supply an
+explicit growing-depth rate. The ancestry theorem, diagonalization, and
+least-preimage corollary are scoped deductions from classical inputs, with
+historical novelty unverified—not claims of a new global strategy.
