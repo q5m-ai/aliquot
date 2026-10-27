@@ -138,6 +138,14 @@ For 100+ steps, seeds 1–1,000 contain 22–30 qualifying starts (2.20–3.00%)
 
 Hover/pin the shared-style aggregate card to inspect any integer bound, or use arrows/Home/End/Enter/Escape. A table compares consecutive 1,000-seed blocks under the same threshold/population filters. Download exact counts saves cumulative, recent-window, and block bounds with source computation limits; percentages and interpolated chart coordinates are not stored as exact data. `site/length-frequency.js` derives these counts without any new orbit computations. Python independently checks every cumulative/recent/block result against direct classified-seed sets and binary searches; Node covers threshold boundaries, zero denominators, controls, cards, and exports.
 
+### Causal-view thought experiment
+
+Open **Causal view** (`/causal/`) for a narrative companion to the research timeline: number as space, index as time, synchronizing unequal lead-ins at a merge, and treating recurrence as the end of a branch. It distinguishes history-dependent first-repeat stopping from contracting an entire cycle into a terminal node. Those conventions agree on mortality, not death time. The signed remaining-time coordinate is written `T_clock` to distinguish it from the orbit-length chart's `T(n)` and the research cofactor map `T(u)`.
+
+This is a reformulation, not a proof, disproof, physical model, novelty claim, or demonstrated solution strategy. A finite death-anchored clock presupposes a finite endpoint; an acyclic causal graph can still have an infinite future. The page separates elementary deductions, attributed finite-growth/S-unit arguments, and finite verified examples from the missing whole-orbit theorem. It does not change any explorer's computation or stopping rules.
+
+The static page reuses the self-hosted formula renderer and research typography, with a small scoped `site/causal.css` stylesheet and no interactive runtime. Python tests check the displayed finite paths by both factorization and independent divisor-pair enumeration, synchronize the displayed event coordinates, and distinguish the two cycle-ending conventions. The shared TeX tests render every formula as CSP-compatible MathML; site checks cover navigation, local links, accessible references, and versioned assets. These checks do not verify universal mathematical arguments.
+
 ### Formula rendering
 
 The definition and iteration rule sit directly below the title. Explicit `data-tex` fields and point-card factorizations use **self-hosted KaTeX 0.19.0**, with native MathML output and readable text fallbacks. There are no CDN requests, extra font downloads, or relaxed CSP rules. Unchanged formulas are cached rather than re-typeset on hover.

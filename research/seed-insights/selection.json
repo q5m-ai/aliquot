@@ -1,0 +1,43 @@
+{
+  "created_at": "2026-10-26T17:06:46.495576+00:00",
+  "base_commit": "bb10bad78fcf431cdbc6da5edbb9c5f4119ae588",
+  "pool_sha256": "3ecb500307c57d19eb44fdc8b7935c7f6dfe8543fce8b227f3c1613c75a91187",
+  "method": "One draw without replacement: random.Random(int(seed_decimal)).sample(range(40), 5). No rejection or redraw.",
+  "python_version": "3.12.3",
+  "seed_decimal": "331190682501888053942754829052165252645",
+  "selected_zero_based_indices": [
+    0,
+    13,
+    21,
+    27,
+    24
+  ],
+  "selected": [
+    {
+      "id": "noether-symmetry",
+      "field": "mathematical physics",
+      "idea": "Noether's theorem: continuous symmetries of a variational system give conservation laws; identifying the right symmetry can be more useful than following individual trajectories."
+    },
+    {
+      "id": "small-gain-feedback",
+      "field": "control theory",
+      "idea": "Small-gain theorems: quantitative bounds on interconnected input-output gains can certify stability of a feedback system, provided the gain product and interconnection assumptions are controlled."
+    },
+    {
+      "id": "error-correcting-syndromes",
+      "field": "coding theory",
+      "idea": "Error-correcting codes: redundant algebraic constraints and syndromes can detect or locate perturbations without retaining the entire original message; distinct errors must be distinguished by the checks."
+    },
+    {
+      "id": "size-change-termination",
+      "field": "program verification",
+      "idea": "Size-change termination: track strict and weak descent of well-founded quantities across transitions; suitable composed transition graphs force an infinite descending thread in any hypothetical infinite execution."
+    },
+    {
+      "id": "symbolic-dynamics",
+      "field": "dynamical systems",
+      "idea": "Symbolic dynamics: encode trajectories as symbol sequences and describe admissibility through forbidden words or transition constraints; a symbolic itinerary need not be realized by an original-system orbit."
+    }
+  ],
+  "scope": "Random within the recorded curated pool, not a uniform sample of all ideas. Worker briefs omit the draw, other workers, and the selection rationale."
+}
