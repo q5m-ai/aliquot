@@ -1,0 +1,108 @@
+{
+  "bare_core_cycle_gain": {
+    "denominator": "40",
+    "numerator": "33"
+  },
+  "base_prime_progression": {
+    "modulus": "3960100",
+    "residue": "179"
+  },
+  "cofactor_leakage_threshold": {
+    "denominator": "21",
+    "numerator": "1"
+  },
+  "named_traces_checked_by_trial_factorization_and_divisor_pairs": [
+    [
+      "3580",
+      "3980",
+      "4420",
+      "6164",
+      "5260",
+      "5828",
+      "4924"
+    ],
+    [
+      "540",
+      "1140",
+      "2220"
+    ],
+    [
+      "220",
+      "284",
+      "220"
+    ]
+  ],
+  "named_transition_count": 10,
+  "purpose": "finite arithmetic regressions; no universal proof or orbit classification",
+  "scan": {
+    "attempted_inputs": 2000,
+    "completed_inputs": 2000,
+    "decreasing_blocks": 27,
+    "equal_endpoint_blocks": 4,
+    "factorization_work_per_call": 10000,
+    "first_growing_block": {
+      "cofactors": [
+        "27",
+        "285",
+        "111"
+      ],
+      "gain": {
+        "denominator": "9",
+        "numerator": "37"
+      },
+      "values": [
+        "540",
+        "1140",
+        "2220"
+      ]
+    },
+    "first_leakage_threshold_block": {
+      "cofactors": [
+        "491",
+        "2711",
+        "407"
+      ],
+      "gain": {
+        "denominator": "491",
+        "numerator": "407"
+      },
+      "values": [
+        "9820",
+        "10844",
+        "8140"
+      ]
+    },
+    "first_source_inclusive_bound": 100000,
+    "growing_blocks": 180,
+    "growing_prime_input_blocks": 14,
+    "guarded_20_4_20_blocks": 211,
+    "largest_observed_gain_block": {
+      "cofactors": [
+        "2079",
+        "29925",
+        "16583"
+      ],
+      "gain": {
+        "denominator": "297",
+        "numerator": "2369"
+      },
+      "values": [
+        "41580",
+        "119700",
+        "331660"
+      ]
+    },
+    "leakage_threshold_blocks": 21,
+    "max_endpoint": "707868",
+    "max_second_source": "276444",
+    "second_source_inclusive_cap": 1000000,
+    "transitions_per_input_at_most": 2,
+    "u_inclusive_bound": 5000,
+    "unresolved": [],
+    "unresolved_count": 0
+  },
+  "threshold_integer_weights": {
+    "20": "6",
+    "4": "1"
+  }
+}

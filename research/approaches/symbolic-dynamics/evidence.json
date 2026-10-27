@@ -1,0 +1,402 @@
+{
+  "bounds": {
+    "additive_sieve_inclusive": 120000,
+    "affine_a_inclusive": [
+      2,
+      12
+    ],
+    "affine_b_inclusive": [
+      1,
+      12
+    ],
+    "aliquot_trace_transitions": 5,
+    "classification_prime_inclusive": [
+      2,
+      43
+    ],
+    "cofactor_inclusive": 1000,
+    "divisor_pair_source_cap_inclusive": "4000000",
+    "max_work_per_factorization": 20000,
+    "modular_steps_per_modulus": 1024,
+    "moduli_inclusive": 256
+  },
+  "core120_trace": [
+    "840",
+    "2040",
+    "4440",
+    "9240",
+    "25320",
+    "51000"
+  ],
+  "factorized_sieve_comparisons": 532,
+  "largest_modular_period": 162,
+  "local_classification_cases": 1848,
+  "modular_unresolved_inputs": [],
+  "moduli_checked": 258,
+  "named_arithmetic": [
+    {
+      "factors": [
+        [
+          "2",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "5",
+          "1"
+        ]
+      ],
+      "n": "120",
+      "s": "240",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "2",
+          "2"
+        ],
+        [
+          "5",
+          "1"
+        ],
+        [
+          "11",
+          "1"
+        ]
+      ],
+      "n": "220",
+      "s": "284",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "2",
+          "2"
+        ],
+        [
+          "71",
+          "1"
+        ]
+      ],
+      "n": "284",
+      "s": "220",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "7",
+          "1"
+        ]
+      ],
+      "n": "7",
+      "s": "1",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "17",
+          "1"
+        ]
+      ],
+      "n": "17",
+      "s": "1",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "37",
+          "1"
+        ]
+      ],
+      "n": "37",
+      "s": "1",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "7",
+          "1"
+        ],
+        [
+          "11",
+          "1"
+        ]
+      ],
+      "n": "77",
+      "s": "19",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "211",
+          "1"
+        ]
+      ],
+      "n": "211",
+      "s": "1",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "5",
+          "2"
+        ],
+        [
+          "17",
+          "1"
+        ]
+      ],
+      "n": "425",
+      "s": "133",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "2",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "5",
+          "1"
+        ],
+        [
+          "7",
+          "1"
+        ]
+      ],
+      "n": "840",
+      "s": "2040",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "2",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "5",
+          "1"
+        ],
+        [
+          "17",
+          "1"
+        ]
+      ],
+      "n": "2040",
+      "s": "4440",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "2",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "5",
+          "1"
+        ],
+        [
+          "37",
+          "1"
+        ]
+      ],
+      "n": "4440",
+      "s": "9240",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "2",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "5",
+          "1"
+        ],
+        [
+          "7",
+          "1"
+        ],
+        [
+          "11",
+          "1"
+        ]
+      ],
+      "n": "9240",
+      "s": "25320",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "2",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "5",
+          "1"
+        ],
+        [
+          "211",
+          "1"
+        ]
+      ],
+      "n": "25320",
+      "s": "51000",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "3847",
+          "1"
+        ]
+      ],
+      "n": "3847",
+      "s": "1",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "43",
+          "1"
+        ],
+        [
+          "179",
+          "1"
+        ]
+      ],
+      "n": "7697",
+      "s": "223",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "2",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "5",
+          "1"
+        ],
+        [
+          "3847",
+          "1"
+        ]
+      ],
+      "n": "461640",
+      "s": "923640",
+      "status": "verified"
+    },
+    {
+      "factors": [
+        [
+          "2",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "5",
+          "1"
+        ],
+        [
+          "43",
+          "1"
+        ],
+        [
+          "179",
+          "1"
+        ]
+      ],
+      "n": "923640",
+      "s": "1927560",
+      "status": "verified"
+    }
+  ],
+  "named_modular_cycles": [
+    {
+      "modulus": "1",
+      "period": 1,
+      "start": "0"
+    },
+    {
+      "modulus": "2",
+      "period": 1,
+      "start": "1"
+    },
+    {
+      "modulus": "3",
+      "period": 2,
+      "start": "1"
+    },
+    {
+      "modulus": "8",
+      "period": 1,
+      "start": "5"
+    },
+    {
+      "modulus": "9",
+      "period": 6,
+      "start": "1"
+    },
+    {
+      "modulus": "2310",
+      "period": 2,
+      "start": "1537"
+    },
+    {
+      "modulus": "2177280",
+      "period": 162,
+      "start": "1684477"
+    }
+  ],
+  "scope": "finite arithmetic checks only; no conjecture resolution",
+  "sieve_unresolved_inputs": [],
+  "trace_boundary": "425 shares factor 5 with core; do not iterate the core formula",
+  "unitary_cofactors_checked": 266,
+  "unresolved_checks": 0
+}
