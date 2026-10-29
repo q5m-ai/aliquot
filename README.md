@@ -4,7 +4,7 @@ A [q5m research](https://www.q5m.ai) project exploring aliquot sequences and the
 
 For positive integers, s(n) is the sum of the proper positive divisors of n. The conjecture asks whether every aliquot sequence eventually reaches 1 (then terminates at 0) or enters a cycle. Numerical experiments alone do not establish a proof or a divergent counterexample.
 
-**Start here:** [Research synthesis](research/SYNTHESIS.md) — the complete result map for notes 01–07, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
+**Start here:** [Research synthesis](research/SYNTHESIS.md) — the result map for notes 01–13, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
 
 ## Milestones
 
@@ -17,6 +17,18 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 7. **Research note 06 — factor transport:** [an exact conditional handoff to composite supplying blocks](research/BLOCK-TRANSPORT.md), together with correction identities and obstructions to simpler renewal rules. The output does not regenerate the input hypotheses: no closed return family or whole-orbit control is obtained.
 8. **Research note 07 — deficient recovery:** [guaranteed finite rebounds and scoped template obstructions](research/RECOVERY.md). Any fixed deficient core D>1 admits arbitrarily large two-step recovery for infinitely many coprime prime cofactors; periodic prime-cofactor schedules cannot escape, and finite-core prime schedules need an expansive graph cycle. Composite entry conditions still fail to renew. No closed return class, resolution, or novelty is claimed.
 9. **Hilbert/base-four proof attempt:** [orientation-aware embedding, exact pair law, and stopping point](research/HILBERT.md), with a [plain-English visual walkthrough](research/HILBERT-EXPLAINED.md), a [Lehmer-five/driver follow-up](research/HILBERT-DRIVERS.md), and a [small reproducible diagram](research/results/hilbert-base4.svg). Hilbert radius fails as a descent rank; even complete terminal orientation plus arbitrarily many low base-four digits cannot determine successor parity. No arithmetic closure, orbit bound, or conjecture solution is obtained. Reproduce with `python3 scripts/build_hilbert_diagnostic.py --check`; these artifacts are not served.
+
+9. **Research notebook 08 — exponent-vector dynamics:** [four-track geometry, combinatorics, Lehmer-five analysis, and computational scaling](research/EXPONENT-VECTORS.md). Convex abundance regions, cancellation orthogonality, and exact energy obstructions guide guarded-return research. New bounded prefixes carry replayable Lucas prime certificates; paired measurements distinguish factorization improvements from sparse-encoding claims. Modular divisor-box calculations handle symbolic trillion-sized exponents without expanding the integer. No infinite closure or solution is claimed.
+
+10. **Research notebook 09 — supplier renewal:** [a precise guarded return lemma and exact nonclosure](research/SUPPLIER-RENEWAL.md). A two-step 28-core return gains more than 15/13, but cancellation can retain a supplier while changing its exponent and destroying its supply. A sharp residue-supplier theorem, full return-block diagnostics, and a 100000-source census preserve losing returns and censored cases. No perpetual regeneration is proved.
+
+11. **Research notebook 10 — parity-aware supplier handoff:** [controlled replacement and a genuine supplier round trip](research/PARITY-HANDOFF.md). A fresh 181 can replace a disabled 13 and restore its useful exponent after two steps. Exact counterexamples show that the full guard still fails, even with composite cofactors. A scoped theorem rules out finite congruence refinements as a universal repair of old-supplier restoration. No closed infinite-return class is established.
+
+12. **Research notebook 11 — backward coverage:** [a literature-backed density argument and one exact target census](research/BACKWARD-COVERAGE.md). Adapting Luca–Pomerance's collision bounds gives positive-density coverage by smaller abundant-core predecessors, not universal coverage. Through 1000000, the proposed family covers 58896 of 247545 abundant targets; even all smaller predecessors leave every Lehmer-five seed unexcluded. The remaining least-seed obligation is explicit; further census expansion is parked.
+
+13. **Research notebook 12 — beyond density:** [a bounded-depth ancestry obstruction](research/ANCESTRY-BARRIER.md). For every fixed backward/forward depth, only a density-zero fraction of abundant direct roots is eliminated; at least X/48−o(X) candidates remain. The proof imports the valid Erdős growth theorem, not his withdrawn general decreasing claim. General forward coalescence is separate; explicit countermodels prevent inferring escape from growing test depths. No global merger mechanism or novelty is claimed, and no new large census is added.
+
+14. **Research notebook 13 — boundary outflow:** [a plain-language fence model and fixed-scale first-passage deduction](research/BOUNDARY-OUTFLOW.md). Almost all immediate exits reach any fixed multiple of a large fence before returning or cycling in the intervening band, by classical small-prime persistence and abundancy distribution. This does not control the same labels across indefinitely many fences. Semiprime sources alone eventually outnumber all outgoing edges, but need not lie on outgoing paths; merged paths require starting-label counts. Nine small regressions check the arithmetic and accounting, not infinite behavior. No whole-orbit return bound or novelty is claimed.
 
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
@@ -39,6 +51,21 @@ python3 -m aliquot scan-two-adic --bound 100000
 python3 -m aliquot regeneration
 python3 -m aliquot core-returns
 
+# Four-track exponent-vector report and independent orbit/prime-proof replay:
+python3 -m aliquot vectors --compact > /tmp/exponent-vectors.json
+python3 -m aliquot verify-vectors /tmp/exponent-vectors.json
+
+# Supplier diagnostics reuse the committed certified extended artifact:
+python3 -m aliquot renewal --compact > /tmp/supplier-renewal.json
+python3 -m aliquot verify-renewal /tmp/supplier-renewal.json
+# Installed copies outside this checkout need --source /path/to/exponent-vectors-extended.json.
+
+# Exact supplier handoffs and failed renewal, without extending Lehmer traces:
+python3 -m aliquot handoff --compact > /tmp/supplier-handoff.json
+
+# Distinct abundant targets with smaller predecessors; inclusive target cap 1000000:
+python3 -m aliquot backward --compact > /tmp/backward-coverage.json
+
 # Full verification, including browser-JS parity and UI checks (needs Node.js 22+):
 python3 -m unittest discover -s tests -v
 # npm test is a convenience alias for the same Python runner.
@@ -49,6 +76,8 @@ python3 -m unittest discover -s tests -p test_research.py -v
 ```
 
 `aliquot/` uses arbitrary-precision Python `int`, exact division, and exhaustive trial factorization. The default per-call work budget is 2,000,000 candidate tests/successful divisions. A budget failure raises `ComputationLimit`; the CLI exits nonzero with no partial JSON. This is **unresolved**, not a probable-prime result or evidence of divergence. The one-step C6 census retains its separate inclusive source-bound cap of 1,000,000; the two-adic/two-step census is capped at 100,000. Named regeneration/core-restoration traces use 64 steps and a 1,000,000 source-term cap, with explicit unresolved statuses for limits. A driver exit settles only that driver's retention, not the full orbit's fate. Large integer values and rational numerators/denominators in JSON use decimal strings. Python's default decimal text-conversion safety limit remains enabled; the integer API is not restricted by that text limit.
+
+The backward census has a separate **target** cap of 1,000,000. Multiplicative least-factor and independent additive sieves exhaust every smaller predecessor, and a second core/prime enumeration verifies the complete family representation set. It does not classify larger predecessors, extend orbits, or derive asymptotic claims from finite frequencies.
 
 ## Browser architecture and larger values
 

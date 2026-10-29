@@ -7,7 +7,29 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–07 and the literature audit. It
+This is the reading guide for notebooks 01–13 and the literature audit.
+[Notebook 08](EXPONENT-VECTORS.md) adds an exponent-vector research program:
+convex growth regions, cancellation orthogonality, exact obstructions to simple
+energies, modular divisor-box combinatorics, and certified Lehmer/control traces.
+[Notebook 09](SUPPLIER-RENEWAL.md) proves a guarded two-step 28-core return,
+then exhibits exact guard failure when a retained supplier's exponent changes
+parity. [Notebook 10](PARITY-HANDOFF.md) supplies a controlled replacement and
+an actual return of the original supplying exponent, then shows that the full
+handoff guard still fails. It also excludes a congruence-only repair of the
+specified old-supplier return, while preserving actual prime predecessors.
+[Notebook 11](BACKWARD-COVERAGE.md) tests backward exclusions: an explicit
+adaptation of Luca–Pomerance's collision method supplies positive-density
+coverage by smaller predecessors, but neither that argument nor the complete
+million-target census forces a least escaping seed into a covered class.
+[Notebook 12](ANCESTRY-BARRIER.md) proves that every fixed-depth ancestry/forward
+extension eliminates only a density-zero part of the direct roots. It separates
+that limitation from genuine forward coalescence and from infinite survival.
+[Notebook 13](BOUNDARY-OUTFLOW.md) translates boundary outflow into exits,
+returns, and still-open excursions. It derives fixed-time and fixed-scale
+first-passage corollaries, separates unrelated all-source inflow from actual
+returning paths, and keeps starting labels when paths merge. It supplies no
+same-label bound across indefinitely many fences.
+None closes the remaining whole-orbit obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
 does not present them as new changes in PR #6. PR #5 was site presentation only.
@@ -79,7 +101,57 @@ not a replacement for those hypotheses.
 | [07, recovery refinements](RECOVERY.md) | Recovery can land in a proper multiple of perfect 28, guaranteeing another growing step. An enlarged composite input class has exact corrected transport. | The perfect-core endpoint is outside its entry class; the composite class also fails renewal. |
 | [07, P](RECOVERY.md) | An eventually periodic schedule of arbitrary fixed cores with coprime prime cofactors cannot escape, even through deficient steps. | Aperiodic switching and composite cofactors remain. Periodic aliquot cycles are allowed. |
 | [07, Q](RECOVERY.md) | An escaping finite-core prime itinerary needs an expansive cycle in its recurrent transition graph. | The graph cycle need not occur consecutively, be repeatable, or be sufficient for escape. |
-| [07, supporting constraints](RECOVERY.md) | A least escaping seed is abundant and has no smaller abundant predecessor. Large primes must be sufficiently numerous to overcome a fixed deficiency margin in the small-prime part. | Neither a predecessor-covering theorem nor the required deficiency margin is established along every orbit. |
+| [07, supporting constraints](RECOVERY.md) | A least escaping seed is abundant and has no smaller abundant predecessor. Large primes must be sufficiently numerous to overcome a fixed deficiency margin in the small-prime part. | Neither universal predecessor coverage nor the required deficiency margin is established along every orbit. |
+
+The [exponent-vector follow-up](EXPONENT-VECTORS.md) adds:
+
+| Track | Established finding | Boundary that remains |
+| --- | --- | --- |
+| Geometry | Abundant vectors are integer points in a convex superlevel region; the extra successor-exponent vector is orthogonal to the absolute supply deficit. Exact small paths exclude global positive linear nonincrease and global convex strict stepwise descent. | The growth region is not invariant; piecewise proper return heights are unproved. |
+| Combinatorics | Proper divisors form a weighted exponent box; modular convolution and binary geometric sums compute exact residues without expanding the source. | Prime identities and cancellation matter; residue/shape projections are not autonomous. |
+| Lehmer/control patterns | Default prefixes of 126,130,206,162,160 steps extend to 348,130,231,167,189 under a larger budget. The latter certify 276's 28-driver loss at edge 169 and 966's at edge 172. | All frontiers are factorization-limited, not divergent. Permanent 28-driver retention is false for those two seeds; terminating controls exhibit long growth too. |
+| Computational scale | A Lucas-certified Pollard--Brent engine extends this repository's old prefixes; symbolic trillion-exponent modular calculations avoid enormous expanded integers. | Sparse factoring is slightly more work in the paired Lehmer aggregate; encoding alone does not remove factorization complexity. |
+
+The [supplier-renewal follow-up](SUPPLIER-RENEWAL.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 09, R | For M>2, the universal implication R≡−1 mod M ⇒ M divides σ(R) holds exactly when M divides 24. The proof imports Dirichlet for necessity. | This classifies one residue template, not all possible modular/factorization guards; 7-supply is not automatic. |
+| 09, S | If u is odd, u≡−1 mod7, 7 divides σ(u), and 13 exactly divides T(u), then 28u has a two-step first return to that clean-28 residue phase with gain >15/13. | 1987→1989→4563 under T retains supplier 13 but changes its exponent 1→2, losing 7-supply. The returned guard is not invariant. |
+| 09, bounded return tests | Supply columns and complete first-return blocks retain losses and censoring. At index 171 in the 276 trace, the first A7 return loses value after 56 steps; no profitable checkpoint exists within 64. | That source actually recovers above its checkpoint after 142 steps. Neither a universal recovery bound nor universal recovery is established. |
+
+The [parity-aware handoff follow-up](PARITY-HANDOFF.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 10, T | For a fixed coprime core and one prime parameter, CRT/Dirichlet force specified valuations at finitely many primes not dividing the affine coefficients. | This controls one image, not its divisor sums or subsequent images; excluded core-overlapping primes and composite corrections matter. |
+| 10, U | A fresh unitary41 can replace13 when cancellation changes its exponent1→2; the guarded two-step residue return has gain >126645/90077. | At the displayed parameter77141, the endpoint loses both13 and7-supply. |
+| 10, V | A fresh181 supplies both7 and13. With the explicit tail condition13∤σ(R), the two-step return restores the old13 exponent to1 and gains >41565/30589. Composite cofactors are allowed. | The restored supplier does not restore the entire guard; the next middle cofactor can be a prime supplying no7. Infinitely many entries to this stronger tail-guarded class are not asserted. |
+| 10, W | In any reduced prime-parameter refinement fixing finitely many first-image exponents, a fresh unitary supplier can force all those exponents to remain unchanged at the next image. | This rules out a finite congruence-only guarantee of the old13 restoration, not factorization-aware guards or a different supplier/return phase. |
+
+The [backward-coverage feasibility pass](BACKWARD-COVERAGE.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 11, X | Adapting Luca–Pomerance's smooth-stratified collision estimate to bounded-abundancy sources gives positive lower density of abundant N=s(Cp)>Cp with abundant C≤√N and coprime prime p. | This is an adaptation of existing analytic machinery, not a novelty claim; no exceptional least seed is forced into the covered set. |
+| 11, bounded census | Through target1000000, the square-root-core family covers58896 of247545 abundant targets; all smaller predecessors cover104107. Representations and distinct sources are checked separately. | Every Lehmer-five seed has no smaller direct predecessor. The same is true of terminating/cyclic controls; uncovered is not escape. No larger-predecessor or multistep exclusion is inferred. |
+
+The [ancestry-barrier follow-up](ANCESTRY-BARRIER.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 12, root accounting | Boundary outflow and image collisions force at least floor(X/12)−floor(X/16) abundant targets through X to have no smaller direct predecessor. | The multiples of12 used in counting are unused sources, not identified root targets. Larger predecessors remain allowed. |
+| 12, Y | For every fixed ancestry depth h, newly excluded direct roots number at most the sum of fixed-prefix growth exceptions at depths2…h, hence o(X). Fixed forward checks still leave at least X/48−o(X) survivors. | Intermediates are unrestricted, but the theorem does not cover general forward coalescence. An unbounded-depth diagonal corollary assigns each seed only finitely many tests. |
+| 12, Z | Proposition X gives positive density of abundant least-preimage sources with no smaller shared successor, even after fixed forward growth tests. | This is an immediate corollary, not a new collision theorem; later or asynchronous mergers remain possible. No intersection with the ancestry-root class is proved. |
+
+The [boundary-outflow follow-up](BOUNDARY-OUTFLOW.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 13, excursion accounting | Immediate exits that return or repeat outside by step h are among the e_h(B) growth exceptions. For fixed h, the fraction of exits still open tends to 1 as B grows. | A direct corollary of the valid Erdős theorem, not uniform-in-time control; universal eventual termination/cycling is still compatible. |
+| 13, fixed-scale first passage | For each fixed enlargement factor, all but o(B) immediate exit starts reach the higher fence before returning or cycling in the band. | A deduction from small-prime persistence and Davenport continuity, with no effective rate. The inherited, merger-weighted cohort is not a fresh population at the next fence. |
+| 13, incoming sources | Removing target1 makes all-source inflow finite, with source ceiling (B−1)². Distinct semiprime sources give at least P(P−1)/2−B incoming edges, where P counts primes through floor((B−1)/2). | The prime number theorem makes this exceed every linear bound eventually, but these incoming sources need not be on outgoing paths. |
+| 13, labelled balance | Outward minus inward crossings equals currently-outside starting labels. Actual seeds126 and174 share one return edge at fence174. | Unique-edge counts lose merger multiplicity; remaining outside one fence may mean a cycle. No fixed finite cohort is proved to reach arbitrarily high fences. |
 
 ## 3. The strongest statements, with their quantifiers
 
@@ -184,6 +256,8 @@ arbitrary composites.
 | Keeping deficiency and the 4u shape is enough. | 2764→2080→3212→3004: 3212 is still deficient with v₂=2, but loses the required divisibility by 160 at its successor. |
 | Large primes themselves force decline. | s(6p)=6p+12 for every prime p>3. |
 | Primitive divisors of σ(n) enter s(n). | If q|σ(n) and q∤n, then q∤s(n), because s(n)≡−n modulo q. |
+| Retaining the supplying prime preserves its supply. | 1989=3²·13·17 maps under T to 4563=3³·13²: cancellation at 13 changes σ(13)=14 to σ(13²)=183 and destroys its 7-supply. |
+| Detailed small-prime supply columns determine future supply. | 860 and 1340 have identical tested supply-block states and no target-prime ties; their successors 988 and 1516 have different 2-surplus status. |
 
 The retained-prime handoff has a real positive conclusion: under its guards,
 composite output blocks replace supplying primes. The [exact formula and
@@ -270,17 +344,28 @@ sources; infinitely many deficient runs has not been proved.
 The supporting constraints now written in [note 07](RECOVERY.md) add:
 
 1. N cannot have the form s(C)p+σ(C) for abundant C and prime p coprime to C,
-   because Cp would be a smaller escaping predecessor. No covering theorem
-   makes this a contradiction.
+   because Cp would be a smaller escaping predecessor. The positive-density
+   covering argument in note11 is not universal and does not give a contradiction.
 2. If the small-prime part d has σ(d)/d≤2−ε, then abundance of n=dr, with
    t distinct remaining primes all exceeding B, requires
    `(2−ε)(1+1/B)^t>2`. The fixed deficiency margin is essential and is not
    supplied by prime-support escape.
 
-The concrete narrower target is to exclude **all** finite-core coprime-prime
+An earlier narrower target was to exclude **all** finite-core coprime-prime
 tails. J, P, and Q settle restricted cases; aperiodic switching with expansive
 cycles remains. Even a proof of that narrower target would leave unbounded
-cores and more general composite factorizations outside it.
+cores and more general composite factorizations outside it. Supplier-circuit
+expansion is now parked. The subsequent backward feasibility pass clears the
+distinct-image density gate using established machinery, but stops at the
+missing least-seed coverage implication rather than enlarging the census.
+Note12 subsequently proves that any fixed-depth ancestry/forward extension
+still leaves positive-density candidates. This is a scoped limitation, not a
+ban on all finite certificates or on arithmetic coalescence arguments.
+Note13 makes the related boundary obstruction explicit: even fixed-scale
+first-passage success for almost all exits does not control the inherited
+cohort across infinitely many fences. All-source inflow is not returning
+traffic, and merging requires retained seed labels. No new same-seed mechanism
+is supplied by this accounting.
 
 A complete proof still needs an orbit-wise bound, a well-founded decreasing
 quantity, or another contradiction that covers arbitrary actual trajectories.
@@ -334,6 +419,10 @@ would simply restate the missing theorem.
   and [03](REGENERATION.md). The author is **D. Villamizar**.
 - Lenstra's arbitrary-length finite increasing prefixes, reproduced by Erdős
   (1976), already prevent treating long finite survival as a breakthrough.
+  Erdős's valid fixed-depth almost-all abundant-growth theorem supplies note12.
+  His general decreasing/upper-control claim must not be imported; Pomerance's
+  2020 lecture records its withdrawal. Note12 uses only the proved small-prime
+  persistence argument and the classical continuous abundancy distribution.
 - Euler-product divergence and Dirichlet's progression theorem supply the
   finite amplification families; they are imported, not computationally proved.
 - Classical S-unit finiteness supplies K. Evertse (1984) already provides
@@ -345,15 +434,22 @@ would simply restate the missing theorem.
   ruled out. The [literature audit](LITERATURE.md) records this distinction,
   different hypotheses in related work, and unchecked leads such as Luca's
   exact theorem.
+- Luca–Pomerance (2015) already prove positive-density even aliquot values and
+  state a fixed-progression extension. Note11 adapts their collision proof,
+  explicitly replacing its deficiency bounds; the later squarefreeness lemma
+  and normal-order inputs are essential. The census does not prove these
+  analytic estimates or establish novelty.
 - The Erdős 193 Gaussian-walk proof motivated exact valuation bookkeeping,
   not a transferable aliquot contradiction. Its all-pairs identity is absent
   here; its separate Lean build was not rerun by this project.
 
 ### Reproducible evidence, not proof premises
 
-Python 3.11+ exact integers and proven trial factorization are authoritative.
-Additive divisor sieves and divisor-pair enumeration provide algorithmically
-independent checks. Factorization budget failure remains unresolved; it is
+Python 3.11+ exact integers and proven factorizations are authoritative.
+The original engine uses trial division; notebook 08 adds bounded Pollard--Brent
+with complete n-1 Lucas primality certificates. Passing a Miller--Rabin screen
+alone never certifies a prime. Additive divisor sieves, divisor-pair/divisor-box
+enumeration, and separate certificate replay provide independent checks. Factorization budget failure remains unresolved; it is
 never replaced by a probable-prime assumption. Persisted report integers and
 rational components are exact decimal strings.
 
@@ -366,8 +462,37 @@ rational components are exact decimal strings.
 | [Factor-transport tests](../tests/test_block_transport.py) | Bounded identity checks, prime-parameter cases, and independently checked named handoffs. |
 | [Recovery tests](../tests/test_recovery.py) | Exact rebounds, failed closure, affine obstructions, composite corrections, and CRT-gap illustrations. |
 | [Synthesis tests](../tests/test_synthesis.py) | Supporting constraints, the 34-step handoff continuation, and the previously discussed bounded perfect-target searches. |
+| [Exponent-vector reports](EXPONENT-VECTORS.md#5-reproduction-and-prioritized-next-work) | Census through 10000; five Lehmer seeds and six controls, default 256-step and extended 512-step caps; separate work budgets. Both artifacts have full prime/edge certificates and deterministic reproduction tests. |
 
-Source caps apply to **sources**, not already known successors. Crossing a cap
+The [supplier-renewal report](results/supplier-renewal.json) replays the extended
+vector artifact before deriving 1296 unique-source diagnostics, first returns
+within 64 edges, and separate 8/32/64-edge recovery tests. Its small census covers
+sources and guarded-family cofactors through 100000, with independent divisor
+sums. Reproduce with `python3 -m aliquot renewal --compact`; reconstruct every
+field with `python3 -m aliquot verify-renewal research/results/supplier-renewal.json`.
+
+The [parity-handoff report](results/supplier-handoff.json) has independently
+checked named replacement/round-trip blocks and all 21 necessary congruence
+candidates with prime parameter at most1000000. Three are admitted prime
+parameters; none renews the full41 guard. Named controls are separate from
+that bounded cohort. An extra CRT construction illustrates the saturation
+obstruction without claiming its least residue is prime. Reproduce with
+`python3 -m aliquot handoff --compact`.
+
+The [backward-coverage report](results/backward-coverage.json) instead fixes a
+**target** cap1000000, exhausts all smaller sources, and independently verifies
+the core/prime representation sets. It records exact moments, distinct targets,
+duplicate-source representations, nested coverage gaps, and unresolved-orbit
+controls without continuing those orbits. Reproduce with
+`python3 -m aliquot backward --compact`.
+
+The [ancestry regressions](../tests/test_ancestry.py) check exact root accounting,
+all depth1–4 paths from seeds1–1000 (including excursions beyond1000), the
+minimum-path charging inequalities, named mergers, and abstract countermodels.
+They have a separate100000 encountered-source cap, no new report/CLI, and do
+not computationally prove any density statement.
+
+In the forward experiments, source caps apply to **sources**, not already known successors. Crossing a cap
 is unresolved continuation, not divergence. The census frequencies are not
 orbit survival probabilities. A read-only AI consolidation audit checked this
 summary and the supporting constraints against the notes; its two scope/wording
