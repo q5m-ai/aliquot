@@ -1,4 +1,4 @@
-# 14. A maximum-based contradiction attempt
+# 15. A maximum-based contradiction attempt
 
 **Outcome:** assuming every aliquot orbit is bounded gives a genuine maximum
 for each orbit and for each fixed finite collection of seeds. We tried to

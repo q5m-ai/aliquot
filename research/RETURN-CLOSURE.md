@@ -1,4 +1,4 @@
-# 15. Trying to close the return condition: finite relays are not renewal
+# 16. Trying to close the return condition: finite relays are not renewal
 
 **Outcome:** no closed increasing-return class, contradiction, or escaping
 aliquot orbit was obtained. This follow-up makes a stronger, scoped deduction:
@@ -16,14 +16,14 @@ A separate construction does force one genuinely fresh replacement supplier,
 but loses the prime-cofactor hypothesis used to construct it. We have not
 proved indefinitely repeated replacement.
 
-[Note 16](COMPOSITE-HANDOFF.md) advances this handoff through a composite residual:
+[Note 17](COMPOSITE-HANDOFF.md) advances this handoff through a composite residual:
 an exact orbit succeeds twice. Neutral replacements have a decreasing supplier
 budget; prime-tagged powered residuals permit arbitrarily large new suppliers
 without residual primality. Those added shapes still fail to renew, and a
 finite-menu obstruction preserves actual prime predecessors. No perpetual
 replacement is obtained.
 
-This extends the attempt in [note 14](MAXIMUM-CONTRADICTION.md), using the
+This extends the attempt in [note 15](MAXIMUM-CONTRADICTION.md), using the
 existing recovery inequality and CRT/Dirichlet supply-insertion method from
 [notes 07](RECOVERY.md) and [10](PARITY-HANDOFF.md). It does not claim historical
 novelty. Written deductions, finite arithmetic checks, and conjectural closure
@@ -54,7 +54,7 @@ Scaling proper divisors gives s(m)/m >= s(160)/160 = 109/80. Since u > 1,
 
 The desired missing step was to ensure a later, larger return to X0, not merely
 (1). The full class fails that property: 844 belongs to X0, but its terminating
-orbit has no later larger member of X0, as verified in note 14. A successful
+orbit has no later larger member of X0, as verified in note 15. A successful
 repair must select a smaller class or admit other phases.
 
 ### A factorization restriction hidden in the entry condition

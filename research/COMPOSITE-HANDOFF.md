@@ -1,4 +1,4 @@
-# 16. Beyond the first fresh supplier: composite residuals and their guards
+# 17. Beyond the first fresh supplier: composite residuals and their guards
 
 **Outcome:** the fresh-supplier approach advances past one replacement, but
 still does not close. An exactly verified orbit makes **two successive fresh
@@ -9,7 +9,7 @@ a written construction permits **arbitrarily large replacement suppliers** with
 powered composite residuals. Its output shape still does not regenerate.
 
 The distinction matters: compositeness itself is not an obstruction. The gap
-in [note 15](RETURN-CLOSURE.md) is the lack of control of the residual's divisor
+in [note 16](RETURN-CLOSURE.md) is the lack of control of the residual's divisor
 sum. This note gives both neutral and nonneutral control, and precise failures
 of their powered input shapes. A separate theorem keeps actual prime
 predecessors while blocking any prescribed finite menu of fresh replacements.
@@ -369,7 +369,7 @@ those members either.
 ## 5. A finite replacement menu can be blocked with prime predecessors intact
 
 Fix the first supplying prime r and any reduced refinement q=a modulo K of
-the prime-q construction in note 15. Thus q=-1 modulo 800 and r occurs to
+the prime-q construction in note 16. Thus q=-1 modulo 800 and r occurs to
 exponent one in
 
 \[
