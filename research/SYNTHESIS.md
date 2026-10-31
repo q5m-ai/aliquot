@@ -7,7 +7,8 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–13 and the literature audit.
+This is the reading guide for notebooks 01–14, the composite-renewal follow-up,
+and the literature audit.
 [Notebook 08](EXPONENT-VECTORS.md) adds an exponent-vector research program:
 convex growth regions, cancellation orthogonality, exact obstructions to simple
 energies, modular divisor-box combinatorics, and certified Lehmer/control traces.
@@ -29,6 +30,23 @@ returns, and still-open excursions. It derives fixed-time and fixed-scale
 first-passage corollaries, separates unrelated all-source inflow from actual
 returning paths, and keeps starting labels when paths merge. It supplies no
 same-label bound across indefinitely many fences.
+[Notebook 14](MINIMUM-ESCAPE.md) deletes a prime directly from a least escaping
+seed to obtain a resolved smaller companion. Exact divisibility transport has
+a narrow perfect-core exception. A CRT/Dirichlet lift of Lenstra's finite
+supplier chain produces arbitrarily long amplified blocks above any fixed
+core, including a terminating companion; uniform error bounds fail. The tested
+valuation-budget repairs also replenish without bound. No seed-dependent
+global comparison or least-seed contradiction is obtained.
+The [composite-renewal follow-up](COMPOSITE-RENEWAL.md) obtains an actual
+full return to a `160`-core prime-entry guard, then proves that a fixed supplier
+bridge consumes a finite divisibility budget. A composite exchange reaches a
+quadruple-perfect growing core, but its new unitarity guard need not persist.
+Nonempty finite unions of unitary-core classes (cores greater than one) with
+arbitrary complementary remainders are not invariant; reduced residue refinements of the stated supplying classes
+do not repair that result. Equal-valuation retention and its composite failure
+are derived separately. These scoped obstructions do not say every individual
+orbit leaves a finite core list, or exclude changing, factorization-aware
+suppliers and variable-time returns.
 None closes the remaining whole-orbit obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
@@ -103,6 +121,16 @@ not a replacement for those hypotheses.
 | [07, Q](RECOVERY.md) | An escaping finite-core prime itinerary needs an expansive cycle in its recurrent transition graph. | The graph cycle need not occur consecutively, be repeatable, or be sufficient for escape. |
 | [07, supporting constraints](RECOVERY.md) | A least escaping seed is abundant and has no smaller abundant predecessor. Large primes must be sufficiently numerous to overcome a fixed deficiency margin in the small-prime part. | Neither universal predecessor coverage nor the required deficiency margin is established along every orbit. |
 
+The [composite-renewal follow-up](COMPOSITE-RENEWAL.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| Composite-input handoff | Any fixed supplying factor admits infinitely many prime-parameter inputs with one fresh unitary supplier in the output. | The parameter cannot be selected again on the already fixed orbit. |
+| Full prime-entry return | An exact growing two-step block restores the original prime-input shape and `800`-supply. A fixed supplier's affine return consumes an integer divisibility budget. | The displayed next cofactor loses the guard; changing suppliers and composite remainders are not ruled out. |
+| Composite phase exchange | The block `3^3*7^3` transforms into `189` times an actual divisor-sum expression; `160*189` is quadruple-perfect. | The output must still be coprime to the new core; ordinary divisibility does not ensure it. |
+| Finite unitary-core theorem | Every nonempty finite union of whole unitary-core classes (cores greater than one) has an actual one-step exit, even with arbitrary composite remainders. The stated `160`-supplier version also excludes finite reduced residue refinements. | Not a theorem that every orbit exits; additional arithmetic guards and variable-time returns remain. |
+| Non-strict retention and finite menus | Equal-valuation retention works for prime active blocks but can fail on supplied composites. A finite complement-local menu guarantees a unitary block for every active prime only if it contains an inherited stable block. | Does not exclude selection depending on the realized active block or unbounded fresh supplier choices. |
+
 The [exponent-vector follow-up](EXPONENT-VECTORS.md) adds:
 
 | Track | Established finding | Boundary that remains |
@@ -152,6 +180,15 @@ The [boundary-outflow follow-up](BOUNDARY-OUTFLOW.md) adds:
 | 13, fixed-scale first passage | For each fixed enlargement factor, all but o(B) immediate exit starts reach the higher fence before returning or cycling in the band. | A deduction from small-prime persistence and Davenport continuity, with no effective rate. The inherited, merger-weighted cohort is not a fresh population at the next fence. |
 | 13, incoming sources | Removing target1 makes all-source inflow finite, with source ceiling (B−1)². Distinct semiprime sources give at least P(P−1)/2−B incoming edges, where P counts primes through floor((B−1)/2). | The prime number theorem makes this exceed every linear bound eventually, but these incoming sources need not be on outgoing paths. |
 | 13, labelled balance | Outward minus inward crossings equals currently-outside starting labels. Actual seeds126 and174 share one return edge at fence174. | Unique-edge counts lose merger multiplicity; remaining outside one fence may mean a cycle. No fixed finite cohort is proved to reach arbitrarily high fences. |
+
+The [minimum-seed contradiction attempt](MINIMUM-ESCAPE.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 14, prime-deleted companion | For abundant n, s(n/p) divides s(n) exactly when p occurs once and n/p is perfect. The additive companion error can change sign and has unbounded normalized second-step amplification even above the fixed terminating core 12. | Excludes literal divisor transport and the tested uniform error bound, not every seed-dependent comparison. |
+| 14, fixed-core prime lifting | For any D>1, finite length L and gain G>1, infinitely many prime p make the actual orbit from Dp grow by a factor >G on the L steps after its first image. The suppliers can use fresh primes above any cutoff. | Uses Lenstra's finite-chain mechanism, Euler products, CRT and Dirichlet. Different lengths/gains may require different primes; no one seed or infinite budget is obtained. |
+| 14, prime-checkpoint budget | The actual block 6*683 → 6*685 → 6*971 preserves the clean 6-core and raises v₃(p+1) from 2 to 5 between prime checkpoints. | Rejects that monotone checkpoint rank; it is not an escaping orbit. Prime checkpoints need not recur in an arbitrary orbit. |
+| 14, unbounded reset | For arbitrary K,L, root lifting, CRT, and Dirichlet give infinitely many growing clean-6 edges q² → q²+2q+2 at the cofactor level. The tag v₃(u+1) rises from 0 to at least L, and actual supply v₃(σ(u)) from 1 to at least K. | Different resets may use different seeds. The output cofactor is not asserted prime; no infinite reset sequence, other-rank obstruction, or novelty is established. |
 
 ## 3. The strongest statements, with their quantifiers
 
