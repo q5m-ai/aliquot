@@ -7,7 +7,7 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–13 and the literature audit.
+This is the reading guide for notebooks 01–14 and the literature audit.
 [Notebook 08](EXPONENT-VECTORS.md) adds an exponent-vector research program:
 convex growth regions, cancellation orthogonality, exact obstructions to simple
 energies, modular divisor-box combinatorics, and certified Lehmer/control traces.
@@ -29,6 +29,13 @@ returns, and still-open excursions. It derives fixed-time and fixed-scale
 first-passage corollaries, separates unrelated all-source inflow from actual
 returning paths, and keeps starting labels when paths merge. It supplies no
 same-label bound across indefinitely many fences.
+[Notebook 14](MINIMUM-ESCAPE.md) deletes a prime directly from a least escaping
+seed to obtain a resolved smaller companion. Exact divisibility transport has
+a narrow perfect-core exception. A CRT/Dirichlet lift of Lenstra's finite
+supplier chain produces arbitrarily long amplified blocks above any fixed
+core, including a terminating companion; uniform error bounds fail. The tested
+valuation-budget repairs also replenish without bound. No seed-dependent
+global comparison or least-seed contradiction is obtained.
 None closes the remaining whole-orbit obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
@@ -152,6 +159,15 @@ The [boundary-outflow follow-up](BOUNDARY-OUTFLOW.md) adds:
 | 13, fixed-scale first passage | For each fixed enlargement factor, all but o(B) immediate exit starts reach the higher fence before returning or cycling in the band. | A deduction from small-prime persistence and Davenport continuity, with no effective rate. The inherited, merger-weighted cohort is not a fresh population at the next fence. |
 | 13, incoming sources | Removing target1 makes all-source inflow finite, with source ceiling (B−1)². Distinct semiprime sources give at least P(P−1)/2−B incoming edges, where P counts primes through floor((B−1)/2). | The prime number theorem makes this exceed every linear bound eventually, but these incoming sources need not be on outgoing paths. |
 | 13, labelled balance | Outward minus inward crossings equals currently-outside starting labels. Actual seeds126 and174 share one return edge at fence174. | Unique-edge counts lose merger multiplicity; remaining outside one fence may mean a cycle. No fixed finite cohort is proved to reach arbitrarily high fences. |
+
+The [minimum-seed contradiction attempt](MINIMUM-ESCAPE.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 14, prime-deleted companion | For abundant n, s(n/p) divides s(n) exactly when p occurs once and n/p is perfect. The additive companion error can change sign and has unbounded normalized second-step amplification even above the fixed terminating core 12. | Excludes literal divisor transport and the tested uniform error bound, not every seed-dependent comparison. |
+| 14, fixed-core prime lifting | For any D>1, finite length L and gain G>1, infinitely many prime p make the actual orbit from Dp grow by a factor >G on the L steps after its first image. The suppliers can use fresh primes above any cutoff. | Uses Lenstra's finite-chain mechanism, Euler products, CRT and Dirichlet. Different lengths/gains may require different primes; no one seed or infinite budget is obtained. |
+| 14, prime-checkpoint budget | The actual block 6*683 → 6*685 → 6*971 preserves the clean 6-core and raises v₃(p+1) from 2 to 5 between prime checkpoints. | Rejects that monotone checkpoint rank; it is not an escaping orbit. Prime checkpoints need not recur in an arbitrary orbit. |
+| 14, unbounded reset | For arbitrary K,L, root lifting, CRT, and Dirichlet give infinitely many growing clean-6 edges q² → q²+2q+2 at the cofactor level. The tag v₃(u+1) rises from 0 to at least L, and actual supply v₃(σ(u)) from 1 to at least K. | Different resets may use different seeds. The output cofactor is not asserted prime; no infinite reset sequence, other-rank obstruction, or novelty is established. |
 
 ## 3. The strongest statements, with their quantifiers
 
