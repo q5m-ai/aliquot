@@ -7,7 +7,8 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–14 and the literature audit.
+This is the reading guide for notebooks 01–14, the composite-renewal follow-up,
+and the literature audit.
 [Notebook 08](EXPONENT-VECTORS.md) adds an exponent-vector research program:
 convex growth regions, cancellation orthogonality, exact obstructions to simple
 energies, modular divisor-box combinatorics, and certified Lehmer/control traces.
@@ -36,6 +37,16 @@ supplier chain produces arbitrarily long amplified blocks above any fixed
 core, including a terminating companion; uniform error bounds fail. The tested
 valuation-budget repairs also replenish without bound. No seed-dependent
 global comparison or least-seed contradiction is obtained.
+The [composite-renewal follow-up](COMPOSITE-RENEWAL.md) obtains an actual
+full return to a `160`-core prime-entry guard, then proves that a fixed supplier
+bridge consumes a finite divisibility budget. A composite exchange reaches a
+quadruple-perfect growing core, but its new unitarity guard need not persist.
+Nonempty finite unions of unitary-core classes (cores greater than one) with
+arbitrary complementary remainders are not invariant; reduced residue refinements of the stated supplying classes
+do not repair that result. Equal-valuation retention and its composite failure
+are derived separately. These scoped obstructions do not say every individual
+orbit leaves a finite core list, or exclude changing, factorization-aware
+suppliers and variable-time returns.
 None closes the remaining whole-orbit obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
@@ -109,6 +120,16 @@ not a replacement for those hypotheses.
 | [07, P](RECOVERY.md) | An eventually periodic schedule of arbitrary fixed cores with coprime prime cofactors cannot escape, even through deficient steps. | Aperiodic switching and composite cofactors remain. Periodic aliquot cycles are allowed. |
 | [07, Q](RECOVERY.md) | An escaping finite-core prime itinerary needs an expansive cycle in its recurrent transition graph. | The graph cycle need not occur consecutively, be repeatable, or be sufficient for escape. |
 | [07, supporting constraints](RECOVERY.md) | A least escaping seed is abundant and has no smaller abundant predecessor. Large primes must be sufficiently numerous to overcome a fixed deficiency margin in the small-prime part. | Neither universal predecessor coverage nor the required deficiency margin is established along every orbit. |
+
+The [composite-renewal follow-up](COMPOSITE-RENEWAL.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| Composite-input handoff | Any fixed supplying factor admits infinitely many prime-parameter inputs with one fresh unitary supplier in the output. | The parameter cannot be selected again on the already fixed orbit. |
+| Full prime-entry return | An exact growing two-step block restores the original prime-input shape and `800`-supply. A fixed supplier's affine return consumes an integer divisibility budget. | The displayed next cofactor loses the guard; changing suppliers and composite remainders are not ruled out. |
+| Composite phase exchange | The block `3^3*7^3` transforms into `189` times an actual divisor-sum expression; `160*189` is quadruple-perfect. | The output must still be coprime to the new core; ordinary divisibility does not ensure it. |
+| Finite unitary-core theorem | Every nonempty finite union of whole unitary-core classes (cores greater than one) has an actual one-step exit, even with arbitrary composite remainders. The stated `160`-supplier version also excludes finite reduced residue refinements. | Not a theorem that every orbit exits; additional arithmetic guards and variable-time returns remain. |
+| Non-strict retention and finite menus | Equal-valuation retention works for prime active blocks but can fail on supplied composites. A finite complement-local menu guarantees a unitary block for every active prime only if it contains an inherited stable block. | Does not exclude selection depending on the realized active block or unbounded fresh supplier choices. |
 
 The [exponent-vector follow-up](EXPONENT-VECTORS.md) adds:
 
