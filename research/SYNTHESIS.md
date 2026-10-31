@@ -7,7 +7,7 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–15 and the literature audit.
+This is the reading guide for notebooks 01–16 and the literature audit.
 [Notebook 08](EXPONENT-VECTORS.md) adds an exponent-vector research program:
 convex growth regions, cancellation orthogonality, exact obstructions to simple
 energies, modular divisor-box combinatorics, and certified Lehmer/control traces.
@@ -45,6 +45,15 @@ a smaller 12-bridge fails a separate return test. The relay's strict prime-squar
 supply rule cannot form a finite cycle. A separate construction forces a genuinely
 fresh supplier and renews a larger abundant-core guard once, but its output loses
 the prime-cofactor hypothesis. No perpetual renewal is proved.
+[Notebook 16](COMPOSITE-HANDOFF.md) carries the fresh handoff through a composite
+residual: an exact orbit makes two successive replacements. Neutral replacement
+forces a more-than-sixfold supplier decrease. A prime tag permits nonneutral,
+arbitrarily large fresh suppliers with powered residuals, but that input shape
+also has a proved nonrenewal subfamily. Another theorem blocks any prescribed
+finite replacement menu while preserving actual prime predecessors and the full
+core guard. Periodic prime bridges consume a finite 2-adic denominator budget,
+specializing the existing periodic-core obstruction. None supplies an invariant
+larger-return class.
 None closes the remaining whole-orbit obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
@@ -185,6 +194,16 @@ The [return-closure follow-up](RETURN-CLOSURE.md) adds:
 | 15, finite supplier relay | In every reduced refinement of p≡51 mod160, infinitely many prime entries4p retain exact bridge exponents v₂≥5 and v₅≥1 for any prescribed finite number of successors. | CRT/Dirichlet constructs different seeds as the horizon changes. This excludes a uniformly bounded return to the deficient class from those congruences, not all return mechanisms. |
 | 15, fresh handoff | CRT/Dirichlet force infinitely many prime q with a fresh unitary r in s(160q), preserving the full guard of the larger abundant-core class for one transition. | The output cofactor is necessarily composite; a checked example loses the guard at the next checkpoint despite returning to the same residue phase. |
 | 15, attempted repairs | The strict prime-square relay cannot cycle over a finite supplier set. Replacing160 by12 still guarantees recovery, but a clean prime bridge never renews the specified deficient class;1612 is a terminating counterexample to its larger-return property. | Actual generation of fresh suppliers, richer factorization guards, other phases, and unbounded return times remain uncontrolled. |
+
+The [composite-handoff follow-up](COMPOSITE-HANDOFF.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 16, composite continuation | The exact residual correction permits two successive fresh suppliers on one checked orbit, with three consecutive members of the full 160-core guard. | The fourth term loses that guard. This is one finite path, not a repeatability theorem. |
+| 16, neutral supplier budget | CRT/Dirichlet and neutral powers force a fresh unitary R, but any fresh handoff with R dividing s(v) has R<r/6. | Even hypothetical power-guard renewal could not make these neutral handoffs perpetual. Other handoffs are not excluded. |
+| 16, prime-tagged powered residuals | Adding a prime tag makes s(v)≡1 modR² and permits any target supplier R≡−1 mod800 outside a finite exclusion set, including arbitrarily large R>r. | No prime predecessor is asserted. An infinite subfamily exits with exact 3-exponent5, outside every universal tagged-power format; the 3-divisible example is a different phase from clean prime-q entries. |
+| 16, finite-menu obstruction | In every reduced refinement of the prime-q first-handoff progression, infinitely many prime entries block all fresh second-handoff candidates from a prescribed finite set, while retaining the old supplier and Z guard. | Other fresh primes, distributed prime-power supply, and factorization-dependent refinements are not excluded. |
+| 16, prime-bridge budget | A fixed period of m prime-semiprime-prime blocks consumes 4m units of a positive integer's 2-adic valuation per repetition. | This specializes note07's periodic-core obstruction; aperiodic suppliers and more general composite guards remain open. |
 
 ## 3. The strongest statements, with their quantifiers
 

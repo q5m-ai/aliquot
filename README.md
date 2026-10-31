@@ -4,7 +4,7 @@ A [q5m research](https://www.q5m.ai) project exploring aliquot sequences and the
 
 For positive integers, s(n) is the sum of the proper positive divisors of n. The conjecture asks whether every aliquot sequence eventually reaches 1 (then terminates at 0) or enters a cycle. Numerical experiments alone do not establish a proof or a divergent counterexample.
 
-**Start here:** [Research synthesis](research/SYNTHESIS.md) — the result map for notes 01–15, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
+**Start here:** [Research synthesis](research/SYNTHESIS.md) — the result map for notes 01–16, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
 
 ## Milestones
 
@@ -33,6 +33,8 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 15. **Research notebook 14 — maximum-based contradiction:** [orbit maxima, two-step peak exclusions, and failed closure repairs](research/MAXIMUM-CONTRADICTION.md). Assuming all orbits are bounded permits one maximum for a fixed finite cohort, not all seeds. No initial interval through B≥24 is forward-closed, although the resolved cohort through 24 has maximum 55; filling gaps adds new seeds. Exact terminating examples also refute divisibility monotonicity of orbit peaks and renewal of the tested recovery class. Nine bounded regressions check the arithmetic, not a contradiction or an escaping orbit.
 
 16. **Research notebook 15 — trying to close the return:** [finite prime-supplier relays and the remaining renewal gap](research/RETURN-CLOSURE.md). In every reduced congruence refinement of the prime-entry family, CRT and Dirichlet force any prescribed finite number of successors to retain a growing 160-core and avoid the deficient entry class. This excludes a uniformly bounded return guaranteed solely by those congruences, not unbounded-time or factorization-dependent returns. A full composite entry renews once, and a separate construction forces one genuinely fresh supplier to preserve an abundant core. Neither regenerates indefinitely. A 12-bridge alternative has a structural prime-bridge obstruction and a terminating counterexample. Eleven exact regressions support the finite examples. No indefinitely replenished mechanism or contradiction is established.
+
+17. **Research notebook 16 — composite fresh handoffs:** [two fresh replacements, a supplier budget, and a nonneutral construction](research/COMPOSITE-HANDOFF.md). An exact orbit makes two fresh handoffs through a composite residual. Neutral replacements force a more-than-sixfold supplier decrease; adding a prime tag permits arbitrarily large new suppliers without residual primality. Both powered formats have proved nonrenewal subfamilies. A finite replacement menu can be blocked while preserving actual prime predecessors and the full core guard; periodic prime bridges also have a finite denominator budget. Sixteen bounded regressions include independently checked edges and symbolic modular certificates. No perpetual renewal or conjecture solution is obtained.
 
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 

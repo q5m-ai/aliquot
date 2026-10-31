@@ -16,6 +16,13 @@ A separate construction does force one genuinely fresh replacement supplier,
 but loses the prime-cofactor hypothesis used to construct it. We have not
 proved indefinitely repeated replacement.
 
+[Note 16](COMPOSITE-HANDOFF.md) advances this handoff through a composite residual:
+an exact orbit succeeds twice. Neutral replacements have a decreasing supplier
+budget; prime-tagged powered residuals permit arbitrarily large new suppliers
+without residual primality. Those added shapes still fail to renew, and a
+finite-menu obstruction preserves actual prime predecessors. No perpetual
+replacement is obtained.
+
 This extends the attempt in [note 14](MAXIMUM-CONTRADICTION.md), using the
 existing recovery inequality and CRT/Dirichlet supply-insertion method from
 [notes 07](RECOVERY.md) and [10](PARITY-HANDOFF.md). It does not claim historical
