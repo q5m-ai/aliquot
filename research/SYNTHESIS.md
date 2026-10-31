@@ -7,7 +7,7 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–13 and the literature audit.
+This is the reading guide for notebooks 01–14 and the literature audit.
 [Notebook 08](EXPONENT-VECTORS.md) adds an exponent-vector research program:
 convex growth regions, cancellation orthogonality, exact obstructions to simple
 energies, modular divisor-box combinatorics, and certified Lehmer/control traces.
@@ -29,6 +29,13 @@ returns, and still-open excursions. It derives fixed-time and fixed-scale
 first-passage corollaries, separates unrelated all-source inflow from actual
 returning paths, and keeps starting labels when paths merge. It supplies no
 same-label bound across indefinitely many fences.
+[Notebook 14](MAXIMUM-CONTRADICTION.md) attempts the opposite contradiction:
+assume all orbits are bounded and challenge an actual orbit maximum. Abundance
+and two-step recovery exclude some peak shapes, but neither condition persists.
+It proves that no initial interval through B >= 24 is forward-closed, while the
+fully resolved cohort through 24 has the finite, non-interval closure with
+maximum 55. Orbit peaks also fail divisibility monotonicity. Expanding an
+interval enclosure is therefore not an escaping orbit.
 None closes the remaining whole-orbit obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
@@ -152,6 +159,14 @@ The [boundary-outflow follow-up](BOUNDARY-OUTFLOW.md) adds:
 | 13, fixed-scale first passage | For each fixed enlargement factor, all but o(B) immediate exit starts reach the higher fence before returning or cycling in the band. | A deduction from small-prime persistence and Davenport continuity, with no effective rate. The inherited, merger-weighted cohort is not a fresh population at the next fence. |
 | 13, incoming sources | Removing target1 makes all-source inflow finite, with source ceiling (B−1)². Distinct semiprime sources give at least P(P−1)/2−B incoming edges, where P counts primes through floor((B−1)/2). | The prime number theorem makes this exceed every linear bound eventually, but these incoming sources need not be on outgoing paths. |
 | 13, labelled balance | Outward minus inward crossings equals currently-outside starting labels. Actual seeds126 and174 share one return edge at fence174. | Unique-edge counts lose merger multiplicity; remaining outside one fence may mean a cycle. No fixed finite cohort is proved to reach arbitrarily high fences. |
+
+The [maximum-based contradiction attempt](MAXIMUM-CONTRADICTION.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 14, peak exclusions | An orbit maximum cannot be abundant; the existing recovery inequality also excludes 4q with prime q≡51 mod160 despite its initial decrease. | A different deficient or prime peak remains possible; the recovery input class does not regenerate. |
+| 14, interval obstruction | Every interval {0,…,B} with B≥24 has an outgoing aliquot edge, yet the complete closure of seeds1…24 is {0,…,24,36,55}. | Repeatedly filling gaps adds new seeds. Divergence of this enclosure algorithm does not imply escape of any original seed. |
+| 14, divisor repair failure | Exact terminating orbits have H(30)=259>172=H(60), although30 divides60. | One-step divisor inequalities cannot order whole-orbit maxima. No closed larger-return class or unbounded fixed cohort is proved. |
 
 ## 3. The strongest statements, with their quantifiers
 
