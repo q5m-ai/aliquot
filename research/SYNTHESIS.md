@@ -7,7 +7,7 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–14 and the literature audit.
+This is the reading guide for notebooks 01–15 and the literature audit.
 [Notebook 08](EXPONENT-VECTORS.md) adds an exponent-vector research program:
 convex growth regions, cancellation orthogonality, exact obstructions to simple
 energies, modular divisor-box combinatorics, and certified Lehmer/control traces.
@@ -36,6 +36,15 @@ It proves that no initial interval through B >= 24 is forward-closed, while the
 fully resolved cohort through 24 has the finite, non-interval closure with
 maximum 55. Orbit peaks also fail divisibility monotonicity. Expanding an
 interval enclosure is therefore not an escaping orbit.
+[Notebook 15](RETURN-CLOSURE.md) tries to repair that missing return condition.
+A finite prime-supplier relay can preserve a growing 160-core for any prescribed
+finite duration, even inside any reduced refinement of the original prime-entry
+progression. Consequently those congruences cannot guarantee a uniformly bounded
+return to the deficient entry class. An actual composite entry renews once;
+a smaller 12-bridge fails a separate return test. The relay's strict prime-square
+supply rule cannot form a finite cycle. A separate construction forces a genuinely
+fresh supplier and renews a larger abundant-core guard once, but its output loses
+the prime-cofactor hypothesis. No perpetual renewal is proved.
 None closes the remaining whole-orbit obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
@@ -167,6 +176,15 @@ The [maximum-based contradiction attempt](MAXIMUM-CONTRADICTION.md) adds:
 | 14, peak exclusions | An orbit maximum cannot be abundant; the existing recovery inequality also excludes 4q with prime q≡51 mod160 despite its initial decrease. | A different deficient or prime peak remains possible; the recovery input class does not regenerate. |
 | 14, interval obstruction | Every interval {0,…,B} with B≥24 has an outgoing aliquot edge, yet the complete closure of seeds1…24 is {0,…,24,36,55}. | Repeatedly filling gaps adds new seeds. Divergence of this enclosure algorithm does not imply escape of any original seed. |
 | 14, divisor repair failure | Exact terminating orbits have H(30)=259>172=H(60), although30 divides60. | One-step divisor inequalities cannot order whole-orbit maxima. No closed larger-return class or unbounded fixed cohort is proved. |
+
+The [return-closure follow-up](RETURN-CLOSURE.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 15, full entry guard | The deficient 4u recovery class requires gcd(u,105)=1 and v₂(σ(u))=2, restricting odd-exponent prime factors. The path7700684→5775520→7869524 renews the full class once. | The next recovery endpoint11148600 loses the required valuation. One renewal is not closure. |
+| 15, finite supplier relay | In every reduced refinement of p≡51 mod160, infinitely many prime entries4p retain exact bridge exponents v₂≥5 and v₅≥1 for any prescribed finite number of successors. | CRT/Dirichlet constructs different seeds as the horizon changes. This excludes a uniformly bounded return to the deficient class from those congruences, not all return mechanisms. |
+| 15, fresh handoff | CRT/Dirichlet force infinitely many prime q with a fresh unitary r in s(160q), preserving the full guard of the larger abundant-core class for one transition. | The output cofactor is necessarily composite; a checked example loses the guard at the next checkpoint despite returning to the same residue phase. |
+| 15, attempted repairs | The strict prime-square relay cannot cycle over a finite supplier set. Replacing160 by12 still guarantees recovery, but a clean prime bridge never renews the specified deficient class;1612 is a terminating counterexample to its larger-return property. | Actual generation of fresh suppliers, richer factorization guards, other phases, and unbounded return times remain uncontrolled. |
 
 ## 3. The strongest statements, with their quantifiers
 

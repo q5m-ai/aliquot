@@ -13,6 +13,10 @@ has a finite forward closure with maximum 55. Thus an indefinitely expanding
 *interval enclosure* is not evidence of an escaping orbit. No contradiction,
 divergent seed, proof/disproof, or historical novelty is claimed.
 
+The [return-closure follow-up](RETURN-CLOSURE.md) attempts to supply the missing
+renewal step. It obtains a finite-relay construction and a progression-wide
+obstruction to uniformly bounded returns, but still no infinite closure.
+
 Throughout, s(n) = sigma(n) - n for positive n. Stop at 0; s(0) is undefined.
 Here “acyclic” means an infinite orbit with no repeated positive value, not a
 finite path to 0. Such an infinite orbit tends to infinity: each finite set of
