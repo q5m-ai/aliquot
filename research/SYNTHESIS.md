@@ -7,7 +7,7 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–14, the composite-renewal follow-up,
+This is the reading guide for notebooks 01–17, the composite-renewal follow-up,
 and the literature audit.
 [Notebook 08](EXPONENT-VECTORS.md) adds an exponent-vector research program:
 convex growth regions, cancellation orthogonality, exact obstructions to simple
@@ -47,6 +47,31 @@ do not repair that result. Equal-valuation retention and its composite failure
 are derived separately. These scoped obstructions do not say every individual
 orbit leaves a finite core list, or exclude changing, factorization-aware
 suppliers and variable-time returns.
+[Notebook 15](MAXIMUM-CONTRADICTION.md) attempts the opposite contradiction:
+assume all orbits are bounded and challenge an actual orbit maximum. Abundance
+and two-step recovery exclude some peak shapes, but neither condition persists.
+It proves that no initial interval through B >= 24 is forward-closed, while the
+fully resolved cohort through 24 has the finite, non-interval closure with
+maximum 55. Orbit peaks also fail divisibility monotonicity. Expanding an
+interval enclosure is therefore not an escaping orbit.
+[Notebook 16](RETURN-CLOSURE.md) tries to repair that missing return condition.
+A finite prime-supplier relay can preserve a growing 160-core for any prescribed
+finite duration, even inside any reduced refinement of the original prime-entry
+progression. Consequently those congruences cannot guarantee a uniformly bounded
+return to the deficient entry class. An actual composite entry renews once;
+a smaller 12-bridge fails a separate return test. The relay's strict prime-square
+supply rule cannot form a finite cycle. A separate construction forces a genuinely
+fresh supplier and renews a larger abundant-core guard once, but its output loses
+the prime-cofactor hypothesis. No perpetual renewal is proved.
+[Notebook 17](COMPOSITE-HANDOFF.md) carries the fresh handoff through a composite
+residual: an exact orbit makes two successive replacements. Neutral replacement
+forces a more-than-sixfold supplier decrease. A prime tag permits nonneutral,
+arbitrarily large fresh suppliers with powered residuals, but that input shape
+also has a proved nonrenewal subfamily. Another theorem blocks any prescribed
+finite replacement menu while preserving actual prime predecessors and the full
+core guard. Periodic prime bridges consume a finite 2-adic denominator budget,
+specializing the existing periodic-core obstruction. None supplies an invariant
+larger-return class.
 None closes the remaining whole-orbit obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
@@ -189,6 +214,33 @@ The [minimum-seed contradiction attempt](MINIMUM-ESCAPE.md) adds:
 | 14, fixed-core prime lifting | For any D>1, finite length L and gain G>1, infinitely many prime p make the actual orbit from Dp grow by a factor >G on the L steps after its first image. The suppliers can use fresh primes above any cutoff. | Uses Lenstra's finite-chain mechanism, Euler products, CRT and Dirichlet. Different lengths/gains may require different primes; no one seed or infinite budget is obtained. |
 | 14, prime-checkpoint budget | The actual block 6*683 → 6*685 → 6*971 preserves the clean 6-core and raises v₃(p+1) from 2 to 5 between prime checkpoints. | Rejects that monotone checkpoint rank; it is not an escaping orbit. Prime checkpoints need not recur in an arbitrary orbit. |
 | 14, unbounded reset | For arbitrary K,L, root lifting, CRT, and Dirichlet give infinitely many growing clean-6 edges q² → q²+2q+2 at the cofactor level. The tag v₃(u+1) rises from 0 to at least L, and actual supply v₃(σ(u)) from 1 to at least K. | Different resets may use different seeds. The output cofactor is not asserted prime; no infinite reset sequence, other-rank obstruction, or novelty is established. |
+
+The [maximum-based contradiction attempt](MAXIMUM-CONTRADICTION.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 15, peak exclusions | An orbit maximum cannot be abundant; the existing recovery inequality also excludes 4q with prime q≡51 mod160 despite its initial decrease. | A different deficient or prime peak remains possible; the recovery input class does not regenerate. |
+| 15, interval obstruction | Every interval {0,…,B} with B≥24 has an outgoing aliquot edge, yet the complete closure of seeds1…24 is {0,…,24,36,55}. | Repeatedly filling gaps adds new seeds. Divergence of this enclosure algorithm does not imply escape of any original seed. |
+| 15, divisor repair failure | Exact terminating orbits have H(30)=259>172=H(60), although30 divides60. | One-step divisor inequalities cannot order whole-orbit maxima. No closed larger-return class or unbounded fixed cohort is proved. |
+
+The [return-closure follow-up](RETURN-CLOSURE.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 16, full entry guard | The deficient 4u recovery class requires gcd(u,105)=1 and v₂(σ(u))=2, restricting odd-exponent prime factors. The path7700684→5775520→7869524 renews the full class once. | The next recovery endpoint11148600 loses the required valuation. One renewal is not closure. |
+| 16, finite supplier relay | In every reduced refinement of p≡51 mod160, infinitely many prime entries4p retain exact bridge exponents v₂≥5 and v₅≥1 for any prescribed finite number of successors. | CRT/Dirichlet constructs different seeds as the horizon changes. This excludes a uniformly bounded return to the deficient class from those congruences, not all return mechanisms. |
+| 16, fresh handoff | CRT/Dirichlet force infinitely many prime q with a fresh unitary r in s(160q), preserving the full guard of the larger abundant-core class for one transition. | The output cofactor is necessarily composite; a checked example loses the guard at the next checkpoint despite returning to the same residue phase. |
+| 16, attempted repairs | The strict prime-square relay cannot cycle over a finite supplier set. Replacing160 by12 still guarantees recovery, but a clean prime bridge never renews the specified deficient class;1612 is a terminating counterexample to its larger-return property. | Actual generation of fresh suppliers, richer factorization guards, other phases, and unbounded return times remain uncontrolled. |
+
+The [composite-handoff follow-up](COMPOSITE-HANDOFF.md) adds:
+
+| Result | Established finding | Boundary that remains |
+| --- | --- | --- |
+| 17, composite continuation | The exact residual correction permits two successive fresh suppliers on one checked orbit, with three consecutive members of the full 160-core guard. | The fourth term loses that guard. This is one finite path, not a repeatability theorem. |
+| 17, neutral supplier budget | CRT/Dirichlet and neutral powers force a fresh unitary R, but any fresh handoff with R dividing s(v) has R<r/6. | Even hypothetical power-guard renewal could not make these neutral handoffs perpetual. Other handoffs are not excluded. |
+| 17, prime-tagged powered residuals | Adding a prime tag makes s(v)≡1 modR² and permits any target supplier R≡−1 mod800 outside a finite exclusion set, including arbitrarily large R>r. | No prime predecessor is asserted. An infinite subfamily exits with exact 3-exponent5, outside every universal tagged-power format; the 3-divisible example is a different phase from clean prime-q entries. |
+| 17, finite-menu obstruction | In every reduced refinement of the prime-q first-handoff progression, infinitely many prime entries block all fresh second-handoff candidates from a prescribed finite set, while retaining the old supplier and Z guard. | Other fresh primes, distributed prime-power supply, and factorization-dependent refinements are not excluded. |
+| 17, prime-bridge budget | A fixed period of m prime-semiprime-prime blocks consumes 4m units of a positive integer's 2-adic valuation per repetition. | This specializes note07's periodic-core obstruction; aperiodic suppliers and more general composite guards remain open. |
 
 ## 3. The strongest statements, with their quantifiers
 
