@@ -4,7 +4,7 @@ A [q5m research](https://www.q5m.ai) project exploring aliquot sequences and the
 
 For positive integers, s(n) is the sum of the proper positive divisors of n. The conjecture asks whether every aliquot sequence eventually reaches 1 (then terminates at 0) or enters a cycle. Numerical experiments alone do not establish a proof or a divergent counterexample.
 
-**Start here:** [Research synthesis](research/SYNTHESIS.md) — the result map for notes 01–19 and the composite-renewal follow-up, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
+**Start here:** [Research synthesis](research/SYNTHESIS.md) — the result map for notes 01–20 and the composite-renewal follow-up, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
 
 ## Milestones
 
@@ -43,6 +43,8 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 20. **Research notebook 18 — fixed-modulus escape and return tests:** [every proper residue set has an exit](research/RESIDUE-EXCURSIONS.md). For a set unchanged by negation, an exit can start an arbitrarily long actual excursion with any prescribed minimum gain per step. The seed depends on the horizon; neither an indefinitely growing orbit nor a bound on all orbits follows.
 
 21. **Research notebook 19 — after a 160-core prime return:** [the forced next factorization](research/PRIME-BRIDGE-RETURN.md) prevents consecutive prime–semiprime bridges with an individual supplier, even when the primes change. One fixed seed really does renew the guard by splitting a composite block, but never returns to the bridge-entry class and reaches zero in 115 steps.
+
+22. **Research note 20 — coalescence descent:** [a network-based proof attempt and its precise stopping point](research/COALESCENCE.md). Sharing a future with a smaller seed permits induction, but a universal merger mechanism is missing. CRT and Dirichlet rule out one-step shared-successor coverage by any fixed finite palette of coprime prime-cofactor templates. Aliquot records obstruct blanket one-step coverage even without factorization restrictions. Neither result excludes multistep mergers.
 
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 

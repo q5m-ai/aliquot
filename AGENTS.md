@@ -1,6 +1,8 @@
 # Aliquot research
 
 - This is a q5m research project about aliquot sequences and possible proof/disproof of the aliquot sequence conjecture. Do not claim a proof, disproof, or divergent sequence from a finite computation.
+- Drive research toward a proof or disproof. If the central argument is genuinely blocked, report the precise obstruction and stop for user input instead of accumulating distracting lemmas, minutiae, or larger censuses.
+- Use Astra at maximum reasoning for hard mathematical work, including delegated proof attempts and audits.
 - Keep exact arithmetic, explicit computation bounds, reproducible experiments, and independent verification separate from conjectural reasoning.
 - `site/` is the only served directory. Never serve the repository root, source research data, private configuration, or credentials.
 - Keep `favicon.svg` and `site/favicon.svg` identical; the root icon is for Paseo discovery.
