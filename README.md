@@ -4,7 +4,7 @@ A [q5m research](https://www.q5m.ai) project exploring aliquot sequences and the
 
 For positive integers, s(n) is the sum of the proper positive divisors of n. The conjecture asks whether every aliquot sequence eventually reaches 1 (then terminates at 0) or enters a cycle. Numerical experiments alone do not establish a proof or a divergent counterexample.
 
-**Start here:** [Research synthesis](research/SYNTHESIS.md) — the complete result map for notes 01–08, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
+**Start here:** [Research synthesis](research/SYNTHESIS.md) — the result map for notes 01–20 and the composite-renewal follow-up, exact failure cases, attribution, bounded evidence, and the remaining contradiction/recovery obligations. It distinguishes progress within this investigation from a claimed advance or solution to the conjecture.
 
 ## Milestones
 
@@ -16,7 +16,35 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 6. **Research note 05 — global reset:** [a finiteness deduction from the classical S-unit theorem](research/GLOBAL.md). For any fixed finite prime set, only finitely many adjacent aliquot pairs use that set alone. This constrains every hypothetical escaping orbit, but does not exclude changing prime support. Lenstra's earlier arbitrary-length finite growth theorem is the benchmark; the local notes are not a demonstrated breakthrough.
 7. **Research note 06 — factor transport:** [an exact conditional handoff to composite supplying blocks](research/BLOCK-TRANSPORT.md), together with correction identities and obstructions to simpler renewal rules. The output does not regenerate the input hypotheses: no closed return family or whole-orbit control is obtained.
 8. **Research note 07 — deficient recovery:** [guaranteed finite rebounds and scoped template obstructions](research/RECOVERY.md). Any fixed deficient core D>1 admits arbitrarily large two-step recovery for infinitely many coprime prime cofactors; periodic prime-cofactor schedules cannot escape, and finite-core prime schedules need an expansive graph cycle. Composite entry conditions still fail to renew. No closed return class, resolution, or novelty is claimed.
-9. **Research note 08 — coalescence descent:** [a network-based proof attempt and its precise stopping point](research/COALESCENCE.md). Sharing a future with a smaller seed permits induction, but a universal merger mechanism is missing. CRT and Dirichlet rule out one-step shared-successor coverage by any fixed finite palette of coprime prime-cofactor templates. Aliquot records obstruct blanket one-step coverage even without factorization restrictions. Neither result excludes multistep mergers; the attempt stops for input rather than claiming a solution.
+9. **Hilbert/base-four proof attempt:** [orientation-aware embedding, exact pair law, and stopping point](research/HILBERT.md), with a [plain-English visual walkthrough](research/HILBERT-EXPLAINED.md), a [Lehmer-five/driver follow-up](research/HILBERT-DRIVERS.md), and a [small reproducible diagram](research/results/hilbert-base4.svg). Hilbert radius fails as a descent rank; even complete terminal orientation plus arbitrarily many low base-four digits cannot determine successor parity. No arithmetic closure, orbit bound, or conjecture solution is obtained. Reproduce with `python3 scripts/build_hilbert_diagnostic.py --check`; these artifacts are not served.
+
+9. **Research notebook 08 — exponent-vector dynamics:** [four-track geometry, combinatorics, Lehmer-five analysis, and computational scaling](research/EXPONENT-VECTORS.md). Convex abundance regions, cancellation orthogonality, and exact energy obstructions guide guarded-return research. New bounded prefixes carry replayable Lucas prime certificates; paired measurements distinguish factorization improvements from sparse-encoding claims. Modular divisor-box calculations handle symbolic trillion-sized exponents without expanding the integer. No infinite closure or solution is claimed.
+
+10. **Research notebook 09 — supplier renewal:** [a precise guarded return lemma and exact nonclosure](research/SUPPLIER-RENEWAL.md). A two-step 28-core return gains more than 15/13, but cancellation can retain a supplier while changing its exponent and destroying its supply. A sharp residue-supplier theorem, full return-block diagnostics, and a 100000-source census preserve losing returns and censored cases. No perpetual regeneration is proved.
+
+11. **Research notebook 10 — parity-aware supplier handoff:** [controlled replacement and a genuine supplier round trip](research/PARITY-HANDOFF.md). A fresh 181 can replace a disabled 13 and restore its useful exponent after two steps. Exact counterexamples show that the full guard still fails, even with composite cofactors. A scoped theorem rules out finite congruence refinements as a universal repair of old-supplier restoration. No closed infinite-return class is established.
+
+12. **Research notebook 11 — backward coverage:** [a literature-backed density argument and one exact target census](research/BACKWARD-COVERAGE.md). Adapting Luca–Pomerance's collision bounds gives positive-density coverage by smaller abundant-core predecessors, not universal coverage. Through 1000000, the proposed family covers 58896 of 247545 abundant targets; even all smaller predecessors leave every Lehmer-five seed unexcluded. The remaining least-seed obligation is explicit; further census expansion is parked.
+
+13. **Research notebook 12 — beyond density:** [a bounded-depth ancestry obstruction](research/ANCESTRY-BARRIER.md). For every fixed backward/forward depth, only a density-zero fraction of abundant direct roots is eliminated; at least X/48−o(X) candidates remain. The proof imports the valid Erdős growth theorem, not his withdrawn general decreasing claim. General forward coalescence is separate; explicit countermodels prevent inferring escape from growing test depths. No global merger mechanism or novelty is claimed, and no new large census is added.
+
+14. **Research notebook 13 — boundary outflow:** [a plain-language fence model and fixed-scale first-passage deduction](research/BOUNDARY-OUTFLOW.md). Almost all immediate exits reach any fixed multiple of a large fence before returning or cycling in the intervening band, by classical small-prime persistence and abundancy distribution. This does not control the same labels across indefinitely many fences. Semiprime sources alone eventually outnumber all outgoing edges, but need not lie on outgoing paths; merged paths require starting-label counts. Nine small regressions check the arithmetic and accounting, not infinite behavior. No whole-orbit return bound or novelty is claimed.
+
+15. **Research notebook 14 — minimum-seed contradiction attempt:** [prime deletion, exact companion obstructions, and finite recharge](research/MINIMUM-ESCAPE.md). A prime-deleted divisor companion survives one step at an abundant seed only when deletion leaves a perfect core. Lifting Lenstra's finite-growth chain through CRT/Dirichlet embeds arbitrarily long amplified blocks above any fixed core D, including the terminating companion 12. Uniform error and tested valuation budgets fail; a fixed full seed is not shown to escape, and no general least-seed contradiction is obtained.
+
+16. **Composite-renewal proof attempt:** [a full prime-entry return and scoped finite-core obstructions](research/COMPOSITE-RENEWAL.md). A verified growing block restores the original `160`-core prime-input guard once, but a fixed supplier bridge consumes a finite integer budget. Composite block exchanges and non-strict retention are tested directly. Finite unitary-core classes with arbitrary remainders cannot be invariant; reduced residue refinements of the stated supplying classes do not repair that limitation. These are obstructions to specified closure mechanisms, not to every orbit or variable-time return. No infinite renewal or conjecture resolution is obtained.
+
+17. **Research notebook 15 — maximum-based contradiction:** [orbit maxima, two-step peak exclusions, and failed closure repairs](research/MAXIMUM-CONTRADICTION.md). Assuming all orbits are bounded permits one maximum for a fixed finite cohort, not all seeds. No initial interval through B≥24 is forward-closed, although the resolved cohort through 24 has maximum 55; filling gaps adds new seeds. Exact terminating examples also refute divisibility monotonicity of orbit peaks and renewal of the tested recovery class. Nine bounded regressions check the arithmetic, not a contradiction or an escaping orbit.
+
+18. **Research notebook 16 — trying to close the return:** [finite prime-supplier relays and the remaining renewal gap](research/RETURN-CLOSURE.md). In every reduced congruence refinement of the prime-entry family, CRT and Dirichlet force any prescribed finite number of successors to retain a growing 160-core and avoid the deficient entry class. This excludes a uniformly bounded return guaranteed solely by those congruences, not unbounded-time or factorization-dependent returns. A full composite entry renews once, and a separate construction forces one genuinely fresh supplier to preserve an abundant core. Neither regenerates indefinitely. A 12-bridge alternative has a structural prime-bridge obstruction and a terminating counterexample. Eleven exact regressions support the finite examples. No indefinitely replenished mechanism or contradiction is established.
+
+19. **Research notebook 17 — composite fresh handoffs:** [two fresh replacements, a supplier budget, and a nonneutral construction](research/COMPOSITE-HANDOFF.md). An exact orbit makes two fresh handoffs through a composite residual. Neutral replacements force a more-than-sixfold supplier decrease; adding a prime tag permits arbitrarily large new suppliers without residual primality. Both powered formats have proved nonrenewal subfamilies. A finite replacement menu can be blocked while preserving actual prime predecessors and the full core guard; periodic prime bridges also have a finite denominator budget. Sixteen bounded regressions include independently checked edges and symbolic modular certificates. No perpetual renewal or conjecture solution is obtained.
+
+20. **Research notebook 18 — fixed-modulus escape and return tests:** [every proper residue set has an exit](research/RESIDUE-EXCURSIONS.md). For a set unchanged by negation, an exit can start an arbitrarily long actual excursion with any prescribed minimum gain per step. The seed depends on the horizon; neither an indefinitely growing orbit nor a bound on all orbits follows.
+
+21. **Research notebook 19 — after a 160-core prime return:** [the forced next factorization](research/PRIME-BRIDGE-RETURN.md) prevents consecutive prime–semiprime bridges with an individual supplier, even when the primes change. One fixed seed really does renew the guard by splitting a composite block, but never returns to the bridge-entry class and reaches zero in 115 steps.
+
+22. **Research note 20 — coalescence descent:** [a network-based proof attempt and its precise stopping point](research/COALESCENCE.md). Sharing a future with a smaller seed permits induction, but a universal merger mechanism is missing. CRT and Dirichlet rule out one-step shared-successor coverage by any fixed finite palette of coprime prime-cofactor templates. Aliquot records obstruct blanket one-step coverage even without factorization restrictions. Neither result excludes multistep mergers.
 
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
@@ -39,6 +67,21 @@ python3 -m aliquot scan-two-adic --bound 100000
 python3 -m aliquot regeneration
 python3 -m aliquot core-returns
 
+# Four-track exponent-vector report and independent orbit/prime-proof replay:
+python3 -m aliquot vectors --compact > /tmp/exponent-vectors.json
+python3 -m aliquot verify-vectors /tmp/exponent-vectors.json
+
+# Supplier diagnostics reuse the committed certified extended artifact:
+python3 -m aliquot renewal --compact > /tmp/supplier-renewal.json
+python3 -m aliquot verify-renewal /tmp/supplier-renewal.json
+# Installed copies outside this checkout need --source /path/to/exponent-vectors-extended.json.
+
+# Exact supplier handoffs and failed renewal, without extending Lehmer traces:
+python3 -m aliquot handoff --compact > /tmp/supplier-handoff.json
+
+# Distinct abundant targets with smaller predecessors; inclusive target cap 1000000:
+python3 -m aliquot backward --compact > /tmp/backward-coverage.json
+
 # Full verification, including browser-JS parity and UI checks (needs Node.js 22+):
 python3 -m unittest discover -s tests -v
 # npm test is a convenience alias for the same Python runner.
@@ -49,6 +92,8 @@ python3 -m unittest discover -s tests -p test_research.py -v
 ```
 
 `aliquot/` uses arbitrary-precision Python `int`, exact division, and exhaustive trial factorization. The default per-call work budget is 2,000,000 candidate tests/successful divisions. A budget failure raises `ComputationLimit`; the CLI exits nonzero with no partial JSON. This is **unresolved**, not a probable-prime result or evidence of divergence. The one-step C6 census retains its separate inclusive source-bound cap of 1,000,000; the two-adic/two-step census is capped at 100,000. Named regeneration/core-restoration traces use 64 steps and a 1,000,000 source-term cap, with explicit unresolved statuses for limits. A driver exit settles only that driver's retention, not the full orbit's fate. Large integer values and rational numerators/denominators in JSON use decimal strings. Python's default decimal text-conversion safety limit remains enabled; the integer API is not restricted by that text limit.
+
+The backward census has a separate **target** cap of 1,000,000. Multiplicative least-factor and independent additive sieves exhaust every smaller predecessor, and a second core/prime enumeration verifies the complete family representation set. It does not classify larger predecessors, extend orbits, or derive asymptotic claims from finite frequencies.
 
 ## Browser architecture and larger values
 
@@ -110,6 +155,41 @@ node --test tests/orbits.test.mjs tests/orbit-session.test.mjs
 ```
 
 The generator also reproduces `tests/fixtures/orbit-data-100.js`, a small, independently checked fixture for interaction and resource-limit regressions. It is outside the served directory. The test suite rejects stale data and assets. This bounded graph is for pattern discovery; it does not resolve the aliquot conjecture or establish any divergent orbit.
+
+### Orbit-length chart
+
+Open **Lengths** (`/lengths/`) for starting number versus steps to 0 or the first repeated value. The y-axis is logarithmic with ticks 1, 2, 5, 10, 20, 50, **100+**. Resolved lengths at or above 100 are clipped visually, not altered in the data. Seed 138 retains its exact 178 steps to 0 (177 to 1). The range selector shows starts 1–100, 1–300, 1–1,000 (default), 1–5,000, or all **1–10,000**. The SVG uses compact marks and x-bucket hit testing, so dense points are selected by proximity rather than paint order; every seed is also available with the keyboard.
+
+Hover uses the **same floating point card** as Explore, Reverse, and Graph: exact seed value, classification, next value, digit count/parity, mod 12/base 12, self-hosted TeX factorization, proper divisors, and their count/sum. All seed factorizations are precomputed and certified; shared `AliquotPointInfo` formatting never launches factorization on hover. The card additionally shows exact orbit length or its lower bound. Click/tap or Enter to pin; a pin keeps its seed while the pointer moves, reveals full details and the peak/frontier, and links to Graph and Reverse. Close/Escape dismiss; keyboard arrows and Home/End inspect seeds; 138/276 shortcuts pin those examples. Cards flip/clamp inside the chart horizontally and follow resize; tall pinned cards can extend below the chart without internal scrollbars. The former static selection box is removed. There is no idle animation or browser-side orbit computation.
+
+The exact Python dataset has 8,951 terminated starts, 224 reaching a cycle/fixed point, and 825 unresolved within its bounds (818 factorization limits, 7 step limits): 256 steps per seed, an inclusive source-value ceiling of 10³⁰, and 2,000,000 trial-factorization work units per new source. A failure is not treated as a probable prime. Unresolved runs use hollow upward arrows; below the display cap, a dashed range starts at the proved lower bound (verified steps + 1). For example, 276's 79 verified steps establish a resolution time of at least 80, **not** a measured 100-step run or divergence. Its range extends upward through the cap rather than inventing a length. Shared tails mean these are not independent trials.
+
+Only the deliberately public `site/length-data.js` is served. Its download contains all seed records, bounds, exact edges and prime factorizations, with integer values as decimal strings. Tests independently verify primality, enumerate divisors from the certificates, replay every path, and reproduce the artifact. Generator and verifier stay outside `site/`:
+
+```sh
+python3 scripts/build_orbit_lengths.py
+python3 scripts/build_orbit_lengths.py --check
+python3 scripts/version_assets.py
+node --test tests/lengths.test.mjs
+```
+
+#### Long-orbit counting function and frequency
+
+Below the scatter plot, **How common are long orbits?** (`/lengths/#frequency`) defines `L_t(x)` as the number of selected seeds through `x` whose resolution time is at least `t`. Thresholds are 10, 25, 50, 100 (default), and 200 steps. Compare the cumulative counting function (like π(x)), cumulative share, or the share in the last 1,000 seed values. The frequency chart has a separate linear y-axis with a zero baseline; the scatter remains logarithmic/capped at 100+. All/even/odd filters use the actual number of eligible seeds as denominator, including for the recent window. Recent curves start at the first complete window, x = 1,000. Range options extend to 10,000.
+
+The solid lower curve counts resolved long orbits plus unfinished runs whose verified lower bound already meets the threshold. The dashed upper curve also counts unfinished runs still uncertain at that threshold. The shaded band is **computation uncertainty, not a confidence interval**; unresolved is not synonymous with long or divergent. Percentages with uncertainty are rounded outward to two decimal places. Counts and denominators are exact integers, and there is no independence assumption: merging seeds are counted separately.
+
+For 100+ steps, seeds 1–1,000 contain 22–30 qualifying starts (2.20–3.00%), while 9,001–10,000 contain 58–133 (5.80–13.30%). Thus the last block has a higher frequency even under the most conservative classification of uncertain cases. Across all 10,000 starts the count is 581–1,056 (5.81–10.56%). This is a finite-range comparison, not monotonicity or an asymptotic statement. A rising cumulative count alone would not demonstrate increasing frequency.
+
+Hover/pin the shared-style aggregate card to inspect any integer bound, or use arrows/Home/End/Enter/Escape. A table compares consecutive 1,000-seed blocks under the same threshold/population filters. Download exact counts saves cumulative, recent-window, and block bounds with source computation limits; percentages and interpolated chart coordinates are not stored as exact data. `site/length-frequency.js` derives these counts without any new orbit computations. Python independently checks every cumulative/recent/block result against direct classified-seed sets and binary searches; Node covers threshold boundaries, zero denominators, controls, cards, and exports.
+
+### Causal-view thought experiment
+
+Open **Causal view** (`/causal/`) for a narrative companion to the research timeline: number as space, index as time, synchronizing unequal lead-ins at a merge, and treating recurrence as the end of a branch. It distinguishes history-dependent first-repeat stopping from contracting an entire cycle into a terminal node. Those conventions agree on mortality, not death time. The signed remaining-time coordinate is written `T_clock` to distinguish it from the orbit-length chart's `T(n)` and the research cofactor map `T(u)`.
+
+This is a reformulation, not a proof, disproof, physical model, novelty claim, or demonstrated solution strategy. A finite death-anchored clock presupposes a finite endpoint; an acyclic causal graph can still have an infinite future. The page separates elementary deductions, attributed finite-growth/S-unit arguments, and finite verified examples from the missing whole-orbit theorem. It does not change any explorer's computation or stopping rules.
+
+The static page reuses the self-hosted formula renderer and research typography, with a small scoped `site/causal.css` stylesheet and no interactive runtime. Python tests check the displayed finite paths by both factorization and independent divisor-pair enumeration, synchronize the displayed event coordinates, and distinguish the two cycle-ending conventions. The shared TeX tests render every formula as CSP-compatible MathML; site checks cover navigation, local links, accessible references, and versioned assets. These checks do not verify universal mathematical arguments.
 
 ### Formula rendering
 

@@ -308,6 +308,12 @@ cannot escape, and a finite-core prime transition graph must have an expansive
 cycle to permit escape. These scoped results do not provide a closed return
 class or a universal descent argument; no novelty is claimed.
 
+The [Hilbert/base-four follow-up](HILBERT.md) tests the actual Hilbert
+terminal-state pair law, with an exact value embedding and small reproducible
+figure. A radial descent candidate fails; adding full terminal orientation to
+any fixed suffix still does not determine successor parity. It stops at the
+missing arithmetic descent/closure statement, not at a claimed solution.
+
 ## 6. Initial literature map (not a comprehensive review)
 
 - **Definition/status, consulted:** Eric W. Weisstein,

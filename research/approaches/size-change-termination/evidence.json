@@ -1,0 +1,129 @@
+{
+  "affine_cases": 23327,
+  "both_budgets_increase": [
+    {
+      "after": [
+        4,
+        2
+      ],
+      "before": [
+        3,
+        1
+      ],
+      "next_return_passes": false,
+      "p": "107",
+      "q": "127"
+    },
+    {
+      "after": [
+        4,
+        3
+      ],
+      "before": [
+        3,
+        1
+      ],
+      "next_return_passes": false,
+      "p": "7019",
+      "q": "8191"
+    },
+    {
+      "after": [
+        10,
+        2
+      ],
+      "before": [
+        3,
+        1
+      ],
+      "next_return_passes": false,
+      "p": "7883",
+      "q": "9199"
+    }
+  ],
+  "bounds": {
+    "accelerated_returns_per_selected_start_at_most": 2,
+    "actual_transitions_per_accelerated_return_at_most": 2,
+    "additive_sieve_inclusive": [
+      1,
+      500000
+    ],
+    "cores_inclusive": [
+      1,
+      19
+    ],
+    "four_form_parameters_inclusive": [
+      0,
+      1000
+    ],
+    "four_form_value_upper_bound": "3528451",
+    "max_work_per_factorization_call": 100000,
+    "prime_cofactors_inclusive": [
+      2,
+      10000
+    ],
+    "transitions_per_affine_source": 1
+  },
+  "four_form_all_prime_matches": 0,
+  "four_form_eligible_parameters": 334,
+  "four_form_prime_checks": 1336,
+  "guarded_return_branches": {
+    "13": 96,
+    "17": 28
+  },
+  "guarded_returns": 124,
+  "largest_affine_source": "189487",
+  "largest_affine_successor": "209472",
+  "largest_checked_return_source": "197502",
+  "named_paths": {
+    "amicable_cycle_allowed_below_cutoff": [
+      "220",
+      "284",
+      "220"
+    ],
+    "deficient_size_rank": [
+      "592",
+      "586"
+    ],
+    "perfect_cycle_allowed_below_cutoff": [
+      "496",
+      "496"
+    ],
+    "phase_drop_with_size_increase": [
+      "732",
+      "1004"
+    ],
+    "six_residue_rank": [
+      "606",
+      "618",
+      "630"
+    ],
+    "termination_not_s_zero": [
+      "2",
+      "1",
+      "0"
+    ],
+    "twelve_valuation_rank": [
+      "1212",
+      "1644",
+      "2220"
+    ],
+    "two_budget_recharge_then_class_exit": [
+      "1926",
+      "2286",
+      "2706"
+    ]
+  },
+  "named_transitions": 13,
+  "prime_count": 1229,
+  "rank17_edges_checked": 8459,
+  "rank17_phase_edges": {
+    "0->0": 7914,
+    "1->0": 199,
+    "1->1": 149,
+    "2->2": 197
+  },
+  "scope": "finite regression evidence, not a mathematical proof review",
+  "unresolved": [],
+  "unresolved_count": 0
+}

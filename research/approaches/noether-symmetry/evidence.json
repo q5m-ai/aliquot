@@ -1,0 +1,198 @@
+{
+  "forced_exit": {
+    "candidates_skipped": 0,
+    "candidates_tested": 3,
+    "edge": {
+      "independent_divisor_candidates": 16590,
+      "source": "275247820",
+      "successor": "302772644"
+    },
+    "forced_exponents": [
+      1,
+      1
+    ],
+    "forced_primes": [
+      "23",
+      "29"
+    ],
+    "modulus": "5338668",
+    "p": "13762391",
+    "residue": "3085055",
+    "status": "witness",
+    "unresolved_candidates": []
+  },
+  "limits": {
+    "candidate_indices_inclusive": [
+      0,
+      255
+    ],
+    "factorization_work_per_call": 2000000,
+    "k_inclusive": [
+      1,
+      6
+    ],
+    "named_branch_steps": 4,
+    "new_witness_steps": 1,
+    "source_cap_inclusive": "10000000000"
+  },
+  "named_branch": {
+    "checked_edges": [
+      {
+        "independent_divisor_candidates": 43,
+        "source": "1932",
+        "successor": "3444"
+      },
+      {
+        "independent_divisor_candidates": 58,
+        "source": "3444",
+        "successor": "5964"
+      },
+      {
+        "independent_divisor_candidates": 77,
+        "source": "5964",
+        "successor": "10164"
+      },
+      {
+        "independent_divisor_candidates": 100,
+        "source": "10164",
+        "successor": "19628"
+      }
+    ],
+    "invalid_formal_next_cofactor": {
+      "denominator": "3",
+      "numerator": "613"
+    },
+    "terms": [
+      "1932",
+      "3444",
+      "5964",
+      "10164",
+      "19628"
+    ]
+  },
+  "purpose": "finite regression examples, not a conjecture decision",
+  "recharges": [
+    {
+      "candidates_skipped": 0,
+      "candidates_tested": 1,
+      "edge": {
+        "independent_divisor_candidates": 454,
+        "source": "206220",
+        "successor": "455028"
+      },
+      "input_charge": 0,
+      "k": 1,
+      "modulus": "630",
+      "next_u": "5417",
+      "output_charge": 1,
+      "q": "491",
+      "residue": "491",
+      "status": "witness",
+      "u": "2455",
+      "unresolved_candidates": []
+    },
+    {
+      "candidates_skipped": 0,
+      "candidates_tested": 1,
+      "edge": {
+        "independent_divisor_candidates": 542,
+        "source": "294420",
+        "successor": "649068"
+      },
+      "input_charge": 0,
+      "k": 2,
+      "modulus": "1890",
+      "next_u": "7727",
+      "output_charge": 2,
+      "q": "701",
+      "residue": "701",
+      "status": "witness",
+      "u": "3505",
+      "unresolved_candidates": []
+    },
+    {
+      "candidates_skipped": 0,
+      "candidates_tested": 2,
+      "edge": {
+        "independent_divisor_candidates": 2127,
+        "source": "4528020",
+        "successor": "9962988"
+      },
+      "input_charge": 0,
+      "k": 3,
+      "modulus": "5670",
+      "next_u": "118607",
+      "output_charge": 3,
+      "q": "10781",
+      "residue": "5111",
+      "status": "witness",
+      "u": "53905",
+      "unresolved_candidates": []
+    },
+    {
+      "candidates_skipped": 0,
+      "candidates_tested": 2,
+      "edge": {
+        "independent_divisor_candidates": 2775,
+        "source": "7703220",
+        "successor": "16948428"
+      },
+      "input_charge": 0,
+      "k": 4,
+      "modulus": "17010",
+      "next_u": "201767",
+      "output_charge": 4,
+      "q": "18341",
+      "residue": "1331",
+      "status": "witness",
+      "u": "91705",
+      "unresolved_candidates": []
+    },
+    {
+      "candidates_skipped": 0,
+      "candidates_tested": 2,
+      "edge": {
+        "independent_divisor_candidates": 5614,
+        "source": "31517220",
+        "successor": "69339228"
+      },
+      "input_charge": 0,
+      "k": 5,
+      "modulus": "51030",
+      "next_u": "825467",
+      "output_charge": 5,
+      "q": "75041",
+      "residue": "24011",
+      "status": "witness",
+      "u": "375205",
+      "unresolved_candidates": []
+    },
+    {
+      "candidates_skipped": 0,
+      "candidates_tested": 3,
+      "edge": {
+        "independent_divisor_candidates": 12075,
+        "source": "145824420",
+        "successor": "320815068"
+      },
+      "input_charge": 0,
+      "k": 6,
+      "modulus": "153090",
+      "next_u": "3819227",
+      "output_charge": 6,
+      "q": "347201",
+      "residue": "41021",
+      "status": "witness",
+      "u": "1736005",
+      "unresolved_candidates": []
+    }
+  ],
+  "totals": {
+    "checked_edges": 11,
+    "divisor_pair_candidates": 40455,
+    "max_checked_source": "275247820",
+    "progression_candidates_tested": 14,
+    "unresolved_candidate_factorizations": 0,
+    "unresolved_cases": []
+  }
+}

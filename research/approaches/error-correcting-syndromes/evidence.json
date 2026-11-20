@@ -1,0 +1,522 @@
+{
+  "actual_trace": [
+    {
+      "cofactor": "7",
+      "cofactor_s": "1",
+      "coprime_composite_formula": "2040",
+      "coprime_to_120": true,
+      "delta": "0",
+      "prime_model_successor": "2040",
+      "source": "840",
+      "step": "0",
+      "successor": "2040"
+    },
+    {
+      "cofactor": "17",
+      "cofactor_s": "1",
+      "coprime_composite_formula": "4440",
+      "coprime_to_120": true,
+      "delta": "0",
+      "prime_model_successor": "4440",
+      "source": "2040",
+      "step": "1",
+      "successor": "4440"
+    },
+    {
+      "cofactor": "37",
+      "cofactor_s": "1",
+      "coprime_composite_formula": "9240",
+      "coprime_to_120": true,
+      "delta": "0",
+      "prime_model_successor": "9240",
+      "source": "4440",
+      "step": "2",
+      "successor": "9240"
+    },
+    {
+      "cofactor": "77",
+      "cofactor_s": "19",
+      "coprime_composite_formula": "25320",
+      "coprime_to_120": true,
+      "delta": "18",
+      "prime_model_successor": "18840",
+      "source": "9240",
+      "step": "3",
+      "successor": "25320"
+    },
+    {
+      "cofactor": "211",
+      "cofactor_s": "1",
+      "coprime_composite_formula": "51000",
+      "coprime_to_120": true,
+      "delta": "0",
+      "prime_model_successor": "51000",
+      "source": "25320",
+      "step": "4",
+      "successor": "51000"
+    },
+    {
+      "cofactor": "425",
+      "cofactor_s": "133",
+      "coprime_composite_formula": "149880",
+      "coprime_to_120": false,
+      "delta": "132",
+      "prime_model_successor": "102360",
+      "source": "51000",
+      "step": "5",
+      "successor": "117480"
+    }
+  ],
+  "affine_local_criterion": {
+    "cases_checked": "1440",
+    "primes": [
+      "2",
+      "3",
+      "5",
+      "7",
+      "11",
+      "13",
+      "17",
+      "19",
+      "23",
+      "29"
+    ]
+  },
+  "bounds": {
+    "additive_sieve_inclusive": [
+      "1",
+      "3200"
+    ],
+    "affine_a_and_b_inclusive": [
+      "1",
+      "12"
+    ],
+    "cofactors_inclusive": [
+      "1",
+      "80"
+    ],
+    "cores_inclusive": [
+      "1",
+      "40"
+    ],
+    "factorization_work_per_call": "100000",
+    "named_max_divisor_trial": "342",
+    "named_values": [
+      "2",
+      "6050",
+      "6319",
+      "840",
+      "2040",
+      "4440",
+      "9240",
+      "25320",
+      "51000",
+      "117480",
+      "637",
+      "1757",
+      "4291",
+      "20017",
+      "397"
+    ],
+    "test_primes_inclusive": [
+      "2",
+      "29"
+    ],
+    "trace_seed": "840",
+    "trace_source_cap_inclusive": "100000",
+    "trace_transitions": "6"
+  },
+  "coprime_box": {
+    "distinct_sources_checked": "1087",
+    "pairs_checked": "1962"
+  },
+  "crt_residue_orbits_not_prime_orbits": [
+    {
+      "cycle": [
+        "0"
+      ],
+      "modulus": "1",
+      "prefix": [],
+      "start_residue": "0"
+    },
+    {
+      "cycle": [
+        "7",
+        "17"
+      ],
+      "modulus": "30",
+      "prefix": [],
+      "start_residue": "7"
+    },
+    {
+      "cycle": [
+        "397",
+        "797",
+        "697",
+        "497",
+        "97",
+        "197"
+      ],
+      "modulus": "900",
+      "prefix": [],
+      "start_residue": "397"
+    },
+    {
+      "cycle": [
+        "20017",
+        "10007"
+      ],
+      "modulus": "30030",
+      "prefix": [],
+      "start_residue": "20017"
+    }
+  ],
+  "invisible_abundance_example": {
+    "base": "2",
+    "base_abundancy": {
+      "denominator": "2",
+      "numerator": "3"
+    },
+    "base_signature_n_sigma_s": [
+      "2",
+      "3",
+      "1"
+    ],
+    "modulus": "6",
+    "multiplier": "3025",
+    "perturbed": "6050",
+    "perturbed_abundancy": {
+      "denominator": "6050",
+      "numerator": "12369"
+    },
+    "perturbed_signature_n_sigma_s": [
+      "2",
+      "3",
+      "1"
+    ]
+  },
+  "named_arithmetic": [
+    {
+      "divisor_pair_s": "1",
+      "factorization": [
+        [
+          "2",
+          "1"
+        ]
+      ],
+      "n": "2",
+      "s": "1",
+      "sigma": "3",
+      "status": "exact"
+    },
+    {
+      "divisor_pair_s": "6319",
+      "factorization": [
+        [
+          "2",
+          "1"
+        ],
+        [
+          "5",
+          "2"
+        ],
+        [
+          "11",
+          "2"
+        ]
+      ],
+      "n": "6050",
+      "s": "6319",
+      "sigma": "12369",
+      "status": "exact"
+    },
+    {
+      "divisor_pair_s": "161",
+      "factorization": [
+        [
+          "71",
+          "1"
+        ],
+        [
+          "89",
+          "1"
+        ]
+      ],
+      "n": "6319",
+      "s": "161",
+      "sigma": "6480",
+      "status": "exact"
+    },
+    {
+      "divisor_pair_s": "2040",
+      "factorization": [
+        [
+          "2",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "5",
+          "1"
+        ],
+        [
+          "7",
+          "1"
+        ]
+      ],
+      "n": "840",
+      "s": "2040",
+      "sigma": "2880",
+      "status": "exact"
+    },
+    {
+      "divisor_pair_s": "4440",
+      "factorization": [
+        [
+          "2",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "5",
+          "1"
+        ],
+        [
+          "17",
+          "1"
+        ]
+      ],
+      "n": "2040",
+      "s": "4440",
+      "sigma": "6480",
+      "status": "exact"
+    },
+    {
+      "divisor_pair_s": "9240",
+      "factorization": [
+        [
+          "2",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "5",
+          "1"
+        ],
+        [
+          "37",
+          "1"
+        ]
+      ],
+      "n": "4440",
+      "s": "9240",
+      "sigma": "13680",
+      "status": "exact"
+    },
+    {
+      "divisor_pair_s": "25320",
+      "factorization": [
+        [
+          "2",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "5",
+          "1"
+        ],
+        [
+          "7",
+          "1"
+        ],
+        [
+          "11",
+          "1"
+        ]
+      ],
+      "n": "9240",
+      "s": "25320",
+      "sigma": "34560",
+      "status": "exact"
+    },
+    {
+      "divisor_pair_s": "51000",
+      "factorization": [
+        [
+          "2",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "5",
+          "1"
+        ],
+        [
+          "211",
+          "1"
+        ]
+      ],
+      "n": "25320",
+      "s": "51000",
+      "sigma": "76320",
+      "status": "exact"
+    },
+    {
+      "divisor_pair_s": "117480",
+      "factorization": [
+        [
+          "2",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "5",
+          "3"
+        ],
+        [
+          "17",
+          "1"
+        ]
+      ],
+      "n": "51000",
+      "s": "117480",
+      "sigma": "168480",
+      "status": "exact"
+    },
+    {
+      "divisor_pair_s": "271320",
+      "factorization": [
+        [
+          "2",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "5",
+          "1"
+        ],
+        [
+          "11",
+          "1"
+        ],
+        [
+          "89",
+          "1"
+        ]
+      ],
+      "n": "117480",
+      "s": "271320",
+      "sigma": "388800",
+      "status": "exact"
+    },
+    {
+      "divisor_pair_s": "161",
+      "factorization": [
+        [
+          "7",
+          "2"
+        ],
+        [
+          "13",
+          "1"
+        ]
+      ],
+      "n": "637",
+      "s": "161",
+      "sigma": "798",
+      "status": "exact"
+    },
+    {
+      "divisor_pair_s": "259",
+      "factorization": [
+        [
+          "7",
+          "1"
+        ],
+        [
+          "251",
+          "1"
+        ]
+      ],
+      "n": "1757",
+      "s": "259",
+      "sigma": "2016",
+      "status": "exact"
+    },
+    {
+      "divisor_pair_s": "621",
+      "factorization": [
+        [
+          "7",
+          "1"
+        ],
+        [
+          "613",
+          "1"
+        ]
+      ],
+      "n": "4291",
+      "s": "621",
+      "sigma": "4912",
+      "status": "exact"
+    },
+    {
+      "divisor_pair_s": "579",
+      "factorization": [
+        [
+          "37",
+          "1"
+        ],
+        [
+          "541",
+          "1"
+        ]
+      ],
+      "n": "20017",
+      "s": "579",
+      "sigma": "20596",
+      "status": "exact"
+    },
+    {
+      "divisor_pair_s": "1",
+      "factorization": [
+        [
+          "397",
+          "1"
+        ]
+      ],
+      "n": "397",
+      "s": "1",
+      "sigma": "398",
+      "status": "exact"
+    }
+  ],
+  "purpose": "finite regression evidence, not a universal mathematical proof",
+  "semiprime_filter_cases": "6",
+  "trace_continuation": "not attempted; no orbit-resolution claim",
+  "trace_final_value": "117480",
+  "trace_stop": "step_limit",
+  "unresolved_arithmetic": [],
+  "unresolved_arithmetic_count": "0"
+}

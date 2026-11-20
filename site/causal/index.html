@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A causal-set thought experiment for aliquot sequences: numbers as space, iteration as time, merging histories, and cycles as terminal events. A reformulation, not a solution to the conjecture.">
+<title>A causal view — Aliquot</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css?v=330fcddeb41c5c71">
+<link rel="stylesheet" href="/research.css?v=70dba1de8f597637">
+<link rel="stylesheet" href="/causal.css?v=1b3b496e9b5b5a10">
+<script src="/vendor/katex/katex.min.js?v=103a53763cc033bb" defer></script>
+<script src="/latex.js?v=9f835ebcef4900f0" defer></script>
+</head>
+<body class="research-page">
+<a class="skip" href="#thought-experiment">Skip to thought experiment</a>
+<header class="site shell">
+<div class="brand"><a href="/">aliquot<span>.q5m.ai</span></a></div>
+<nav class="site" aria-label="Main navigation"><a href="/">Explore</a><a href="/lengths/">Lengths</a><a href="/orbits/">Graph</a><a href="/reverse/">Reverse</a><a href="/causal/" aria-current="page">Causal view</a><a href="/research/">Research</a></nav>
+</header>
+<main id="thought-experiment" class="research-journal causal-journal">
+<header class="journal-heading">
+<h1>A causal view of aliquot sequences</h1>
+<p class="journal-meta">Thought experiment · Numbers as space, iteration as time</p>
+<p>What if an aliquot sequence were a history, different histories could merge, and recurrence marked the end of a branch? This perspective makes the structure easier to discuss. It does not supply a new law governing the arithmetic.</p>
+<p class="causal-status"><strong>A reformulation, not a solution.</strong> No proof, disproof, divergent sequence, or historical novelty is claimed. “Universe” and “death” are metaphors, not a physical model.</p>
+</header>
+<nav class="causal-contents" aria-label="On this page">
+<ul><li><a href="#events">Events</a></li><li><a href="#clocks">Merges &amp; clocks</a></li><li><a href="#recurrence">Recurrence</a></li><li><a href="#endpoints">Cycle endpoints</a></li><li><a href="#conjecture">The conjecture</a></li><li><a href="#known">What we know</a></li><li><a href="#limits">What is missing</a></li></ul>
+</nav>
+
+<section id="events" aria-labelledby="events-title">
+<h2 id="events-title">1. A branch as a history</h2>
+<p>For a positive starting number, one step replaces the number by the sum of its proper positive divisors:</p>
+<div class="research-formula" tabindex="0" role="group" aria-label="Exact aliquot evolution" data-tex="n_{k+1}=s(n_k)=\sum_{\substack{d\mid n_k\\1\le d&lt;n_k}}d\qquad(n_k&gt;0)" data-display="true">While nₖ &gt; 0, nₖ₊₁ = s(nₖ), the sum of the positive divisors smaller than nₖ.</div>
+<p>Think of the number as a spatial coordinate and the index as elapsed time. An event on a chosen trajectory has coordinates (t₀ + k, nₖ). No spatial metric, speed limit, or physical conservation law is assumed.</p>
+<p>The symbol <strong>≺</strong> (<code>\prec</code> in LaTeX) means strict causal precedence, not numerical inequality. Neighboring entries below are one-step links; precedence also relates earlier events to later events along a history. Shared number labels represent merges in this acyclic example:</p>
+<div id="example-merges" class="research-formula" tabindex="0" role="group" aria-label="Exact terminating paths with shared tails" data-tex="\begin{gathered}121\prec12\prec16\prec15\prec9\prec4\prec3\prec1\prec0\\26\prec16\\30\prec42\prec54\prec66\prec78\prec90\prec144\prec259\\259\prec45\prec33\prec15\end{gathered}" data-display="true">121 ≺ 12 ≺ 16 ≺ 15 ≺ 9 ≺ 4 ≺ 3 ≺ 1 ≺ 0; 26 ≺ 16; 30 ≺ 42 ≺ 54 ≺ 66 ≺ 78 ≺ 90 ≺ 144 ≺ 259; 259 ≺ 45 ≺ 33 ≺ 15.</div>
+<p>The branch from 30 rises to 259, then joins the shared tail at 15. Multiple pasts are possible, but each number has just one successor. Zero is terminal: s(0) is undefined, not a self-loop. <a href="/orbits/?n=16">Inspect the value graph at 16</a>.</p>
+</section>
+
+<section id="clocks" aria-labelledby="clocks-title">
+<h2 id="clocks-title">2. Different lead-ins, one clock</h2>
+<p>If branch i reaches a chosen merge at local index Lᵢ, synchronize it by shifting its time origin:</p>
+<div class="research-formula" tabindex="0" role="group" aria-label="Synchronizing local indices at a merge" data-tex="t_i(k)=k-L_i" data-display="true">tᵢ(k) = k − Lᵢ. Every branch reaches the chosen merge at time zero.</div>
+<p>For a merge at 16, write each event as (time, number):</p>
+<div id="example-clock" class="research-formula" tabindex="0" role="group" aria-label="Two unequal lead-ins synchronized at 16" data-tex="\begin{gathered}(-2,121)\prec(-1,12)\prec(0,16)\prec(1,15)\\(-1,26)\prec(0,16)\end{gathered}" data-display="true">(−2, 121) ≺ (−1, 12) ≺ (0, 16) ≺ (1, 15); (−1, 26) ≺ (0, 16).</div>
+<p>The 121 branch starts one tick earlier than the 26 branch. If all starts were forced to time zero, these arrivals would instead be the same place at different times, not one merge event.</p>
+<h3>What is T?</h3>
+<p>For a component known to reach a terminal node D, we can set death at time zero and count backward. The clock called T in this thought experiment is written T<sub>clock</sub> here:</p>
+<div class="research-formula" tabindex="0" role="group" aria-label="Death-anchored time coordinate" data-tex="T_{\mathrm{clock}}(v)=-d(v,D),\qquad T_{\mathrm{clock}}(D)=0" data-display="true">T_clock(v) = −d(v, D), where d is the number of remaining one-step links to D; T_clock(D) = 0.</div>
+<div id="example-death-clock" class="research-formula" tabindex="0" role="group" aria-label="A two-step remaining-lifetime clock" data-tex="\begin{gathered}3\prec1\prec0,\\T_{\mathrm{clock}}(3)=-2,\quad T_{\mathrm{clock}}(1)=-1,\quad T_{\mathrm{clock}}(0)=0\end{gathered}" data-display="true">3 ≺ 1 ≺ 0 has clock values −2, −1, 0.</div>
+<p>Every one-step link advances this clock by one. Moving the origin from a merge to death just adds a constant. For cycle endpoints, use the contracted graph described below.</p>
+<p>This signed clock is not the nonnegative orbit length T(n) on <a href="/lengths/">Lengths</a>, nor the cofactor map T(u) = 2σ(u) − u on <a href="/research/">Research</a>. It is defined here only when a finite endpoint exists. Assuming such a clock for every branch would assume the conjecture, not prove it.</p>
+</section>
+
+<section id="recurrence" aria-labelledby="recurrence-title">
+<h2 id="recurrence-title">3. What if recurrence means death?</h2>
+<p>On an individual trajectory, stop at zero or at the first repeated value. Call the number of steps to that event τ(n₀), with τ(n₀) = ∞ if neither event ever occurs. A repeated visit is a distinct terminal event; it must not be identified with its earlier occurrence.</p>
+<p>Otherwise the amicable pair 220, 284 would give 220 ≺ 284 ≺ 220, violating a strict causal order. A perfect number would give the equally forbidden 6 ≺ 6.</p>
+<p><strong>First-repeat death depends on history.</strong> Separately, these two trajectories stop as follows. Subscripts label local event indices; † marks the terminal visit:</p>
+<div id="example-recurrence" class="research-formula" tabindex="0" role="group" aria-label="Different first-repeat times after reaching the same value" data-tex="\begin{aligned}A:&amp;\quad220_0\prec284_1\prec220_2^{\dagger}\\B:&amp;\quad562_0\prec284_1\prec220_2\prec284_3^{\dagger}\end{aligned}" data-display="true">A: 220 at index 0 ≺ 284 at index 1 ≺ 220 at index 2, then death. B: 562 at index 0 ≺ 284 at index 1 ≺ 220 at index 2 ≺ 284 at index 3, then death.</div>
+<p>Both reach 284 at index 1. But the next 220 is a repeat for A and new for B. These are separate histories, not a merged memoryless state. To preserve this stopping rule, retain enough history, for example a state (n, S) with S the set of previously visited values. Matching coordinates alone need not mean matching states.</p>
+</section>
+
+<section id="endpoints" aria-labelledby="endpoints-title">
+<h2 id="endpoints-title">4. One terminal node for each cycle</h2>
+<p>For genuine merges with a shared future, use a different convention: contract every positive cycle C into a terminal node D<sub>C</sub>. Remove its internal cycle edges, including perfect-number self-loops. Let D₀ denote zero. A cycle node labels a whole cycle, not a single numerical spatial coordinate.</p>
+<div id="example-endpoints" class="research-formula" tabindex="0" role="group" aria-label="Merged paths into perfect and amicable endpoints" data-tex="\begin{gathered}95\prec25\prec D_{\{6\}},\qquad119\prec25,\qquad143\prec25,\\562\prec D_{\{220,284\}}\end{gathered}" data-display="true">95 ≺ 25 ≺ D_{6}; 119 ≺ 25; 143 ≺ 25; 562 ≺ D_{220,284}.</div>
+<p>This is <strong>death at cycle entry, not at first repetition</strong>. A seed already in a cycle is already at its terminal node. The two conventions agree on mortality, not on death time. Contracting cycles is a mathematical definition, not an algorithm for discovering unknown cycles.</p>
+<p>Take strict forward reachability in this graph as ≺. It is acyclic and transitive; each interval between comparable nodes contains only finitely many events. This gives a locally finite strict partial order, the causal-set structure intended here. It need not have any particular spacetime geometry.</p>
+</section>
+
+<section id="conjecture" aria-labelledby="conjecture-title">
+<h2 id="conjecture-title">5. The conjecture becomes universal mortality</h2>
+<div class="research-formula" tabindex="0" role="group" aria-label="The conjecture in first-repeat lifetime notation" data-tex="\forall n_0\in\mathbb Z_{&gt;0},\qquad\tau(n_0)&lt;\infty" data-display="true">For every positive starting integer n₀, the first-zero-or-repeat lifetime τ(n₀) is finite.</div>
+<p>Equivalently, every forward chain in the cycle-contracted graph reaches a death node. A counterexample would be one immortal branch: an infinite positive orbit with no repeated values.</p>
+<p>This is a statement about each branch’s future, not about the entire graph being finite. Infinitely many prime starts feed the same finite tail:</p>
+<div class="research-formula" tabindex="0" role="group" aria-label="Prime starts have a shared terminal future" data-tex="p\prec1\prec D_0\qquad(p\text{ prime})" data-display="true">For every prime p, p ≺ 1 ≺ D₀.</div>
+</section>
+
+<section id="known" aria-labelledby="known-title">
+<h2 id="known-title">6. What we actually know</h2>
+<h3>Merges preserve eventual fate</h3>
+<p>Once two trajectories reach the same number, their subsequent number sequences agree. Both are mortal or both are immortal. Their first-repeat detection times can still differ because their pasts differ.</p>
+<h3>A bounded branch must die</h3>
+<p>An immortal branch cannot repeat any integer. There are only finitely many positive integers below each fixed bound, so eventually it leaves that entire bounded region:</p>
+<div class="research-formula" tabindex="0" role="group" aria-label="Immortality would imply escape to infinity" data-tex="\tau(n_0)=\infty\quad\Longrightarrow\quad n_k\longrightarrow\infty" data-display="true">If τ(n₀) is infinite, then nₖ tends to infinity.</div>
+<p>This is stronger than having arbitrarily high peaks, but it does not require monotonic growth. Individual steps may decrease.</p>
+<h3>Arbitrarily long growth is not immortality</h3>
+<p>Lenstra’s classical construction gives an arbitrarily long finite increasing prefix, with a suitable seed for each requested length:</p>
+<div class="research-formula" tabindex="0" role="group" aria-label="Finite increasing prefixes do not exchange quantifiers" data-tex="\begin{gathered}\forall L\ge1\ \exists n_0:\quad n_0&lt;n_1&lt;\cdots&lt;n_L,\\\forall L\ \exists n_0\quad\not\Longrightarrow\quad\exists n_0\ \forall L\end{gathered}" data-display="true">For every finite L, some seed has n₀ &lt; n₁ &lt; … &lt; nL. A seed for every length does not give one seed that works for every length.</div>
+<p>These are prefixes of the original number sequence, before cycle contraction. They do not certify an immortal branch. <a href="https://github.com/q5m-ai/aliquot/blob/bb10bad78fcf431cdbc6da5edbb9c5f4119ae588/research/GLOBAL.md#1-the-classical-benchmark-is-already-stronger-than-finite-survival">Construction and attribution</a>.</p>
+<h3>Fixed prime support cannot sustain escape</h3>
+<p>Research note 05 gives an argument using the classical S-unit finiteness theorem: for each fixed finite set of primes, only finitely many adjacent pairs n, s(n), with n &gt; 1, use those primes alone. Consequently, any immortal orbit must satisfy:</p>
+<div class="research-formula" tabindex="0" role="group" aria-label="Necessary adjacent-pair prime escape" data-tex="\tau(n_0)=\infty\quad\Longrightarrow\quad P^{+}(n_kn_{k+1})\longrightarrow\infty" data-display="true">Immortality implies that the largest prime factor of nₖnₖ₊₁ tends to infinity.</div>
+<p>Here P⁺ is the largest prime factor. Eventually every adjacent pair contains a prime exceeding any prescribed bound. This does not assert a previously unseen prime at every step, or termwise prime-factor growth. Changing prime support is not a contradiction. <a href="https://github.com/q5m-ai/aliquot/blob/bb10bad78fcf431cdbc6da5edbb9c5f4119ae588/research/GLOBAL.md">Argument and limits</a>; <a href="https://github.com/q5m-ai/aliquot/blob/bb10bad78fcf431cdbc6da5edbb9c5f4119ae588/research/LITERATURE.md">attribution audit</a>. Historical novelty is unverified; software tests do not verify this theorem.</p>
+<h3>Finite calculations leave unresolved branches</h3>
+<div id="example-unresolved" class="research-formula" tabindex="0" role="group" aria-label="Only a finite prefix of the shared 276 and 306 orbit" data-tex="\begin{gathered}276\prec396\prec696\prec1104\prec1872\prec3770\\306\prec396\end{gathered}" data-display="true">276 ≺ 396 ≺ 696 ≺ 1104 ≺ 1872 ≺ 3770; 306 ≺ 396.</div>
+<p>The displayed 276 prefix has five verified steps, not a measured full lifetime. The shared future remains unresolved: the prefix proves neither eventual death nor immortality. A computation budget failure is also unresolved, never evidence of divergence. <a href="/orbits/?n=276">Inspect this branch</a>.</p>
+<p>The project’s local growth, factor-transport, and recovery arguments likewise do not yet regenerate their own entry conditions forever. Finite recovery is not a self-sustaining mechanism. <a href="https://github.com/q5m-ai/aliquot/blob/bb10bad78fcf431cdbc6da5edbb9c5f4119ae588/research/SYNTHESIS.md">Result map and exact failures</a>.</p>
+</section>
+
+<section id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">7. A useful picture, not yet a solution strategy</h2>
+<p>The causal language organizes shared futures, history-dependent stopping, and possible escape. Much of the construction is standard functional-graph reasoning. Renaming recurrence as death adds no arithmetic constraint.</p>
+<p><strong>Acyclic does not mean terminating.</strong> An infinite chain is consistent with a causal set:</p>
+<div class="research-formula" tabindex="0" role="group" aria-label="A causal set may have an infinite future chain" data-tex="e_0\prec e_1\prec e_2\prec\cdots" data-display="true">e₀ ≺ e₁ ≺ e₂ ≺ … is a possible infinite causal chain.</div>
+<p>Nor can the clock settle the issue: proving a finite death-anchored T<sub>clock</sub> for every starting value would essentially prove the original conjecture. Defining it as “steps remaining” does not independently establish that those steps are finite.</p>
+<ul>
+<li><strong>To prove universal mortality:</strong> find an additional arithmetic reason every branch ends, such as an independently defined nonnegative integer quantity that decreases along nonterminal steps or suitably controlled finite checkpoints.</li>
+<li><strong>To disprove it:</strong> exhibit one seed with a rigorously perpetual nonrepeating future, perhaps through a self-renewing arithmetic construction. No finite prefix is enough.</li>
+</ul>
+<p>The thought experiment is worth keeping as a map of the problem. Whether aliquot arithmetic permits an immortal branch remains open.</p>
+</section>
+
+<p class="journal-colophon">Displayed finite aliquot transitions are checked by exact Python factorization and independent divisor-pair enumeration. Those checks do not verify universal arguments. Source notes are pinned; this page does not change the explorers’ stopping rules or computations. <a href="/research/">Research timeline</a>.</p>
+</main>
+<footer class="sitefoot shell"><span>Aliquot · A q5m research project</span><span class="right"><a href="https://www.q5m.ai" aria-label="q5m"><svg class="footer-icon" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"/><path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"/></g></svg><span>q5m</span></a><a href="https://github.com/q5m-ai/aliquot"><svg class="footer-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.7 7.7 0 0 1 8 3.84a7.7 7.7 0 0 1 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><span>GitHub</span></a></span></footer>
+</body>
+</html>

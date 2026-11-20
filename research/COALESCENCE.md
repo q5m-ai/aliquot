@@ -1,4 +1,4 @@
-# Research note 08: coalescence descent — an attempt and its stopping point
+# Research note 20: coalescence descent — an attempt and its stopping point
 
 **Status:** no proof or disproof of the aliquot conjecture. The network approach
 suggests a legitimate induction target, but no universal merger mechanism has

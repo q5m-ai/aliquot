@@ -97,6 +97,16 @@ class LatexTests(unittest.TestCase):
         for tex in expected:
             self.assertIn(tex, [f["tex"] for f in parser.formulas])
 
+    def test_causal_thought_experiment_renders_prec_clocks_and_terminal_nodes(self):
+        parser = FormulaParser()
+        parser.feed((ROOT / "site/causal/index.html").read_text())
+        self.assertGreaterEqual(len(parser.formulas), 15)
+        self.assertTrue(all(formula["display"] for formula in parser.formulas))
+        self.assert_mathml(parser.formulas)
+        tex = "\n".join(formula["tex"] for formula in parser.formulas)
+        for symbol in [r"\prec", r"T_{\mathrm{clock}}", r"D_{\{220,284\}}", r"\tau", r"\dagger"]:
+            self.assertIn(symbol, tex)
+
     def test_reverse_relation_renders_with_the_shared_formula_renderer(self):
         parser = FormulaParser()
         parser.feed((ROOT / "site/reverse/index.html").read_text())

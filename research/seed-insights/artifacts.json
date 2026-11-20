@@ -1,0 +1,102 @@
+[
+  {
+    "seed_id": "noether-symmetry",
+    "path": "research/approaches/noether-symmetry/REPORT.md",
+    "sha256": "bac796dcd2a413b1740de0111cdc2efae57f7698304bff980bf98d74e05135e2"
+  },
+  {
+    "seed_id": "noether-symmetry",
+    "path": "research/approaches/noether-symmetry/verify.py",
+    "sha256": "d9627cf9751b2f3521506f87d5ada929487d55e6b95bdd9f9775ffd2bed84406"
+  },
+  {
+    "seed_id": "noether-symmetry",
+    "path": "research/approaches/noether-symmetry/evidence.json",
+    "sha256": "ee4bedd9f653bc6693c283905ac4ee03dff3acbe586a317aba60ab974e20a2f6"
+  },
+  {
+    "seed_id": "noether-symmetry",
+    "path": "tests/test_noether_symmetry.py",
+    "sha256": "39394a7c695aa8759d112187edd6bd70c9cfbbd5629d29e544c594d5cbb417d2"
+  },
+  {
+    "seed_id": "small-gain-feedback",
+    "path": "research/approaches/small-gain-feedback/REPORT.md",
+    "sha256": "3f5bd14f0121cf1807ab98f747f5b37389281114e736bcc0c505fdfbfd061f13"
+  },
+  {
+    "seed_id": "small-gain-feedback",
+    "path": "research/approaches/small-gain-feedback/verify.py",
+    "sha256": "014f2c066a43db6eba4cd652a8dec57aa6c8f257911d2954368f3da6f6456d41"
+  },
+  {
+    "seed_id": "small-gain-feedback",
+    "path": "research/approaches/small-gain-feedback/evidence.json",
+    "sha256": "72b85e26f971441e9f1d6b0c1a74c5f6274039ccefdee04359820de9e9100d89"
+  },
+  {
+    "seed_id": "small-gain-feedback",
+    "path": "tests/test_small_gain_feedback.py",
+    "sha256": "03ba6616dbb951f049e1de342070f2475f330f30bf74f767bf8041bb75ccd8dd"
+  },
+  {
+    "seed_id": "error-correcting-syndromes",
+    "path": "research/approaches/error-correcting-syndromes/REPORT.md",
+    "sha256": "316aefdbdfbca6d36f3eba3b7a7ea52f43aef293f267e13dcb500279263a1e47"
+  },
+  {
+    "seed_id": "error-correcting-syndromes",
+    "path": "research/approaches/error-correcting-syndromes/verify.py",
+    "sha256": "07437bb1d8e6485b7c3a81c570044b77fe61aab10b360b9584cb9a0c20728b54"
+  },
+  {
+    "seed_id": "error-correcting-syndromes",
+    "path": "research/approaches/error-correcting-syndromes/evidence.json",
+    "sha256": "93f670c64ff8ca3a31657764160aec59dff80d08b6ba6e3e26fd76e977742ec1"
+  },
+  {
+    "seed_id": "error-correcting-syndromes",
+    "path": "tests/test_error_correcting_syndromes.py",
+    "sha256": "00dca1b6e1e8a5d7b5e4216929bd37baed85f5eb032034ee50d898cc6e2ecb58"
+  },
+  {
+    "seed_id": "size-change-termination",
+    "path": "research/approaches/size-change-termination/REPORT.md",
+    "sha256": "f994f9c3faa67f0298ab4a4d7a629a135c2df583ccc40bd45eb68a9acda071ce"
+  },
+  {
+    "seed_id": "size-change-termination",
+    "path": "research/approaches/size-change-termination/verify.py",
+    "sha256": "925f29dc29d5ef788b8378e24e3d62d106ced1e56ed30e5cc2bb2b7c55833286"
+  },
+  {
+    "seed_id": "size-change-termination",
+    "path": "research/approaches/size-change-termination/evidence.json",
+    "sha256": "6be9b815cbb02f09b04d6a6b7c6195b929fb09e1df80c8f073d23edabc92c050"
+  },
+  {
+    "seed_id": "size-change-termination",
+    "path": "tests/test_size_change_termination.py",
+    "sha256": "230abfc5263d59c7c7ce0a5292ab0dd7bd77a5865016dc93193e9232f2259060"
+  },
+  {
+    "seed_id": "symbolic-dynamics",
+    "path": "research/approaches/symbolic-dynamics/REPORT.md",
+    "sha256": "830dea1b9f8c812c80f0951dd0f1ba237f1fb24695ff8f619c398c8e5a945d5d"
+  },
+  {
+    "seed_id": "symbolic-dynamics",
+    "path": "research/approaches/symbolic-dynamics/verify.py",
+    "sha256": "b89911d613e313f5e3687232404e7464f84111795601578b944acdef70f36479"
+  },
+  {
+    "seed_id": "symbolic-dynamics",
+    "path": "research/approaches/symbolic-dynamics/evidence.json",
+    "sha256": "4654662fa67a61ef9f62aecc855a9d67265a7ff3f004add62ec1918b6cd7736b"
+  },
+  {
+    "seed_id": "symbolic-dynamics",
+    "path": "tests/test_symbolic_dynamics.py",
+    "sha256": "094388c27879867ab4c31406eb887bfbd1119bb7b9236a8514a0c49b256759a2"
+  }
+]
