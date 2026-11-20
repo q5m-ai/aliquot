@@ -7,7 +7,7 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–17, the composite-renewal follow-up,
+This is the reading guide for notebooks 01–18, the composite-renewal follow-up,
 and the literature audit.
 [Notebook 08](EXPONENT-VECTORS.md) adds an exponent-vector research program:
 convex growth regions, cancellation orthogonality, exact obstructions to simple
@@ -72,6 +72,17 @@ finite replacement menu while preserving actual prime predecessors and the full
 core guard. Periodic prime bridges consume a finite 2-adic denominator budget,
 specializing the existing periodic-core obstruction. None supplies an invariant
 larger-return class.
+[Notebook 18](RESIDUE-EXCURSIONS.md) shows that the graph of actual one-step
+residues is strongly connected for every modulus, even above any finite cutoff.
+A separate construction continues any one residue edge by alternating the
+output residue and its negative for a prescribed finite duration, with every
+step gaining more than a prescribed factor. Thus no proper residue set is
+one-step invariant; if it is closed under negation, it cannot guarantee a
+uniformly bounded positive return either. Even the initial value and divisor-sum
+residues of an immediate 160-core guard failure, at any fixed precision, are
+compatible with arbitrarily long survival of the full guard on other seeds.
+These are finite segments on actual orbits, not a way to join arbitrary graph
+paths or to keep the same seed as the requested duration grows.
 None closes the remaining whole-orbit obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
