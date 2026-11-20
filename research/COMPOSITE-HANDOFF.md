@@ -487,6 +487,9 @@ is 511 modulo 2399, so this supplier choice already fails to repeat immediately.
 
 Aperiodic supplier choices, nonprime residuals, different core phases, and
 more general variable-time returns are **not** excluded by this argument.
+[Note 19](PRIME-BRIDGE-RETURN.md) later rules out consecutive blocks of this
+single-supplier prime-bridge type even with aperiodic choices, by factoring
+the actual next term rather than estimating a denominator budget.
 
 ## 7. What advanced, and what is still missing
 

@@ -7,7 +7,7 @@ We can also exclude several simple invariant and prime-cofactor templates.
 general escaping orbit into a contradiction. No solution, divergent seed, or
 historical novelty is claimed.**
 
-This is the reading guide for notebooks 01–18, the composite-renewal follow-up,
+This is the reading guide for notebooks 01–19, the composite-renewal follow-up,
 and the literature audit.
 [Notebook 08](EXPONENT-VECTORS.md) adds an exponent-vector research program:
 convex growth regions, cancellation orthogonality, exact obstructions to simple
@@ -83,6 +83,12 @@ residues of an immediate 160-core guard failure, at any fixed precision, are
 compatible with arbitrarily long survival of the full guard on other seeds.
 These are finite segments on actual orbits, not a way to join arbitrary graph
 paths or to keep the same seed as the requested duration grows.
+[Notebook 19](PRIME-BRIDGE-RETURN.md) computes the next two blocks after an
+actual prime-to-semiprime-to-prime 160-core return. If one of the middle
+primes individually supplies 800, the next guarded cofactor cannot be another
+semiprime, regardless of supplier switching. A three-prime split can restore
+the full guard, but an exactly terminating seed makes that split and never
+visits the bridge-entry class again. More general returns remain open.
 None closes the remaining whole-orbit obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
