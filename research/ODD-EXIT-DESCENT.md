@@ -16,7 +16,7 @@ It is infinite by Dirichlet's theorem on reduced progressions. Write $n_0=n$, $n
 | 1 | 972162345 | $3\cdot5\cdot7\cdot11\cdot401\cdot2099$ | 972874455 |
 | 2 | 972874455 | $3\cdot5\cdot7\cdot29\cdot319499$ | 867445545 |
 
-All three successors are distinct and above the seed. The last step **decreases**, but not below the seed. This refutes the three-step claim, not Catalan–Dickson; we did not continue this orbit.
+All three successors are distinct and above the seed. The last step **decreases**, but not below the seed. This refutes the three-step claim, not Catalan–Dickson. The test here stops at three steps; the [fixed-seed continuation](ODD-EXIT-FIXED-SEEDS.md) reaches zero at step nine.
 
 **Search and reproduction.** Test primes in increasing order, $11\le p\le 50000$ inclusive, stopping each trace at the first event or step three, and the search at the first counterexample. Of the 218 primes in the progression through 6803, 212 first fell below the seed on step two and five on step three. Since $18p^2$ increases with $p$, this proves minimality within $C$. The [test](../tests/test_odd_exit_descent.py) uses the repo's exact trial factorization (2,000,000 work units per call), with an inclusive $10^{12}$ cap on sources stepped. Divisor-pair enumeration independently checks primality decisions and every edge, including the controls $6\to6$, $220\to284\to220$ and $1\to0$. No incomplete factorizations or cap hits; a limit aborts the check rather than classifying the seed.
 

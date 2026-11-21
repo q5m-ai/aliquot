@@ -48,6 +48,8 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 
 **Driver-6 follow-up:** [Three odd steps after leaving driver 6](research/ODD-EXIT-DESCENT.md) tests descent for seeds `18p²` with prime `p ≡ 11 (mod 12)`. All three successors are forced odd, but at `p = 6803` all stay above the seed. [Prime windows for the same family](research/ODD-EXIT-PRIME-WINDOWS.md) use Dirichlet GRH conditionally: for fixed $0<\varepsilon<1/2$ and all large $X$, the window $X<p\le X+X^{1/2+\varepsilon}$ contains both a prime giving a near-minimal two-step drop and another giving a long growing prefix. Even unconditionally, no fixed number of steps guarantees descent in this family.
 
+[What happens on those fixed orbits?](research/ODD-EXIT-FIXED-SEEDS.md) The two named examples reach zero in 9 and 13 steps. One has a smaller predecessor, but the same kind of search, with fixed cores and depth, misses asymptotically all primes in an explicit subprogression.
+
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
 No proof or disproof is claimed. Repository creation and project registration do not establish hosting acceptance.
