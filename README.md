@@ -56,6 +56,8 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 
 [Can large new prime factors stop that reuse?](research/ALPOGE-PRIME-ARRIVALS.md) One step can introduce as many primes as prescribed above every seed factor while 5 keeps dividing the next prescribed number of record-making terms. A different, fixed-orbit argument forces a cycle when each term is one of finitely many cores times a coprime prime, and every finite block of cores recurs arbitrarily late. A fixed period is not required.
 
+[Can one orbit stay at six times two distinct primes?](research/SIX-SEMIPRIME-RETURNS.md) Almost every seed of this form leaves it on the first step. On one fixed orbit, even long stretches keeping the smaller prime cannot support escape unless previously lost primes keep coming back, with no uniform cap on separate visits per prime. We do not rule out such an exceptional orbit.
+
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
 No proof or disproof is claimed. Repository creation and project registration do not establish hosting acceptance.
