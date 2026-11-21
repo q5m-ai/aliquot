@@ -65,6 +65,8 @@ The eigenvalue of $A_h$ on each odd $\chi$ is $q^h F_\chi(1)/Q$. If $D$ times th
 
 **Stopping point.** The overlap with Dirichlet characters is real. It gives a faithful amplified measurement of one orbit, not a bound on that measurement. What we could not transfer is an independent height estimate for the retained component, of cost at most $C(N)q^h$, without already knowing $n_h$. The new automorphic estimates concern particular theta lifts and periods; these divisor operators have not been identified with those objects. This obstructs the attempted transplant, not all uses of the proof work, and it does not settle the aliquot conjecture.
 
+**Follow-up:** [A determinant bound and a restriction on record growth](ALPOGE-RECORD-HEIGHT.md). The archive’s determinant rule does yield a uniform saving, but its map-height condition uses the largest multiplier instead. An Euler factorization on that multiplier bounds what new records can be reached without repeatedly using the same odd primes.
+
 [kernels]: https://github.com/1337isnot1337/riemann-hypothesis-solved/blob/9d5316ec73f5df89c4d95703ed106837b8a4060e/extracted/lean/src/Formalism/ThetaLiftIndependence/Statement.lean#L10-L30
 [gauss-proof]: https://github.com/1337isnot1337/riemann-hypothesis-solved/blob/9d5316ec73f5df89c4d95703ed106837b8a4060e/extracted/lean/src/Formalism/LogVandermondeBounds/LogVandermondeProofs/FourierIsometryOnNormKernel.lean#L84-L113
 [chain]: https://github.com/1337isnot1337/riemann-hypothesis-solved/blob/9d5316ec73f5df89c4d95703ed106837b8a4060e/extracted/lean/src/Formalism/ThetaLiftIndependence/Statement.lean#L244-L251

@@ -52,6 +52,8 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 
 [Using two internal steps of Alpöge’s RH argument on one orbit](research/ALPOGE-ORBIT-LIFT.md): a Dirichlet character captures the exact growth of a given aliquot sequence. A Gauss operator amplifies it and a polynomial isolates it, but neither bounds it. A common-denominator calculation shows where this attempt to obtain a bound loses information. No RH assumption is needed.
 
+[Can the character calculation bound one orbit?](research/ALPOGE-RECORD-HEIGHT.md) Its determinant shrinks, but the largest multiplier need not. Factoring the divisor operator gives a different, unconditional bound: if each odd prime divides at most a uniformly bounded number of the terms whose next step sets a new record, that orbit must terminate or repeat. There is no known bound on that reuse for an arbitrary seed.
+
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
 No proof or disproof is claimed. Repository creation and project registration do not establish hosting acceptance.
