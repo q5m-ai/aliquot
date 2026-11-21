@@ -50,6 +50,8 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 
 [What happens on those fixed orbits?](research/ODD-EXIT-FIXED-SEEDS.md) The two named examples reach zero in 9 and 13 steps. One has a smaller predecessor, but the same kind of search, with fixed cores and depth, misses asymptotically all primes in an explicit subprogression.
 
+[Using two internal steps of Alpöge’s RH argument on one orbit](research/ALPOGE-ORBIT-LIFT.md): a Dirichlet character captures the exact growth of a given aliquot sequence. A Gauss operator amplifies it and a polynomial isolates it, but neither bounds it. A common-denominator calculation shows where this attempt to obtain a bound loses information. No RH assumption is needed.
+
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
 No proof or disproof is claimed. Repository creation and project registration do not establish hosting acceptance.
