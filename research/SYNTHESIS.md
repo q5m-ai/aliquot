@@ -90,6 +90,7 @@ semiprime, regardless of supplier switching. A three-prime split can restore
 the full guard, but an exactly terminating seed makes that split and never
 visits the bridge-entry class again. More general returns remain open.
 [Note 20](COALESCENCE.md) tests descent via mergers with smaller seeds. It rules out blanket one-step coverage, not multistep mergers.
+The [driver-6 descent test](ODD-EXIT-DESCENT.md) and its [prime-window follow-up](ODD-EXIT-PRIME-WINDOWS.md) distinguish seeds that drop sharply in two steps from seeds that rise for any prescribed finite horizon. Dirichlet GRH locates both behaviors in short prime intervals, not on demand on a given orbit.
 None closes the remaining whole-orbit obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary

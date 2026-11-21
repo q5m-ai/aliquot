@@ -46,7 +46,7 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 
 22. **Research note 20 — coalescence descent:** [a network-based proof attempt and its precise stopping point](research/COALESCENCE.md). Sharing a future with a smaller seed permits induction, but a universal merger mechanism is missing. CRT and Dirichlet rule out one-step shared-successor coverage by any fixed finite palette of coprime prime-cofactor templates. Aliquot records obstruct blanket one-step coverage even without factorization restrictions. Neither result excludes multistep mergers.
 
-**Driver-6 follow-up:** [Three odd steps after leaving driver 6](research/ODD-EXIT-DESCENT.md) tests descent for seeds `18p²` with prime `p ≡ 11 (mod 12)`. All three successors are forced odd, but at `p = 6803` all stay above the seed.
+**Driver-6 follow-up:** [Three odd steps after leaving driver 6](research/ODD-EXIT-DESCENT.md) tests descent for seeds `18p²` with prime `p ≡ 11 (mod 12)`. All three successors are forced odd, but at `p = 6803` all stay above the seed. [Prime windows for the same family](research/ODD-EXIT-PRIME-WINDOWS.md) use Dirichlet GRH conditionally: for fixed $0<\varepsilon<1/2$ and all large $X$, the window $X<p\le X+X^{1/2+\varepsilon}$ contains both a prime giving a near-minimal two-step drop and another giving a long growing prefix. Even unconditionally, no fixed number of steps guarantees descent in this family.
 
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
