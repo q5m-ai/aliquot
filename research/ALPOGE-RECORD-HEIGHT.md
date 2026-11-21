@@ -69,6 +69,8 @@ In particular, with an independently known uniform cap $L$ one can choose **in a
 
 **Stopping point.** We can now rule out escape driven by fresh odd primes with uniformly bounded reuse at record-making steps. We cannot rule out the required reuse: the [finite supplier construction](MINIMUM-ESCAPE.md#52-the-perfect-core-exception-permits-fresh-finite-recharge-too) can preserve factors through arbitrarily long growing runs on **different** seeds. What is missing is an independent limit on that supply, or a way to prove descent below the starting seed in a minimal-counterexample argument. The determinant estimate controls the wrong size to provide it.
 
+[Follow-up on the proposed supply limit](ALPOGE-PRIME-ARRIVALS.md): even a burst of arbitrarily many primes larger than every seed factor need not dislodge an old prime from a prescribed finite run of records. Recurrent single-prime-cofactor schedules, however, force a return to an actual previous value.
+
 [Exact finite checks](../tests/test_alpoge_record_height.py): `python3 -m unittest discover -s tests -p 'test_alpoge_record_height.py' -v`. These check the local operators, a first crossing, and the clean-6 example, not an asymptotic claim.
 
 [det]: https://github.com/1337isnot1337/riemann-hypothesis-solved/blob/9d5316ec73f5df89c4d95703ed106837b8a4060e/extracted/lean/src/Formalism/ThetaLiftIndependence/Statement.lean#L260-L278
