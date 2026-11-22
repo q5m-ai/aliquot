@@ -118,3 +118,47 @@ class Fixed276RecordTests(unittest.TestCase):
         bits = [record_bit(276, m) for m in range(r-g, r+g+1)]
         self.assertEqual(bits[g:], [1] + [0]*g)
         self.assertEqual(hankel_mod_two(bits, g), 1)
+
+    def test_first_failed_prediction_and_next_odd_leading_order(self):
+        prefix = [276, 396, 696, 1104]
+        for x, y in zip(prefix, prefix[1:]):
+            self.assertEqual(_divisor_pair_sum(x), y)
+        # Crossing 718 decides every height bit needed for a size-360 matrix.
+        bits = [record_bit(276, m) for m in range(719)]
+        self.assertEqual([i for i, b in enumerate(bits) if b], prefix[:-1])
+        powers = (37, 157, 277)
+        errors = [sum(bits[i+j] for j in powers) % 2 for i in range(360)]
+        self.assertEqual(errors, [0]*359 + [1])
+        self.assertEqual(359 + max(powers), 636)  # predicted record, actual zero
+        # Direct elimination, independent of the polynomial-discrepancy identity.
+        self.assertEqual([n for n in range(275, 360) if hankel_mod_two(bits, n)], [276, 359])
+
+    def test_prime_exclusions_and_forced_jump_in_a_recurrence(self):
+        # A formal binary recurrence, NOT the record word of 276.
+        def bit(n):
+            return int(gcd(n, 6) == 1)
+        self.assertTrue(all(bit(n) ^ bit(n+2) ^ bit(n+4) == 0 for n in range(6)))
+        sums = (0, 3, 4, 7)  # CRT subset sums for rejected primes 2 and 3
+        minor = [[bit(1+s-t) for t in sums] for s in sums]
+        self.assertEqual(minor, [[1, 0, 0, 0], [0, 1, 0, 0], [1, 0, 1, 0], [0, 1, 0, 1]])
+        accepted = (5, 7, 11, 13, 17, 19, 23, 29, 31)
+        d = prod(accepted)
+        self.assertLessEqual(prod(Fraction(p+1, p) for p in accepted[:-1]), 2)
+        self.assertGreater(prod(Fraction(p+1, p) for p in accepted), 2)
+        m = 5*d
+        self.assertEqual((bit(m), bit(m+4)), (1, 1))
+        self.assertEqual(aliquot_sum(m), _divisor_pair_sum(m))
+        self.assertGreater(aliquot_sum(m), m+4)  # if m is a record, m+4 cannot be
+
+    def test_stride_18_fence_and_zero_tail_control(self):
+        self.assertEqual(Fraction(_divisor_pair_sum(18), 18), Fraction(7, 6))
+        k = 10**215
+        self.assertTrue((A * Fraction(1001, 1000)**69 - D)*C < k < 11*(A-D)*C//9)
+        self.assertLess(24*(k+1), 25*k)
+        # A genuine orbit with one last odd determinant and no more records.
+        for x, y in zip((18, 21, 11, 1), (21, 11, 1, 0)):
+            self.assertEqual(_divisor_pair_sum(x), y)
+        bits = [record_bit(18, m) for m in range(51)]
+        self.assertEqual([m for m, b in enumerate(bits) if b], [18, 21])
+        self.assertEqual(hankel_mod_two(bits, 21), 1)
+        self.assertTrue(all(hankel_mod_two(bits, n) == 0 for n in range(22, 26)))

@@ -67,6 +67,8 @@ Arbitrarily many rows are linearly independent: in a proposed relation divide by
 
 To settle 276 this way would require an arithmetic reason that its leading determinants eventually vanish modulo 2, or remain odd at infinitely many orders at one fixed offset. We have neither. The four records and the digit crossing are statements about the actual sequence; the infinite alternatives are a criterion, not a verdict. No RH/GRH or prime-tuples assumption is used, and we did not build or verify the announced RH proof.
 
+[Follow-up: an attempt to prove eventual evenness](ALPOGE-276-PARITY.md) fits a recurrence over the two-element field and uses the aliquot map to force its first error. It gives an explicit finite parity test for each proposed ceiling and a finite interval containing an odd leading determinant at offset zero on 276; it does not establish eventual parity.
+
 [Offline exact checks][checks]: `python3 -m unittest discover -s tests -p 'test_276_record_determinants.py' -v`. They check the two published decimal fields against one another, partial-factor bounds, small control orbits by both factorization and divisor pairs, and small Hankel matrices over the binary field. They do not factor $C$, audit the whole database prefix, or check an asymptotic criterion by sampling.
 
 [fdb]: https://factordb.com/sequences.php?se=1&aq=276&action=last20&fr=0&to=100
