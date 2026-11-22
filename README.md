@@ -60,6 +60,8 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 
 [Comparing two stretches of the same orbit using Alpöge’s lattice indices](research/ALPOGE-RETURN-INDICES.md): on a persistent `6pq` orbit, a long initial list of smaller primes cannot restart immediately after it ends. This holds even when the list uses arbitrarily many different primes. A second calculation shows that if the two factors stay comparable, then on each sufficiently large doubling some smaller prime must lead to many **different** next smaller primes. Neither result bounds all returns of one prime.
 
+[What can be proved about the open orbit of 276?](research/ALPOGE-276-RECORDS.md) From the published term at index 2162, the next four terms must set records, and term 2164 is the first with 216 digits, without factoring the remaining 210-digit composite. A Hankel determinant lemma from Alpöge’s archive gives a test on this one orbit: it terminates or repeats exactly when all sufficiently late record determinants are even. We can prove the parity of individual determinants, not their eventual behavior.
+
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
 No proof or disproof is claimed. Repository creation and project registration do not establish hosting acceptance.
