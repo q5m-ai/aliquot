@@ -64,6 +64,8 @@ For a probe prime $r\ge5$, exactly $r-3$ of the $(r-1)^2$ ordered unit pairs sat
 
 **Stopping point.** The typical first step and the fixed-orbit bound answer different questions. The first cannot exclude one exceptional starting integer. In fact $T(pq)\ge pq+4\sqrt{pq}+2>(\sqrt{pq}+1)^2$: even an infinite surviving orbit would itself supply only $O(\sqrt X)$ starting cofactors up to $X$, of relative density zero by (4). On a fixed orbit we can bound what one uninterrupted visit contributes. To start a new $k$-source visit to $p$ from a cofactor $ab$ lacking $p$, it is necessary that $(a+2)(b+2)\equiv2-p(p+1)\pmod{p^k}$: the entering cofactor is $pq=T(ab)$ with $p^{k-1}\mid q+p+1$. This congruence does not guarantee primality of the new partner. We have no upper bound on how often such entries occur on that seed strong enough to contradict (2) or (3). The density and fixed-orbit bounds are unconditional aliquot results, not new transfers from Alpöge's archive.
 
+[Follow-up: signed lattice indices for returns](ALPOGE-RETURN-INDICES.md). An ordered list of smaller primes cannot repeat arbitrarily early, even with an unbounded set of labels. We also test what remains when visits to one prime have different continuations.
+
 [Exact finite checks](../tests/test_six_semiprime_returns.py) replay the factorizations, divisor sums and finite residue counts independently of the asymptotic argument: `python3 -m unittest discover -s tests -p 'test_six_semiprime_returns.py' -v`.
 
 [mertens]: https://dlmf.nist.gov/27.11#E8
