@@ -1,10 +1,12 @@
 """Bounded arithmetic for the 276 frontier and the Hankel indexing convention."""
 
 from fractions import Fraction
+from itertools import product
 from math import factorial, gcd, isqrt, prod
 import unittest
 
 from aliquot import aliquot_sum, factorize
+from aliquot.certified import CertifiedFactorizer, verify_certificates, verify_factor_product
 from aliquot.two_adic import _divisor_pair_sum
 
 
@@ -101,6 +103,78 @@ class Fixed276RecordTests(unittest.TestCase):
         for source, target in zip(path, path[1:]):
             self.assertEqual(aliquot_sum(source), target)
             self.assertEqual(_divisor_pair_sum(source), target)
+
+    def test_minimum_height_before_the_first_drop(self):
+        # These are LOWER bounds, not computed values of n[2164] or n[2166].
+        self.assertEqual((11 * (A-D), 7 * 313_566), (9 * 313_566, 6 * 365_827))
+        self.assertGreater(365_827 * C, 123 * 10**213)
+        self.assertGreater(49 * 313_566 * C, 36 * 2 * FRONTIER)
+        for d, ratio in ((12, Fraction(4, 3)), (18, Fraction(7, 6))):
+            self.assertEqual(Fraction(_divisor_pair_sum(d), d), ratio)
+        # Losing six is not itself the drop; test both the exit and retained cases.
+        for x, y in ((24, 36), (36, 55), (55, 17), (6*7, 54), (6*25, 222)):
+            self.assertEqual(aliquot_sum(x), y)
+            self.assertEqual(_divisor_pair_sum(x), y)
+            if x % 6 == 0 and gcd(x//6, 6) == 1:
+                self.assertEqual(y, 6*(x//6 + 2*_divisor_pair_sum(x//6)))
+
+    def test_even_three_exponent_is_enough_not_necessary(self):
+        # A fully specified comparison U with an odd-power prime -1 modulo 9.
+        # Its residue mod 3 is the one needed for the second supplying prime.
+        u = 17 * 53
+        sig = u + _divisor_pair_sum(u)
+        self.assertEqual((u % 3, 17 % 9, sig % 27), (1, 8, 0))
+        self.assertEqual((20*sig - 9*u) % 27, 18)
+        # Actual comparison from the partially factored starting shape, not 276.
+        v = 864_212_542_407
+        self.assertTrue(v % 3**4 == 0 and v % 3**5 != 0)
+        self.assertEqual((v//3**4) % 8, 7)
+        self.assertEqual((3*v + aliquot_sum(3*v)) % 8, 0)
+        # v3(V) odd and 2 || sigma(3V) do not themselves force failure.
+        path = (1962, 2328, 3552, 6024)
+        self.assertEqual((path[0]//6) % 40, 7)
+        self.assertEqual((981 + _divisor_pair_sum(981)) % 4, 2)
+        for source, target in zip(path, path[1:]):
+            self.assertEqual(_divisor_pair_sum(source), target)
+            self.assertGreater(target, source)
+
+    def check_factored_path(self, path, factors):
+        engine = CertifiedFactorizer(max_work=600_000, max_bits=128)
+        primes = {p for fs in factors for p, _ in fs}
+        for p in sorted(primes):
+            self.assertEqual(engine.factor(p), ((p, 1),))
+        self.assertTrue(primes <= verify_certificates(engine.export_certificates()))
+        for source, target, fs in zip(path[:-1], path[1:], factors, strict=True):
+            verify_factor_product(fs, source)
+            self.assertEqual(len({p for p, _ in fs}), len(fs))
+            powers = [[p**j for j in range(e+1)] for p, e in fs]
+            self.assertEqual(sum(prod(v) for v in product(*powers)) - source, target)
+
+    def test_composite_frontier_control_that_loses_three_then_falls(self):
+        p, r = 50_534_167_632_757_103, 11_018_450_976_700_873
+        q, l = 1_121_145_820_747_798_016_134_949, 163_500_432_192_387_210_686_347
+        f, g = 705_644_834_009, 15_002_806_616_341
+        c = 1009 * p
+        self.assertEqual(c, 50_988_975_141_451_916_927)
+        self.assertEqual((c % 201_600, gcd(c, D*factorial(1000))), (C % 201_600, 1))
+        path = (D*c, 54*13**2*19**4*r, 18*q, 144*l, 4*f*g, 31_759_958_953_481_174_835_975_664)
+        factors = (((2, 1), (3, 3), (41, 1), (89, 1), (1009, 1), (p, 1)),
+                   ((2, 1), (3, 3), (13, 2), (19, 4), (r, 1)),
+                   ((2, 1), (3, 2), (q, 1)), ((2, 4), (3, 2), (l, 1)),
+                   ((2, 2), (f, 1), (g, 1)))
+        self.check_factored_path(path, factors)
+        self.assertEqual(7*q + 13, 48*l)
+        self.assertEqual(path[4], 42_346_611_937_828_287_567_764_276)
+        self.assertEqual([y > x for x, y in zip(path, path[1:])], [True]*4 + [False])
+        self.assertEqual((gcd(path[4], 6), path[4] > 2*path[0]), (2, True))
+
+    def test_square_then_prime_at_the_six_v_stage_only(self):
+        v, z = 626_248_946_367, 12_198_452_524_207
+        y = (6 * 390_764)**2
+        self.assertEqual(v % 40, 7)
+        self.check_factored_path((6*v, y, z, 1), (
+            ((2, 1), (3, 4), (11, 2), (191_689_301, 1)),
+            ((2, 6), (3, 2), (11, 2), (83, 2), (107, 2)), ((z, 1),)))
 
     def test_record_bits_and_leading_hankel_on_resolved_seeds(self):
         for seed, expected in ((1, {1}), (6, {6}), (12, {12, 16}), (220, {220, 284})):

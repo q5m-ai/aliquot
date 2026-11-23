@@ -62,6 +62,8 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 
 [What can be proved about the open orbit of 276?](research/ALPOGE-276-RECORDS.md) From the published term at index 2162, the next four terms must set records, and term 2164 is the first with 216 digits, without factoring the remaining 210-digit composite. A Hankel determinant lemma from Alpöge’s archive gives a test on this one orbit: it terminates or repeats exactly when all sufficiently late record determinants are even. [Trying to prove eventual evenness](research/ALPOGE-276-PARITY.md) gives a finite parity test for each proposed ceiling. On 276 itself at least one determinant is odd at an order between $10^{215}$ and $25\cdot10^{215}$, without constructing the matrix. No ceiling has passed the test.
 
+[Following the divisors instead](research/276-DIVISOR-GROWTH.md) proves the climb must pass $1.23\times10^{215}$ before a drop. If term 2167 fails to set a fifth record, term 2166 already exceeds twice term 2162.
+
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
 No proof or disproof is claimed. Repository creation and project registration do not establish hosting acceptance.
