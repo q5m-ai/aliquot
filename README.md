@@ -64,6 +64,8 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 
 [Following the divisors instead](research/276-DIVISOR-GROWTH.md) proves the climb must pass $1.23\times10^{215}$ before a drop. If term 2167 fails to set a fifth record, term 2166 already exceeds twice term 2162.
 
+[Can a higher return keep restarting?](research/SIX-28-HIGHER-RETURN.md) On 276, terms 8 and 44 meet the same prime-and-divisor condition. A two-step rule for returning to that condition works twice on one seed, but each restart consumes a finite power of 3. A different seed makes a higher return and then reaches zero without ever meeting the condition again.
+
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
 No proof or disproof is claimed. Repository creation and project registration do not establish hosting acceptance.

@@ -57,4 +57,6 @@ Both factors listed for $C'$ are prime, as are the last factors in rows 1–3 an
 
 Evenness in the deep-fall argument cannot be assumed from $V\bmod40$ alone. At the **$6V$ stage only**, take $V=626248946367\equiv7\pmod{40}$. Here $6V\to(6\cdot390764)^2\to12198452524207\to1$; the penultimate term is prime. We do **not** know this $V$ to arise from a matching $197046C'$, much less from 276.
 
+The [larger-return follow-up](SIX-28-HIGHER-RETURN.md) tests whether the earlier switch from 6 to 28 on this very orbit gives a condition that can keep restarting. It does not extend the late sequence by another exact term.
+
 [Offline checks](../tests/test_276_record_determinants.py): `python3 -m unittest discover -s tests -p 'test_276_record_determinants.py' -v`. The comparisons use exact divisor enumeration from replayed Lucas primality certificates; the large inequality uses the published decimal for $C$, not a guessed factorization. No RH, GRH, Hankel argument or prime-tuples assumption is used. We have not determined the divisors of the actual $Z$ well enough to show that their proper sum $T$ exceeds it, nor found a ceiling, merger or cycle for 276.
