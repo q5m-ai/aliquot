@@ -46,6 +46,26 @@ For positive integers, s(n) is the sum of the proper positive divisors of n. The
 
 22. **Research note 20 — coalescence descent:** [a network-based proof attempt and its precise stopping point](research/COALESCENCE.md). Sharing a future with a smaller seed permits induction, but a universal merger mechanism is missing. CRT and Dirichlet rule out one-step shared-successor coverage by any fixed finite palette of coprime prime-cofactor templates. Aliquot records obstruct blanket one-step coverage even without factorization restrictions. Neither result excludes multistep mergers.
 
+**Driver-6 follow-up:** [Three odd steps after leaving driver 6](research/ODD-EXIT-DESCENT.md) tests descent for seeds `18p²` with prime `p ≡ 11 (mod 12)`. All three successors are forced odd, but at `p = 6803` all stay above the seed. [Prime windows for the same family](research/ODD-EXIT-PRIME-WINDOWS.md) use Dirichlet GRH conditionally: for fixed $0<\varepsilon<1/2$ and all large $X$, the window $X<p\le X+X^{1/2+\varepsilon}$ contains both a prime giving a near-minimal two-step drop and another giving a long growing prefix. Even unconditionally, no fixed number of steps guarantees descent in this family.
+
+[What happens on those fixed orbits?](research/ODD-EXIT-FIXED-SEEDS.md) The two named examples reach zero in 9 and 13 steps. One has a smaller predecessor, but the same kind of search, with fixed cores and depth, misses asymptotically all primes in an explicit subprogression.
+
+[Using two internal steps of Alpöge’s RH argument on one orbit](research/ALPOGE-ORBIT-LIFT.md): a Dirichlet character captures the exact growth of a given aliquot sequence. A Gauss operator amplifies it and a polynomial isolates it, but neither bounds it. A common-denominator calculation shows where this attempt to obtain a bound loses information. No RH assumption is needed.
+
+[Can the character calculation bound one orbit?](research/ALPOGE-RECORD-HEIGHT.md) Its determinant shrinks, but the largest multiplier need not. Factoring the divisor operator gives a different, unconditional bound: if each odd prime divides at most a uniformly bounded number of the terms whose next step sets a new record, that orbit must terminate or repeat. There is no known bound on that reuse for an arbitrary seed.
+
+[Can large new prime factors stop that reuse?](research/ALPOGE-PRIME-ARRIVALS.md) One step can introduce as many primes as prescribed above every seed factor while 5 keeps dividing the next prescribed number of record-making terms. A different, fixed-orbit argument forces a cycle when each term is one of finitely many cores times a coprime prime, and every finite block of cores recurs arbitrarily late. A fixed period is not required.
+
+[Can one orbit stay at six times two distinct primes?](research/SIX-SEMIPRIME-RETURNS.md) Almost every seed of this form leaves it on the first step. On one fixed orbit, even long stretches keeping the smaller prime cannot support escape unless previously lost primes keep coming back, with no uniform cap on separate visits per prime. We do not rule out such an exceptional orbit.
+
+[Comparing two stretches of the same orbit using Alpöge’s lattice indices](research/ALPOGE-RETURN-INDICES.md): on a persistent `6pq` orbit, a long initial list of smaller primes cannot restart immediately after it ends. This holds even when the list uses arbitrarily many different primes. A second calculation shows that if the two factors stay comparable, then on each sufficiently large doubling some smaller prime must lead to many **different** next smaller primes. Neither result bounds all returns of one prime.
+
+[What can be proved about the open orbit of 276?](research/ALPOGE-276-RECORDS.md) From the published term at index 2162, the next four terms must set records, and term 2164 is the first with 216 digits, without factoring the remaining 210-digit composite. A Hankel determinant lemma from Alpöge’s archive gives a test on this one orbit: it terminates or repeats exactly when all sufficiently late record determinants are even. [Trying to prove eventual evenness](research/ALPOGE-276-PARITY.md) gives a finite parity test for each proposed ceiling. On 276 itself at least one determinant is odd at an order between $10^{215}$ and $25\cdot10^{215}$, without constructing the matrix. No ceiling has passed the test.
+
+[Following the divisors instead](research/276-DIVISOR-GROWTH.md) proves the climb must pass $1.23\times10^{215}$ before a drop. If term 2167 fails to set a fifth record, term 2166 already exceeds twice term 2162.
+
+[Can a higher return keep restarting?](research/SIX-28-HIGHER-RETURN.md) On 276, terms 8 and 44 meet the same prime-and-divisor condition. A two-step rule for returning to that condition works twice on one seed, but each restart consumes a finite power of 3. A different seed makes a higher return and then reaches zero without ever meeting the condition again.
+
 Run the bounded experiment with `python3 -m aliquot scan-six --bound 100000`. Its code and results stay outside the served `site/` directory. Tests reproduce the [committed report](research/results/driver-six-100000.json).
 
 No proof or disproof is claimed. Repository creation and project registration do not establish hosting acceptance.

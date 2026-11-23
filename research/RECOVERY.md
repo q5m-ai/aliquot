@@ -459,6 +459,8 @@ nonexpansive. It leaves aperiodic switching with expansive cycles unresolved.
 It does not assert that the existence of an expansive cycle is sufficient for
 escape, nor that composite cofactors lie in a finite union of scaled primes.
 
+**Later refinement:** [A return lemma for changing steps](ALPOGE-PRIME-ARRIVALS.md#when-a-large-prime-really-does-force-a-return-on-one-orbit) extends the nonescape conclusion to recurrent core words even with expansive cycles. Recurrence here is a property of the *actual word*, not just of the finite transition graph. General switching is still open.
+
 ## 4. What the two approaches now need
 
 - **For a contradiction:** the least-seed argument and prime-support escape

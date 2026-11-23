@@ -90,6 +90,15 @@ semiprime, regardless of supplier switching. A three-prime split can restore
 the full guard, but an exactly terminating seed makes that split and never
 visits the bridge-entry class again. More general returns remain open.
 [Note 20](COALESCENCE.md) tests descent via mergers with smaller seeds. It rules out blanket one-step coverage, not multistep mergers.
+The [driver-6 descent test](ODD-EXIT-DESCENT.md) and its [prime-window follow-up](ODD-EXIT-PRIME-WINDOWS.md) distinguish seeds that drop sharply in two steps from seeds that rise for any prescribed finite horizon. Dirichlet GRH locates both behaviors in short prime intervals, not on demand on a given orbit. The [fixed-seed continuation](ODD-EXIT-FIXED-SEEDS.md) reaches zero for both named hard examples. In one positive-density subprogression, almost every prime parameter evades both fixed-depth descent and any fixed finite list of one-step prime-cofactor predecessors at all those checkpoints.
+A separate [transfer from inside Alpöge’s proof archive](ALPOGE-ORBIT-LIFT.md) applies its Gauss operator and weight-annihilating polynomial to a prescribed orbit, without assuming RH. The exact operator norm recovers the endpoint ratio rather than bounding it; across the chosen odd characters all intermediate denominators are necessary. [Testing the determinant and height hypotheses](ALPOGE-RECORD-HEIGHT.md) gives geometric-mean contraction, not pointwise contraction. Factoring the divisor operator instead shows that to cross arbitrarily high levels, a fixed orbit would have to reuse odd primes with unbounded multiplicity specifically at record-making sources. Powers of 2 cannot substitute for that reuse. [Testing the proposed link with prime-support escape](ALPOGE-PRIME-ARRIVALS.md) shows that arbitrarily many new prime factors above every seed factor can arrive together without stopping reuse of 5 over a prescribed finite run of records.
+For [six times two distinct primes](SIX-SEMIPRIME-RETURNS.md), a fixed seed cannot keep that form forever with a uniform bound just on the number of **separate visits** to each smaller prime, even allowing unbounded visit lengths across primes. Almost every seed in the family exits on the first step, but a lost prime really can come back more than once on the same orbit. Neither result bounds those returns for every seed.
+[Signed lattice indices and grouped Vandermonde determinants](ALPOGE-RETURN-INDICES.md) compare different stretches of the same `6pq` orbit. The first gives an exponential lower bound on the reduced denominator of every ordered prime block and rules out early repetitions of long prefixes, with no finite-alphabet assumption. The second groups visits by their next smaller prime: at every large doubling an infinite run would need enough distinct successors or sufficiently unequal partners. This does not bound visits with unrelated continuations.
+[The open orbit of 276](ALPOGE-276-RECORDS.md) makes the distinction concrete: the published partially factored term at index 2162 forces four further records and a first 216-digit term at 2164, not escape. Applying the archive’s leading Hankel determinant test over the two-element field to the record indicators gives an equivalence for a fixed seed: termination or repetition is equivalent to eventual evenness. The partial factorization certifies a large individual odd determinant but not the required infinite tail statement. A [direct attempt at eventual evenness](ALPOGE-276-PARITY.md) converts each proposed ceiling into a finite parity test. Applying the recurrence to multiples of 18 on 276 forces an odd leading determinant at offset zero in an explicit interval above order $10^{215}$; this does not force the orbit to cross another ceiling.
+In contrast, a [divisor-only height bound](276-DIVISOR-GROWTH.md) proves the climb from term 2164 must cross $1.23\times10^{215}$ before a non-increase. If term 2167 misses a fifth consecutive record, term 2166 already exceeds twice the value of term 2162. A matched composite-cofactor example really does lose 3 and fall at step five; the same local data do not decide it on 276.
+
+[Testing a larger return after the 6-to-28 switch](SIX-28-HIGHER-RETURN.md) finds the same checkpoint on 276 at indices 8 and 44. A two-step prime-cofactor rule restarts once but cannot restart indefinitely; allowing different powers of 3 in 13 consecutive prime-remainder returns requires a power at least $3^{11}$. Complete paths disprove eventual renewal for the tested rule. Even on the original prime-launch family, a delayed switch is exceptional at every fixed horizon, not proved impossible at a seed-dependent time.
+
 None closes the remaining whole-orbit obligations. This synthesis
 consolidates the factor-transport work originally in PR #4 with the recovery
 work in PR #6. Notes 01–05 were already incorporated through PR #3; the summary
@@ -327,13 +336,14 @@ this construction does not answer the perfect-successor question in section 5.
 
 ### What the template obstructions collectively exclude
 
-The three prime-cofactor restrictions are distinct:
+These prime-cofactor restrictions have different hypotheses:
 
 | Core hypothesis | Itinerary hypothesis | Conclusion |
 | --- | --- | --- |
 | Finitely many multiperfect cores | Arbitrary switching | No infinite orbit of those coprime prime-cofactor shapes (J). |
 | Arbitrary fixed cores | Eventually periodic core schedule | Any infinite such tail is periodic, with period dividing the schedule length (P). |
 | Finitely many arbitrary cores | Every recurrent-graph cycle has slope product ≤1 | No escaping prime-cofactor itinerary (Q). |
+| Finitely many arbitrary cores | Every finite block of the core schedule recurs arbitrarily late on the actual tail | The values are periodic from the start of the recurrent tail, even without assuming a period for the schedule ([prime arrivals](ALPOGE-PRIME-ARRIVALS.md)). |
 
 For P, composing the prime-cofactor steps yields x' = Ax+C. A nonintegral
 expanding slope consumes a finite denominator budget; an integral slope
@@ -459,8 +469,7 @@ The supporting constraints now written in [note 07](RECOVERY.md) add:
    supplied by prime-support escape.
 
 An earlier narrower target was to exclude **all** finite-core coprime-prime
-tails. J, P, and Q settle restricted cases; aperiodic switching with expansive
-cycles remains. Even a proof of that narrower target would leave unbounded
+tails. J, P, Q, and the [recurrent-core argument](ALPOGE-PRIME-ARRIVALS.md) settle restricted cases; nonrecurrent switching with expansive cycles remains. Even a proof of that narrower target would leave unbounded
 cores and more general composite factorizations outside it. Supplier-circuit
 expansion is now parked. The subsequent backward feasibility pass clears the
 distinct-image density gate using established machinery, but stops at the
